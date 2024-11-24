@@ -1,0 +1,47 @@
+﻿{
+  "Parameters": [
+    "HOSTNAME:RS"
+  ],
+  "Commands": [
+    "ClearTracker",
+    "ResetChampionshipPoints",
+    "BlockEveryoneFromSettingTime",
+    "UnblockEveryoneFromSettingTime",
+    "ResetPointsDistribution",
+    "SetPointsDistribution([1st,2nd,3rd,...];baseline;dnf)",
+    "SetPlayerChampionshipPoints(steamID, points, change)",
+    "AddPlayerChampionshipPoints(steamID, points)",
+    "BlockPlayerFromSettingTime(steamID)",
+    "UnblockPlayerFromSettingTime(steamID)",
+    "SendServerMessage(prefix, message)",
+    "SendPlayerMessage(prefix, message, steamID)",
+    "SetSmallLeaderboardSortingMethod(sortOnPoints)",
+    "SetPlayerTimeOnLeaderboard(steamID, time)",
+    "SetPlayerLeaderboardOverrides(steamID, time, name, position, points, pointsWon)",
+    "RemovePlayerFromLeaderboard(steamID)",
+    "SetServerMessage"
+  ],
+  "OnLoad": 
+  [
+    "SetPointsDistribution([10,9,8,7,6,5,4,3,2,1], 0, -10)",
+    "SendServerMessage({HOSTNAME},Loaded Configuration!)"
+  ],
+  "OnPlayerJoined": [
+    "SendPlayerMessage({HOSTNAME},Welcome to the lobby named {ROOMNAME}!,{STEAMID})"
+  ],
+  "OnPlayerLeft": [
+
+  ],
+  "OnRoundStart": [
+    "SendServerMessage({HOSTNAME},Starting round on {LEVELNAME})"
+  ],
+  "OnRoundEnd": [
+    "SendServerMessage({HOSTNAME},Starting round on {LEVELNAME})"
+  ],
+  "OnPlayerImproved": [
+    "AddPlayerChampionshipPoints({STEAMID},5)"
+  ],
+  "OnPlayerFinished": [
+    "AddPlayerChampionshipPoints({STEAMID},10)"
+  ]
+}
