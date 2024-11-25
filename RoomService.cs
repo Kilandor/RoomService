@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using ZeepkistClient;
 
@@ -10,22 +7,35 @@ namespace RoomService
 {
     public static class RoomService
     {       
+        //Called when a player finishes the track.
         public static Action<RSResult> OnPlayerFinished;
+        //Called when a player has already finished and improves their time.
         public static Action<RSResult> OnPlayerImproved;
+        //Called when the round starts (in the beginning).
         public static Action OnRoundStart;
+        //Called when the round ends (to podium).
         public static Action OnRoundEnd;
+        //Called when a player joins the game.
         public static Action<RSPlayer> OnPlayerJoined;
+        //Called when a player leaves the game.
         public static Action<RSPlayer> OnPlayerLeft;
+        //Called right after the config is loaded, to execute all the OnLoad functions.
         public static Action OnConfigLoad;
+        //Called right after the config is unloaded, for clean up.
         public static Action OnConfigUnload;
 
+        //The config that is currently active.
         public static RoomServiceConfig CurrentConfig;
+        //The tracker keeps track of players, points and best times.
         public static RSRoomTracker tracker;
 
+        //Initialize is called when the plugin starts.
         public static void Initialize()
         {
+            //Create a new tracker.
             tracker = new RSRoomTracker();
 
+            //Subscribe to all the events.
             ZeepkistNetwork.LeaderboardUpdated += () =>
             {
                 tracker.ProcessRoomState(ZeepkistNetwork.PlayerList, ZeepSDK.Level.LevelApi.CurrentLevel);
@@ -73,174 +83,6 @@ namespace RoomService
             };           
         }
 
-        public static void LoadRoomServiceConfig(RoomServiceConfig config)
-        {
-            Debug.LogWarning("Loading config!");
-
-            // Clear all the previously subscribed events.
-            ClearSubscriptions();
-
-            // This should be a command.
-            tracker.Clear();
-
-            // Save a reference to the config.
-            CurrentConfig = config;
-
-            config.Load();
-
-            Debug.LogWarning("Calling Load Now");
-            Debug.Log($"Current subscribers: {OnConfigLoad?.GetInvocationList()?.Length}");
-
-            //All events have been processed, invoke the OnLoad
-            OnConfigLoad?.Invoke();
-        }
-
-        public static void Unload()
-        {
-            if(CurrentConfig != null)
-            {
-                OnConfigUnload?.Invoke();
-                CurrentConfig = null;
-            }
-        }
-
-        public static void SubscribeToEvent(string eventName, string functionName, List<string> parameters)
-        {
-            Debug.LogWarning(eventName + "," + functionName + "," + string.Join(';', parameters));
-
-            switch (eventName)
-            {
-                case "OnLoad":
-                    Debug.Log("Subscribing to OnLoad");
-                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
-                    {
-                        OnConfigLoad += () =>
-                        {
-                            RSContext context = CreateContext();
-                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
-                        };                       
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Unknown function name: " + functionName);
-                    }
-                    break;
-                case "OnUnload":
-                    Debug.Log("Subscribing to OnUnload");
-                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
-                    {
-                        OnConfigUnload += () =>
-                        {
-                            RSContext context = CreateContext();
-                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
-                        };
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Unknown function name: " + functionName);
-                    }
-                    break;
-                case "OnPlayerJoined":
-                    Debug.Log("Subscribing to OnPlayerJoined");
-                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
-                    {
-                        OnPlayerJoined += player =>
-                        {
-                            Debug.LogWarning("Called on PlayerJoined with functionName: " + functionName);
-                            Debug.LogWarning("Player that Joined: " + player.SteamID + "," + player.Name);
-
-                            RSContext context = CreateContext(player:player);
-                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
-                        };
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Unknown function name: " + functionName);
-                    }
-                    break;
-                case "OnPlayerLeft":
-                    Debug.Log("Subscribing to OnPlayerLeft");
-                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
-                    {
-                        OnPlayerLeft += (player) =>
-                        {
-                            RSContext context = CreateContext(player:player);
-                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
-                        };
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Unknown function name: " + functionName);
-                    }
-                    break;
-                case "OnRoundStart":
-                    Debug.Log("Subscribing to OnRoundStart");
-                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
-                    {
-                        OnRoundStart += () =>
-                        {
-                            RSContext context = CreateContext();
-                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
-                        };
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Unknown function name: " + functionName);
-                    }
-                    break;
-                case "OnRoundEnd":
-                    Debug.Log("Subscribing to OnRoundEnd");
-                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
-                    {
-                        OnRoundEnd += () =>
-                        {
-                            RSContext context = CreateContext();
-                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
-                        };
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Unknown function name: " + functionName);
-                    }
-                    break;
-                case "OnPlayerFinished":
-                    Debug.Log("Subscribing to OnPlayerFinished");
-                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
-                    {
-                        OnPlayerFinished += (result) =>
-                        {
-                            Debug.Log("On player finished:" + result.SteamID);
-
-                            RSContext context = CreateContext(result:result);
-
-                            Debug.Log(context.ToString());
-
-                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
-                        };
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Unknown function name: " + functionName);
-                    }
-                    break;
-                case "OnPlayerImproved":
-                    Debug.Log("Subscribing to OnPlayerImproved");
-                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
-                    {
-                        OnPlayerImproved += (result) =>
-                        {
-                            RSContext context = CreateContext(result: result);
-                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
-                        };
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Unknown function name: " + functionName);
-                    }
-                    break;
-            }
-        }
-
         private static void ClearSubscriptions()
         {
             OnPlayerFinished = null;
@@ -252,6 +94,151 @@ namespace RoomService
             OnConfigLoad = null;
             OnConfigUnload = null;
         }
+
+        public static void LoadConfig(RoomServiceConfig config)
+        {
+            //Make sure all subscriptions to events are removed.
+            ClearSubscriptions();
+            // Save a reference to the config.
+            CurrentConfig = config;
+            //Load the config
+            config.Load();
+            //All events have been processed, invoke the OnLoad
+            OnConfigLoad?.Invoke();
+        }
+
+        public static void UnloadConfig()
+        {
+            if(CurrentConfig != null)
+            {
+                OnConfigUnload?.Invoke();
+                CurrentConfig = null;
+            }
+
+            ClearSubscriptions();
+        }
+
+        public static void SubscribeToEvent(string eventName, string functionName, List<string> parameters)
+        {
+            switch (eventName)
+            {
+                default:
+                    Debug.LogError($"{eventName} is not a valid event name.");
+                    break;
+                case "OnLoad":
+                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
+                    {
+                        OnConfigLoad += () =>
+                        {
+                            RSContext context = CreateContext();
+                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
+                        };                       
+                    }
+                    else
+                    {
+                        Debug.LogError($"Unknown function name in OnLoad event: {functionName}");
+                    }
+                    break;
+                case "OnUnload":
+                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
+                    {
+                        OnConfigUnload += () =>
+                        {
+                            RSContext context = CreateContext();
+                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
+                        };
+                    }
+                    else
+                    {
+                        Debug.LogError($"Unknown function name in OnUnload event: {functionName}");
+                    }
+                    break;
+                case "OnPlayerJoined":
+                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
+                    {
+                        OnPlayerJoined += player =>
+                        {
+                            RSContext context = CreateContext(player:player);
+                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
+                        };
+                    }
+                    else
+                    {
+                        Debug.LogError($"Unknown function name in OnPlayerJoined event: {functionName}");
+                    }
+                    break;
+                case "OnPlayerLeft":
+                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
+                    {
+                        OnPlayerLeft += (player) =>
+                        {
+                            RSContext context = CreateContext(player:player);
+                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
+                        };
+                    }
+                    else
+                    {
+                        Debug.LogError($"Unknown function name in OnPlayerLeft event: {functionName}");
+                    }
+                    break;
+                case "OnRoundStart":
+                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
+                    {
+                        OnRoundStart += () =>
+                        {
+                            RSContext context = CreateContext();
+                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
+                        };
+                    }
+                    else
+                    {
+                        Debug.LogError($"Unknown function name in OnRoundStart event: {functionName}");
+                    }
+                    break;
+                case "OnRoundEnd":
+                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
+                    {
+                        OnRoundEnd += () =>
+                        {
+                            RSContext context = CreateContext();
+                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
+                        };
+                    }
+                    else
+                    {
+                        Debug.LogError($"Unknown function name in OnRoundEnd event: {functionName}");
+                    }
+                    break;
+                case "OnPlayerFinished":
+                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
+                    {
+                        OnPlayerFinished += (result) =>
+                        {
+                            RSContext context = CreateContext(result:result);
+                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
+                        };
+                    }
+                    else
+                    {
+                        Debug.LogError($"Unknown function name in OnPlayerFinished event: {functionName}");
+                    }
+                    break;
+                case "OnPlayerImproved":
+                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
+                    {
+                        OnPlayerImproved += (result) =>
+                        {
+                            RSContext context = CreateContext(result: result);
+                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
+                        };
+                    }
+                    else
+                    {
+                        Debug.LogError($"Unknown function name in OnPlayerImproved event: {functionName}");
+                    }
+                    break;
+            }
+        }      
 
         public static RSContext CreateContext(RSPlayer? player = null, RSLevel? level = null, RSResult? result = null)
         {

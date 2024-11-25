@@ -32,12 +32,12 @@ namespace RoomService
             if (Input.GetKeyDown(KeyCode.Keypad9))
             {
                 RoomServiceConfig config = RoomServiceConfigLoader.LoadConfig(@"D:\Roomservice\config.json");
-                RoomService.LoadRoomServiceConfig(config);
+                RoomService.LoadConfig(config);
             }
 
             if(Input.GetKeyDown(KeyCode.Keypad3))
             {
-                RoomService.Unload();
+                RoomService.UnloadConfig();
             }
         }
     }

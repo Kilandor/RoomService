@@ -8,8 +8,11 @@ namespace RoomService
 {
     public class RSRoomTracker
     {
+        //List with all the players encountered
         public Dictionary<ulong, RSPlayer> players;
+        //List with all the levels encountered.
         public Dictionary<string, RSLevel> levels;
+        //A dictionary with a list of best times results per level.
         public Dictionary<RSLevel, List<RSResult>> results;
 
         public RSRoomTracker()
@@ -19,6 +22,10 @@ namespace RoomService
             results = new Dictionary<RSLevel, List<RSResult>>();
         }
 
+        //This is called when:...
+        //...we enter a lobby, to get the current state.
+        //...a new map is started, to get a good initial state.
+        //...anytime there is a leaderboard update to make sure we have the latest information.
         public void ProcessRoomState(List<ZeepkistNetworkPlayer> playerList, LevelScriptableObject level)
         {
             if (level == null)
@@ -26,24 +33,27 @@ namespace RoomService
                 return;
             }
 
+            //Add the level if its not in the list yet, and also add an entry to the results for that level.
             if (!levels.ContainsKey(level.UID))
             {
                 levels.Add(level.UID, new RSLevel() { Author = level.Author, Name = level.Name, UID = level.UID, WorkshopID = level.WorkshopID });
                 results.Add(levels[level.UID], new List<RSResult>());
             }
 
+            //Get the list of results for this level.
             List<RSResult> levelResults = results[levels[level.UID]];
 
+            //Go over all the players in the lobby.
             foreach (ZeepkistNetworkPlayer player in playerList)
             {
+                //If the player isnt know yet, add it to the players list.
                 if (!players.ContainsKey(player.SteamID))
                 {
-                    players.Add(player.SteamID, new RSPlayer() { SteamID = player.SteamID, IsOnline = true, Name = player.Username });
+                    players.Add(player.SteamID, new RSPlayer() { SteamID = player.SteamID, IsOnline = true, Name = player.GetUserNameNoTag() });
                 }
 
-                RSPlayer rsPlayer = players[player.SteamID];
-                rsPlayer.IsOnline = true;
-                players[player.SteamID] = rsPlayer;
+                //If the player is in this list, its online.
+                SetPlayerNetworkState(player.SteamID, true);
 
                 //Get the player from the leaderboard
                 bool hasEntry = ZeepkistNetwork.Leaderboard.Any(entry => entry.SteamID == player.SteamID);
@@ -52,10 +62,13 @@ namespace RoomService
                 //Only players with a time have an entry
                 if (hasEntry)
                 {
+                    //Create a new result with the current leaderboard time.
                     RSResult newResult = new RSResult() { SteamID = player.SteamID, Time = leaderboardEntry.Time, UID = level.UID };
+                    //Get the existing result from the list.
                     RSResult existingResult = levelResults.FirstOrDefault(r => r.SteamID == player.SteamID);
                     bool resultExists = levelResults.Any(r => r.SteamID == player.SteamID);
 
+                    //If a result is found, compare it. Call OnPlayerImproved if its a better time.
                     if (resultExists)
                     {
                         if (newResult.Time < existingResult.Time)
@@ -65,6 +78,7 @@ namespace RoomService
                             RoomService.OnPlayerImproved?.Invoke(newResult);
                         }
                     }
+                    //A result wasnt found so this is the first time the player finished.
                     else
                     {
                         levelResults.Add(newResult);
@@ -74,16 +88,29 @@ namespace RoomService
             }
         }
 
-        public void SetAllPlayersOffline()
+        //Set the player offline or online.
+        public void SetPlayerNetworkState(ulong steamID, bool isOnline)
+        {
+            if(players.ContainsKey(steamID))
+            {
+                RSPlayer player = players[steamID];
+                player.IsOnline = isOnline;
+                players[steamID] = player;
+            }
+        }
+
+        //Set all players offline or online.
+        public void SetAllPlayersNetworkState(bool isOnline)
         {
             List<ulong> ids = players.Keys.ToList();
             foreach (ulong steamID in ids)
             {
-                SetPlayerOffline(steamID);
+                SetPlayerNetworkState(steamID, isOnline);
             }
         }
 
-        public void ResetAllPoints()
+        //Remove the points from all players.
+        public void ResetAllPlayersPoints()
         {
             List<ulong> ids = players.Keys.ToList();
             foreach (ulong steamID in ids)
@@ -92,6 +119,7 @@ namespace RoomService
             }
         }
 
+        //Set the points for a specific player.
         public void SetPlayerPoints(ulong steamID, int points, int change)
         {
             if (players.ContainsKey(steamID))
@@ -103,16 +131,7 @@ namespace RoomService
             }
         }
 
-        public void SetPlayerOffline(ulong steamID)
-        {
-            if (players.ContainsKey(steamID))
-            {
-                RSPlayer offline = players[steamID];
-                offline.IsOnline = false;
-                players[steamID] = offline;
-            }
-        }
-
+        //Used when a player joins the lobby.
         public void AddPlayer(ZeepkistNetworkPlayer player)
         {            
             if (!players.ContainsKey(player.SteamID))
@@ -121,6 +140,7 @@ namespace RoomService
             }
         }
 
+        //Returns the player if it exists.
         public RSPlayer? GetPlayer(ulong steamID)
         {
             if(players.ContainsKey(steamID))
@@ -131,6 +151,7 @@ namespace RoomService
             return null;
         }
 
+        //Returns the level if it exists.
         public RSLevel? GetLevel(string UID)
         {
             if (levels.ContainsKey(UID))
@@ -141,6 +162,7 @@ namespace RoomService
             return null;
         }
 
+        //Get the level currently being played, used for creating the context.
         public RSLevel? GetCurrentLevel()
         {
             LevelScriptableObject level = ZeepSDK.Level.LevelApi.CurrentLevel;
@@ -160,13 +182,21 @@ namespace RoomService
             return rsLevel;
         }
 
-        public void Clear()
+        //Clear everything
+        public void ClearEverything()
         {
             players.Clear();
             levels.Clear();
+            ClearResults();
+        }
+
+        //Clear the current results.
+        public void ClearResults()
+        {
             results.Clear();
         }
 
+        //Print the results to the console. (Will be replaced by writing to file with timestamp and using tokens for naming).
         public void PrintResults()
         {
             foreach (KeyValuePair<RSLevel, List<RSResult>> levelResult in results)
