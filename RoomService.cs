@@ -53,7 +53,7 @@ namespace RoomService
 
             ZeepSDK.Multiplayer.MultiplayerApi.PlayerLeft += (player) =>
             {
-                tracker.SetPlayerOffline(player.SteamID);
+                tracker.SetPlayerNetworkState(player.SteamID, false);
                 RSPlayer? rsPlayer = tracker.GetPlayer(player.SteamID);
                 if (rsPlayer.HasValue)
                 {
@@ -79,7 +79,7 @@ namespace RoomService
 
             ZeepSDK.Multiplayer.MultiplayerApi.DisconnectedFromGame += () =>
             {
-                tracker.SetAllPlayersOffline();
+                tracker.SetAllPlayersNetworkState(false);
             };           
         }
 
