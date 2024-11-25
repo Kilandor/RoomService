@@ -29,7 +29,6 @@ namespace RoomService
             if (!levels.ContainsKey(level.UID))
             {
                 levels.Add(level.UID, new RSLevel() { Author = level.Author, Name = level.Name, UID = level.UID, WorkshopID = level.WorkshopID });
-
                 results.Add(levels[level.UID], new List<RSResult>());
             }
 
@@ -46,9 +45,14 @@ namespace RoomService
                 rsPlayer.IsOnline = true;
                 players[player.SteamID] = rsPlayer;
 
-                if (player.CurrentResult != null)
+                //Get the player from the leaderboard
+                bool hasEntry = ZeepkistNetwork.Leaderboard.Any(entry => entry.SteamID == player.SteamID);
+                ZeepkistNetworking.LeaderboardItem leaderboardEntry = ZeepkistNetwork.Leaderboard.FirstOrDefault(entry => entry.SteamID == player.SteamID);
+
+                //Only players with a time have an entry
+                if (hasEntry)
                 {
-                    RSResult newResult = new RSResult() { SteamID = player.SteamID, Time = player.CurrentResult.Time, UID = level.UID };
+                    RSResult newResult = new RSResult() { SteamID = player.SteamID, Time = leaderboardEntry.Time, UID = level.UID };
                     RSResult existingResult = levelResults.FirstOrDefault(r => r.SteamID == player.SteamID);
                     bool resultExists = levelResults.Any(r => r.SteamID == player.SteamID);
 
@@ -113,8 +117,7 @@ namespace RoomService
         {            
             if (!players.ContainsKey(player.SteamID))
             {
-                Debug.Log("AddPlayer: " + player.SteamID + "," + player.Username);
-                players.Add(player.SteamID, new RSPlayer() { SteamID = player.SteamID, IsOnline = true, Name = player.Username });
+                players.Add(player.SteamID, new RSPlayer() { SteamID = player.SteamID, IsOnline = true, Name = player.GetUserNameNoTag() });
             }
         }
 

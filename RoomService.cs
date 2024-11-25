@@ -17,6 +17,7 @@ namespace RoomService
         public static Action<RSPlayer> OnPlayerJoined;
         public static Action<RSPlayer> OnPlayerLeft;
         public static Action OnConfigLoad;
+        public static Action OnConfigUnload;
 
         public static RoomServiceConfig CurrentConfig;
         public static RSRoomTracker tracker;
@@ -94,6 +95,15 @@ namespace RoomService
             OnConfigLoad?.Invoke();
         }
 
+        public static void Unload()
+        {
+            if(CurrentConfig != null)
+            {
+                OnConfigUnload?.Invoke();
+                CurrentConfig = null;
+            }
+        }
+
         public static void SubscribeToEvent(string eventName, string functionName, List<string> parameters)
         {
             Debug.LogWarning(eventName + "," + functionName + "," + string.Join(';', parameters));
@@ -109,6 +119,21 @@ namespace RoomService
                             RSContext context = CreateContext();
                             RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
                         };                       
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Unknown function name: " + functionName);
+                    }
+                    break;
+                case "OnUnload":
+                    Debug.Log("Subscribing to OnUnload");
+                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
+                    {
+                        OnConfigUnload += () =>
+                        {
+                            RSContext context = CreateContext();
+                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
+                        };
                     }
                     else
                     {
@@ -184,7 +209,12 @@ namespace RoomService
                     {
                         OnPlayerFinished += (result) =>
                         {
+                            Debug.Log("On player finished:" + result.SteamID);
+
                             RSContext context = CreateContext(result:result);
+
+                            Debug.Log(context.ToString());
+
                             RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
                         };
                     }
@@ -220,6 +250,7 @@ namespace RoomService
             OnPlayerJoined = null;
             OnPlayerLeft = null;
             OnConfigLoad = null;
+            OnConfigUnload = null;
         }
 
         public static RSContext CreateContext(RSPlayer? player = null, RSLevel? level = null, RSResult? result = null)

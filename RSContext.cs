@@ -26,6 +26,11 @@ namespace RoomService
         //Parameters
         public Dictionary<string, string> Parameters;
 
+        public override string ToString()
+        {
+            return $"SteamID:{SteamID},PlayerName:{PlayerName},Points:{Points},PointsDifference:{PointsDifference},Time:{Time},UID:{UID},WorkshopID:{WorkshopID},LevelName:{LevelName},Author:{Author}";
+        }
+
         public RSContext(Dictionary<string, string> parameters)
         {
             Parameters = parameters;

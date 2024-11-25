@@ -31,8 +31,13 @@ namespace RoomService
         {
             if (Input.GetKeyDown(KeyCode.Keypad9))
             {
-                RoomServiceConfig config = RoomServiceConfigLoader.LoadConfig(@"C:\Data\config.json");
+                RoomServiceConfig config = RoomServiceConfigLoader.LoadConfig(@"D:\Roomservice\config.json");
                 RoomService.LoadRoomServiceConfig(config);
+            }
+
+            if(Input.GetKeyDown(KeyCode.Keypad3))
+            {
+                RoomService.Unload();
             }
         }
     }

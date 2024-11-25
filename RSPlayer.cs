@@ -30,5 +30,10 @@ namespace RoomService
 
         public static bool operator ==(RSPlayer left, RSPlayer right) => left.Equals(right);
         public static bool operator !=(RSPlayer left, RSPlayer right) => !left.Equals(right);
+
+        public override string ToString()
+        {
+            return $"SteamID:{SteamID},Name:{Name},IsOnline:{IsOnline},Points:{Points},PointsDifference:{PointsDifference}";
+        }
     }
 }

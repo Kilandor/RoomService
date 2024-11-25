@@ -31,15 +31,11 @@ namespace RoomService
                     {
                         (bool,int) points = RoomServiceUtils.ParseIntFromString(parameters[0]);
                         (bool,bool) notify = RoomServiceUtils.ParseBoolFromString(parameters[1]);
-
-                        Debug.LogError("Points: " + points.Item1 + "," + points.Item2);
-                        Debug.LogError("Notify: " + notify.Item1 + "," + notify.Item2);
                         
                         if(points.Item1 && notify.Item1)
                         {
                             //Get the total amount of points 
                             int total = context.Points + points.Item2;
-                            Debug.Log("Total: " + total);
 
                             SetPlayerChampionshipPoints(total, points.Item2, notify.Item2, context.SteamID);
                         }

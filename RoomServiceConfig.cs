@@ -11,6 +11,7 @@ namespace RoomService
     {
         public List<string> Parameters { get; set; }
         public List<string> OnLoad { get; set; }
+        public List<string> OnUnload { get; set; }
         public List<string> OnPlayerJoined { get; set; }
         public List<string> OnPlayerLeft { get; set; }
         public List<string> OnRoundStart { get; set; }
@@ -46,12 +47,13 @@ namespace RoomService
         public void Load()
         {
             ProcessEventList("OnLoad", JSON.OnLoad);
+            ProcessEventList("OnUnload", JSON.OnUnload);
             ProcessEventList("OnPlayerJoined", JSON.OnPlayerJoined);
             ProcessEventList("OnPlayerLeft", JSON.OnPlayerLeft);
             ProcessEventList("OnRoundStart", JSON.OnRoundStart);
             ProcessEventList("OnRoundEnd", JSON.OnRoundEnd);
             ProcessEventList("OnPlayerFinished", JSON.OnPlayerFinished);
-            ProcessEventList("OnPlayerImproved", JSON.OnPlayerImproved);            
+            ProcessEventList("OnPlayerImproved", JSON.OnPlayerImproved);      
         }
 
         private static void ProcessEventList(string eventName, List<string> eventList)
