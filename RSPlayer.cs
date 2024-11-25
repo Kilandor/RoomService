@@ -11,6 +11,8 @@ namespace RoomService
         public ulong SteamID;
         public string Name;
         public bool IsOnline;
+        public int Points;
+        public int PointsDifference;
 
         public override bool Equals(object obj)
         {

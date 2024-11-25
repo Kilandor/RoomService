@@ -29,9 +29,9 @@ namespace RoomService
 
         public void Update()
         {
-            if (Input.GetKeyDown(KeyCode.P))
+            if (Input.GetKeyDown(KeyCode.Keypad9))
             {
-                RoomServiceConfig config = RoomServiceConfigLoader.LoadConfig(@"D:\Roomservice\config.json");
+                RoomServiceConfig config = RoomServiceConfigLoader.LoadConfig(@"C:\Data\config.json");
                 RoomService.LoadRoomServiceConfig(config);
             }
         }

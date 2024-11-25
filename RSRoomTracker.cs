@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Steamworks;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using ZeepkistClient;
 
@@ -52,8 +50,9 @@ namespace RoomService
                 {
                     RSResult newResult = new RSResult() { SteamID = player.SteamID, Time = player.CurrentResult.Time, UID = level.UID };
                     RSResult existingResult = levelResults.FirstOrDefault(r => r.SteamID == player.SteamID);
+                    bool resultExists = levelResults.Any(r => r.SteamID == player.SteamID);
 
-                    if (existingResult.SteamID != 0)
+                    if (resultExists)
                     {
                         if (newResult.Time < existingResult.Time)
                         {
@@ -64,7 +63,7 @@ namespace RoomService
                     }
                     else
                     {
-                        levelResults.Add(new RSResult() { SteamID = player.SteamID, Time = player.CurrentResult.Time, UID = level.UID });
+                        levelResults.Add(newResult);
                         RoomService.OnPlayerFinished?.Invoke(newResult);
                     }
                 }
@@ -80,6 +79,26 @@ namespace RoomService
             }
         }
 
+        public void ResetAllPoints()
+        {
+            List<ulong> ids = players.Keys.ToList();
+            foreach (ulong steamID in ids)
+            {
+                SetPlayerPoints(steamID, 0, 0);
+            }
+        }
+
+        public void SetPlayerPoints(ulong steamID, int points, int change)
+        {
+            if (players.ContainsKey(steamID))
+            {
+                RSPlayer p = players[steamID];
+                p.Points = points;
+                p.PointsDifference = change;
+                players[steamID] = p;
+            }
+        }
+
         public void SetPlayerOffline(ulong steamID)
         {
             if (players.ContainsKey(steamID))
@@ -91,9 +110,10 @@ namespace RoomService
         }
 
         public void AddPlayer(ZeepkistNetworkPlayer player)
-        {
+        {            
             if (!players.ContainsKey(player.SteamID))
             {
+                Debug.Log("AddPlayer: " + player.SteamID + "," + player.Username);
                 players.Add(player.SteamID, new RSPlayer() { SteamID = player.SteamID, IsOnline = true, Name = player.Username });
             }
         }
@@ -116,6 +136,32 @@ namespace RoomService
             }
 
             return null;
+        }
+
+        public RSLevel? GetCurrentLevel()
+        {
+            LevelScriptableObject level = ZeepSDK.Level.LevelApi.CurrentLevel;
+            if(level == null)
+            {
+                return null;
+            }
+
+            RSLevel rsLevel = new RSLevel()
+            {
+                Author = level.Author,
+                Name = level.Name,
+                UID = level.UID,
+                WorkshopID = level.WorkshopID
+            };
+
+            return rsLevel;
+        }
+
+        public void Clear()
+        {
+            players.Clear();
+            levels.Clear();
+            results.Clear();
         }
 
         public void PrintResults()
