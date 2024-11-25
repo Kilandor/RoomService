@@ -124,7 +124,7 @@ namespace RoomService
 
                         if(notify.Item1)
                         {
-                            RemovePlayerFromLeaderboard(notify.Item2, context.SteamID);
+                            RemovePlayerFromLeaderboard(notify.Item2, context.SteamID, context.UID);
                         }
                         else
                         {
@@ -328,7 +328,25 @@ namespace RoomService
                         Debug.LogError($"UnblockEveryoneFromSettingTime: Incorrect amount of parameters. Expected: 1, Found: {parameters.Count}");
                     }
                 }
-            }
+            },
+             // PrintResultsToConsole
+            { "PrintResultsToConsole", (parameters, context) =>
+                {
+                    PrintResultsToConsole();
+                }
+            },
+             // PrintResultsToConsole
+            { "ClearAllTrackingData", (parameters, context) =>
+                {
+                    ClearTracker();
+                }
+            },
+             // PrintResultsToConsole
+            { "ClearTrackingResults", (parameters, context) =>
+                {
+                    ClearResults();
+                }
+            },
         };
 
         //Leaderboard
@@ -347,8 +365,9 @@ namespace RoomService
             ZeepkistNetwork.CustomLeaderBoard_SetPlayerLeaderboardOverrides(steamID, time, name, position, points, pointsWon);
         }
 
-        private static void RemovePlayerFromLeaderboard(bool notify, ulong steamID)
+        private static void RemovePlayerFromLeaderboard(bool notify, ulong steamID, string UID)
         {
+            RoomService.tracker.RemovePlayersTime(UID, steamID);
             ZeepkistNetwork.CustomLeaderBoard_RemovePlayerFromLeaderboard(steamID, notify);
         }
 
@@ -409,6 +428,21 @@ namespace RoomService
         private static void UnblockEveryoneFromSettingTime(bool notifyPlayers)
         {
             ZeepkistNetwork.CustomLeaderBoard_UnblockEveryoneFromSettingTime(notifyPlayers);
-        }        
+        }     
+        
+        private static void PrintResultsToConsole()
+        {
+            RoomService.tracker.PrintResults();
+        }
+
+        private static void ClearTracker()
+        {
+            RoomService.tracker.ClearEverything();
+        }
+
+        private static void ClearResults()
+        {
+            RoomService.tracker.ClearResults();
+        }
     }
 }

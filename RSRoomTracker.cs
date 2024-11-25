@@ -190,10 +190,38 @@ namespace RoomService
             ClearResults();
         }
 
+        public void RemovePlayersTime(string uid, ulong steamID)
+        {
+            bool levelExists = results.Keys.Any(l => l.UID == uid);
+            RSLevel level = results.Keys.FirstOrDefault(l => l.UID == uid);
+
+            Debug.LogWarning("Removing players time");
+            Debug.LogWarning("Level exists? " + levelExists);
+
+            if (levelExists)
+            {
+                List<RSResult> levelResults = results[level];
+
+                Debug.LogWarning("Get results");
+
+                // Get the index of the result to remove
+                int indexToRemove = levelResults.FindIndex(r => r.SteamID == steamID);
+
+                if (indexToRemove >= 0)
+                {
+                    levelResults.RemoveAt(indexToRemove); // Remove the result at the specified index
+                    Debug.Log($"Successfully removed player's time for SteamID {steamID} from level {uid}.");
+                }
+            }
+        }
+
         //Clear the current results.
         public void ClearResults()
         {
-            results.Clear();
+            foreach (var list in results.Values)
+            {
+                list.Clear();
+            }
         }
 
         //Print the results to the console. (Will be replaced by writing to file with timestamp and using tokens for naming).
