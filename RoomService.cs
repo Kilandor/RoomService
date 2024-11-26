@@ -7,10 +7,6 @@ namespace RoomService
 {
     public static class RoomService
     {       
-        //Called when a player finishes the track.
-        public static Action<RoomServiceResult> OnPlayerFinished;
-        //Called when a player has already finished and improves their time.
-        public static Action<RoomServiceResult> OnPlayerImproved;
         //Called when the round starts (in the beginning).
         public static Action OnRoundStart;
         //Called when the round ends (to podium).
@@ -79,10 +75,8 @@ namespace RoomService
             };           
         }
 
-        private static void ClearSubscriptions()
+        public static void ClearSubscriptions()
         {
-            OnPlayerFinished = null;
-            OnPlayerImproved = null;
             OnRoundStart = null;
             OnRoundEnd = null;
             OnPlayerJoined = null;
@@ -204,35 +198,7 @@ namespace RoomService
                     {
                         Debug.LogError($"Unknown function name in OnRoundEnd event: {functionName}");
                     }
-                    break;
-                case "OnPlayerFinished":
-                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
-                    {
-                        OnPlayerFinished += (result) =>
-                        {
-                            RoomServiceContext context = CreateContext(result:result);
-                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
-                        };
-                    }
-                    else
-                    {
-                        Debug.LogError($"Unknown function name in OnPlayerFinished event: {functionName}");
-                    }
-                    break;
-                case "OnPlayerImproved":
-                    if (RoomServiceActions.ActionMap.ContainsKey(functionName))
-                    {
-                        OnPlayerImproved += (result) =>
-                        {
-                            RoomServiceContext context = CreateContext(result: result);
-                            RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
-                        };
-                    }
-                    else
-                    {
-                        Debug.LogError($"Unknown function name in OnPlayerImproved event: {functionName}");
-                    }
-                    break;
+                    break;                
             }
         }      
 
@@ -241,6 +207,18 @@ namespace RoomService
             RoomServiceContext ctx = new RoomServiceContext(CurrentConfig?.Parameters ?? new Dictionary<string, string>());
             bool setPlayer = false;
             bool setLevel = false;
+
+            ZeepkistLobby currentLobby = ZeepkistNetwork.CurrentLobby;
+            if(currentLobby != null)
+            {
+                if(currentLobby.Playlist != null)
+                {
+                    int length = currentLobby.Playlist.Count;
+                    int index = currentLobby.CurrentPlaylistIndex;
+
+                    ctx.SetPlaylistData(length, index + 1);
+                }
+            }
             
             if (result != null)
             {

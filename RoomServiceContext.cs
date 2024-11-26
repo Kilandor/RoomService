@@ -26,6 +26,10 @@ namespace RoomService
         //Parameters
         public Dictionary<string, string> Parameters;
 
+        //Playlist
+        public int PlaylistLength;
+        public int PlaylistIndex;
+
         public override string ToString()
         {
             return $"SteamID:{SteamID},PlayerName:{PlayerName},Points:{Points},PointsDifference:{PointsDifference},Time:{Time},UID:{UID},WorkshopID:{WorkshopID},LevelName:{LevelName},Author:{Author}";
@@ -43,6 +47,8 @@ namespace RoomService
             WorkshopID = 0;
             LevelName = "";
             Author = "";
+            PlaylistLength = 0;
+            PlaylistIndex = 0;
         }
 
         public void AddPlayer(RoomServicePlayer player)
@@ -68,6 +74,12 @@ namespace RoomService
             Author = level.Author;
         }
 
+        public void SetPlaylistData(int length, int index)
+        {
+            PlaylistLength = length;
+            PlaylistIndex = index;
+        }
+
         public string ReplaceParameters(string original)
         {
             string newString = original.Replace("{STEAMID}", SteamID.ToString());
@@ -79,6 +91,8 @@ namespace RoomService
             newString = newString.Replace("{AUTHOR}", Author);
             newString = newString.Replace("{POINTS}", Points.ToString());
             newString = newString.Replace("{POINTSDIF}", PointsDifference.ToString());
+            newString = newString.Replace("{PLAYLISTLENGTH}", PlaylistLength.ToString());
+            newString = newString.Replace("{PLAYLISTINDEX}", PlaylistIndex.ToString());            
 
             foreach (KeyValuePair<string, string> cp in Parameters)
             {

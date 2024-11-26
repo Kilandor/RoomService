@@ -204,6 +204,150 @@ namespace RoomService
                 }
             },
 
+            // SetRoundLength
+            { "SetRoundLength", (parameters, context) =>
+                {
+                    if(parameters.Count == 1)
+                    {
+                        (bool,int) time = RoomServiceUtils.ParseIntFromString(parameters[0]);
+                        if(time.Item1)
+                        {
+                            time.Item2 = Math.Max(30, time.Item2);
+                            SetRoundLength(time.Item2);
+                        }
+                        else
+                        {
+                            Debug.LogError($"SetRoundLength: Error parsing parameter. Found: {parameters[0]}");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError($"SetRoundLength: Incorrect amount of parameters. Expected: 1, Found: {parameters.Count}");
+                    }
+                }
+            },
+
+            // SetVoteskip
+            { "SetVoteskip", (parameters, context) =>
+                {
+                    if(parameters.Count == 1)
+                    {
+                        (bool,bool) voteskipOn = RoomServiceUtils.ParseBoolFromString(parameters[0]);
+                        if(voteskipOn.Item1)
+                        {
+                            SetVoteskip(voteskipOn.Item2);
+                        }
+                        else
+                        {
+                            Debug.LogError($"SetVoteskip: Error parsing parameter. Found: {parameters[0]}");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError($"SetVoteskip: Incorrect amount of parameters. Expected: 1, Found: {parameters.Count}");
+                    }
+                }
+            },
+
+            // SetVoteskipPercentage
+            { "SetVoteskipPercentage", (parameters, context) =>
+                {
+                    if(parameters.Count == 1)
+                    {
+                        (bool,int) percentage = RoomServiceUtils.ParseIntFromString(parameters[0]);
+                        if(percentage.Item1)
+                        {
+                            percentage.Item2 = Math.Min(100, Math.Max(1, percentage.Item2));
+                            SetVoteskipPercentage(percentage.Item2);
+                        }
+                        else
+                        {
+                            Debug.LogError($"SetVoteskipPercentage: Error parsing parameter. Found: {parameters[0]}");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError($"SetVoteskipPercentage: Incorrect amount of parameters. Expected: 1, Found: {parameters.Count}");
+                    }
+                }
+            },
+
+            // SetLobbyName
+            { "SetLobbyName", (parameters, context) =>
+                {
+                    if(parameters.Count == 1)
+                    {
+                        string name = context.ReplaceParameters(parameters[0]);
+                        if(!string.IsNullOrEmpty(name))
+                        {
+                            SetLobbyName(name);
+                        }
+                        else
+                        {
+                            Debug.LogError($"SetLobbyName: Error parsing parameter. Found: {parameters[0]}");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError($"SetLobbyName: Incorrect amount of parameters. Expected: 1, Found: {parameters.Count}");
+                    }
+                }
+            },
+
+            // ShowFrogMessage
+            { "ShowFrogMessage", (parameters, context) =>
+                {
+                    if(parameters.Count == 2)
+                    {
+                        string message = context.ReplaceParameters(parameters[0]);
+                        (bool,int) time = RoomServiceUtils.ParseIntFromString(parameters[1]);
+                        if(time.Item1)
+                        {
+                            ShowFrogMessage(message, Math.Min(1,time.Item2));
+                        }
+                        else
+                        {
+                            Debug.LogError($"ShowFrogMessage: Error parsing parameters. Message: {parameters[0]}, Time: {parameters[1]}.");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError($"ShowFrogMessage: Incorrect amount of parameters. Expected: 2, Found: {parameters.Count}");
+                    }
+                }
+            },
+
+            // SetServerMessage
+            { "SetServerMessage", (parameters, context) =>
+                {
+                    if(parameters.Count == 2)
+                    {
+                        string message = context.ReplaceParameters(parameters[0]);
+                        (bool,int) time = RoomServiceUtils.ParseIntFromString(parameters[1]);
+                        if(time.Item1)
+                        {
+                            time.Item2 = Math.Max(1, time.Item2);
+                            SetServerMessage(message, time.Item2);
+                        }
+                        else
+                        {
+                            Debug.LogError($"SetServerMessage: Error parsing parameters. Message: {parameters[0]}, Time: {parameters[1]}.");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError($"SetServerMessage: Incorrect amount of parameters. Expected: 2, Found: {parameters.Count}");
+                    }
+                }
+            },
+
+            // RemoveServerMessage
+            { "RemoveServerMessage", (parameters, context) =>
+                {
+                    RemoveServerMessage();
+                }
+            },
+
             // SendGlobalChatMessage(string:prefix, string:message)
             { "SendGlobalChatMessage", (parameters, context) =>
                 {
@@ -404,9 +548,43 @@ namespace RoomService
             ZeepkistNetwork.SendCustomChatMessage(false, steamID, message, prefix);
         }
 
-        private static void SetServerMessage(string message)
+        private static void SetServerMessage(string message, int time)
         {
-            
+            ZeepSDK.Chat.ChatApi.SendMessage($"/servermessage white {time.ToString()} {message}");
+        }
+
+        private static void RemoveServerMessage()
+        {
+            ZeepSDK.Chat.ChatApi.SendMessage("/servermessage remove");
+        }
+
+        private static void SetRoundLength(int time)
+        {
+            ZeepSDK.Chat.ChatApi.SendMessage("/settime " + time.ToString());
+        }
+
+        private static void SetVoteskip(bool state)
+        {
+            ZeepSDK.Chat.ChatApi.SendMessage($"/vs {(state ? "on" : "off")}");
+        }
+
+        private static void SetVoteskipPercentage(int percentage)
+        {
+            ZeepSDK.Chat.ChatApi.SendMessage($"/vs % {percentage.ToString()}");
+        }
+
+        private static void ShowFrogMessage(string message, int time)
+        {
+            PlayerManager.Instance.messenger.Log(message, (float)time);
+        }
+
+        private static void SetLobbyName(string message)
+        {
+            ZeepkistLobby currentLobby = ZeepkistNetwork.CurrentLobby;
+            if(currentLobby != null)
+            {
+                currentLobby.UpdateName(message);
+            }
         }
 
         //Blocking and unblocking

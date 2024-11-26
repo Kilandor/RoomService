@@ -28,8 +28,6 @@ namespace RoomService
         //...anytime there is a leaderboard update to make sure we have the latest information.
         public void ProcessRoomState(List<ZeepkistNetworkPlayer> playerList, LevelScriptableObject level)
         {
-            Debug.LogWarning("ProcessRoomState");
-
             if (level == null)
             {
                 return;
@@ -52,14 +50,12 @@ namespace RoomService
                     rsPlayer = AddPlayer(player);
                 }
                 rsPlayer.IsOnline = true;
-                Debug.Log("Player: " + rsPlayer.Name);
 
                 bool hasLeaderboardEntry = ZeepkistNetwork.Leaderboard != null && ZeepkistNetwork.Leaderboard.Any(entry => entry.SteamID == player.SteamID);
                 
                 if (hasLeaderboardEntry)
                 {
                     ZeepkistNetworking.LeaderboardItem leaderboardEntry = ZeepkistNetwork.Leaderboard.FirstOrDefault(entry => entry.SteamID == player.SteamID);
-                    Debug.Log("LeaderboardEntry: " + leaderboardEntry.Time);
                     
                     RoomServiceResult playerResult = results[level.UID].FirstOrDefault(r => r.SteamID == player.SteamID);
                     if (playerResult != null)
@@ -67,14 +63,12 @@ namespace RoomService
                         if(leaderboardEntry.Time < playerResult.Time)
                         {
                             playerResult.Time = leaderboardEntry.Time;
-                            RoomService.OnPlayerImproved?.Invoke(playerResult);
                         }
                     }     
                     else
                     {
                         RoomServiceResult newResult = new RoomServiceResult() { SteamID = player.SteamID, UID = level.UID, Time = leaderboardEntry.Time };
                         results[level.UID].Add(newResult);
-                        RoomService.OnPlayerFinished?.Invoke(newResult);
                     }
                 }             
             }

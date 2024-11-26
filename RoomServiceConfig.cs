@@ -16,8 +16,6 @@ namespace RoomService
         public List<string> OnPlayerLeft { get; set; }
         public List<string> OnRoundStart { get; set; }
         public List<string> OnRoundEnd { get; set; }
-        public List<string> OnPlayerImproved { get; set; }
-        public List<string> OnPlayerFinished { get; set; }
     }
 
     public class RoomServiceConfig
@@ -52,8 +50,6 @@ namespace RoomService
             ProcessEventList("OnPlayerLeft", JSON.OnPlayerLeft);
             ProcessEventList("OnRoundStart", JSON.OnRoundStart);
             ProcessEventList("OnRoundEnd", JSON.OnRoundEnd);
-            ProcessEventList("OnPlayerFinished", JSON.OnPlayerFinished);
-            ProcessEventList("OnPlayerImproved", JSON.OnPlayerImproved);      
         }
 
         private static void ProcessEventList(string eventName, List<string> eventList)
