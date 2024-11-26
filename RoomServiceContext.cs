@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoomService
 {
-    public struct RSContext
+    public class RoomServiceContext
     {
         //Player
         public ulong SteamID;
@@ -31,7 +31,7 @@ namespace RoomService
             return $"SteamID:{SteamID},PlayerName:{PlayerName},Points:{Points},PointsDifference:{PointsDifference},Time:{Time},UID:{UID},WorkshopID:{WorkshopID},LevelName:{LevelName},Author:{Author}";
         }
 
-        public RSContext(Dictionary<string, string> parameters)
+        public RoomServiceContext(Dictionary<string, string> parameters)
         {
             Parameters = parameters;
             SteamID = 0;
@@ -45,7 +45,7 @@ namespace RoomService
             Author = "";
         }
 
-        public void AddPlayer(RSPlayer player)
+        public void AddPlayer(RoomServicePlayer player)
         {
             SteamID = player.SteamID;
             PlayerName = player.Name;
@@ -53,14 +53,14 @@ namespace RoomService
             PointsDifference = player.PointsDifference;
         }
 
-        public void AddResult(RSResult result)
+        public void AddResult(RoomServiceResult result)
         {
             SteamID = result.SteamID;
             UID = result.UID;
             Time = result.Time;
         }
 
-        public void AddLevel(RSLevel level)
+        public void AddLevel(RoomServiceLevel level)
         {
             UID = level.UID;
             LevelName = level.Name;

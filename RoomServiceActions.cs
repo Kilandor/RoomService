@@ -8,7 +8,7 @@ namespace RoomService
 {
     public static class RoomServiceActions
     {
-        public static readonly Dictionary<string, Action<List<string>, RSContext>> ActionMap = new Dictionary<string, Action<List<string>, RSContext>>()
+        public static readonly Dictionary<string, Action<List<string>, RoomServiceContext>> ActionMap = new Dictionary<string, Action<List<string>, RoomServiceContext>>()
         {
             // ResetChampionshipPoints
             { "ResetChampionshipPoints", (parameters, context) =>

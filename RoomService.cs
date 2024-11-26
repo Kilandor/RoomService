@@ -8,17 +8,17 @@ namespace RoomService
     public static class RoomService
     {       
         //Called when a player finishes the track.
-        public static Action<RSResult> OnPlayerFinished;
+        public static Action<RoomServiceResult> OnPlayerFinished;
         //Called when a player has already finished and improves their time.
-        public static Action<RSResult> OnPlayerImproved;
+        public static Action<RoomServiceResult> OnPlayerImproved;
         //Called when the round starts (in the beginning).
         public static Action OnRoundStart;
         //Called when the round ends (to podium).
         public static Action OnRoundEnd;
         //Called when a player joins the game.
-        public static Action<RSPlayer> OnPlayerJoined;
+        public static Action<RoomServicePlayer> OnPlayerJoined;
         //Called when a player leaves the game.
-        public static Action<RSPlayer> OnPlayerLeft;
+        public static Action<RoomServicePlayer> OnPlayerLeft;
         //Called right after the config is loaded, to execute all the OnLoad functions.
         public static Action OnConfigLoad;
         //Called right after the config is unloaded, for clean up.
@@ -43,21 +43,17 @@ namespace RoomService
 
             ZeepSDK.Multiplayer.MultiplayerApi.PlayerJoined += (player) =>
             {
-                tracker.AddPlayer(player);
-                RSPlayer? rsPlayer = tracker.GetPlayer(player.SteamID);
-                if (rsPlayer.HasValue)
-                {
-                    OnPlayerJoined?.Invoke(rsPlayer.Value);
-                }
+                RoomServicePlayer rsPlayer = tracker.AddPlayer(player);
+                OnPlayerJoined?.Invoke(rsPlayer);
             };
 
             ZeepSDK.Multiplayer.MultiplayerApi.PlayerLeft += (player) =>
             {
-                tracker.SetPlayerNetworkState(player.SteamID, false);
-                RSPlayer? rsPlayer = tracker.GetPlayer(player.SteamID);
-                if (rsPlayer.HasValue)
+                RoomServicePlayer rsPlayer = tracker.GetPlayer(player.SteamID);
+                if (rsPlayer != null)
                 {
-                    OnPlayerLeft?.Invoke(rsPlayer.Value);
+                    rsPlayer.IsOnline = false;
+                    OnPlayerLeft?.Invoke(rsPlayer);
                 }
             };
 
@@ -130,7 +126,7 @@ namespace RoomService
                     {
                         OnConfigLoad += () =>
                         {
-                            RSContext context = CreateContext();
+                            RoomServiceContext context = CreateContext();
                             RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
                         };                       
                     }
@@ -144,7 +140,7 @@ namespace RoomService
                     {
                         OnConfigUnload += () =>
                         {
-                            RSContext context = CreateContext();
+                            RoomServiceContext context = CreateContext();
                             RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
                         };
                     }
@@ -158,7 +154,7 @@ namespace RoomService
                     {
                         OnPlayerJoined += player =>
                         {
-                            RSContext context = CreateContext(player:player);
+                            RoomServiceContext context = CreateContext(player:player);
                             RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
                         };
                     }
@@ -172,7 +168,7 @@ namespace RoomService
                     {
                         OnPlayerLeft += (player) =>
                         {
-                            RSContext context = CreateContext(player:player);
+                            RoomServiceContext context = CreateContext(player:player);
                             RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
                         };
                     }
@@ -186,7 +182,7 @@ namespace RoomService
                     {
                         OnRoundStart += () =>
                         {
-                            RSContext context = CreateContext();
+                            RoomServiceContext context = CreateContext();
                             RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
                         };
                     }
@@ -200,7 +196,7 @@ namespace RoomService
                     {
                         OnRoundEnd += () =>
                         {
-                            RSContext context = CreateContext();
+                            RoomServiceContext context = CreateContext();
                             RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
                         };
                     }
@@ -214,7 +210,7 @@ namespace RoomService
                     {
                         OnPlayerFinished += (result) =>
                         {
-                            RSContext context = CreateContext(result:result);
+                            RoomServiceContext context = CreateContext(result:result);
                             RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
                         };
                     }
@@ -228,7 +224,7 @@ namespace RoomService
                     {
                         OnPlayerImproved += (result) =>
                         {
-                            RSContext context = CreateContext(result: result);
+                            RoomServiceContext context = CreateContext(result: result);
                             RoomServiceActions.ActionMap[functionName]?.Invoke(parameters, context);
                         };
                     }
@@ -240,43 +236,49 @@ namespace RoomService
             }
         }      
 
-        public static RSContext CreateContext(RSPlayer? player = null, RSLevel? level = null, RSResult? result = null)
+        public static RoomServiceContext CreateContext(RoomServicePlayer player = null, RoomServiceLevel level = null, RoomServiceResult result = null)
         {
-            RSContext ctx = new RSContext(CurrentConfig?.Parameters ?? new Dictionary<string, string>());
+            RoomServiceContext ctx = new RoomServiceContext(CurrentConfig?.Parameters ?? new Dictionary<string, string>());
+            bool setPlayer = false;
+            bool setLevel = false;
             
-            if (result.HasValue)
+            if (result != null)
             {
-                ctx.AddResult(result.Value);
+                ctx.AddResult(result);
 
-                RSPlayer? p = tracker.GetPlayer(result.Value.SteamID);
-                if (p.HasValue)
+                RoomServicePlayer rsPlayer = tracker.GetPlayer(result.SteamID);
+                if (rsPlayer != null)
                 {
-                    ctx.AddPlayer(p.Value);
+                    ctx.AddPlayer(rsPlayer);
+                    setPlayer = true;
                 }
 
-                RSLevel? l = tracker.GetLevel(result.Value.UID);
-                if (l.HasValue)
+                RoomServiceLevel rsLevel = tracker.GetLevel(result.UID);
+                if (rsLevel != null)
                 {
-                    ctx.AddLevel(l.Value);
+                    ctx.AddLevel(rsLevel);
+                    setLevel = true;
                 }
-                return ctx;
             }
 
-            if (player.HasValue)
+            if (player != null && !setPlayer)
             {
-                ctx.AddPlayer(player.Value);
+                ctx.AddPlayer(player);
             }
 
-            if (level.HasValue)
+            if (!setLevel)
             {
-                ctx.AddLevel(level.Value);
-            }
-            else
-            {
-                RSLevel? l = tracker.GetCurrentLevel();
-                if (l.HasValue)
+                if (level != null)
                 {
-                    ctx.AddLevel(l.Value);
+                    ctx.AddLevel(level);
+                }
+                else
+                {
+                    RoomServiceLevel rsLevel = tracker.GetCurrentLevel();
+                    if (rsLevel != null)
+                    {
+                        ctx.AddLevel(rsLevel);
+                    }
                 }
             }
 

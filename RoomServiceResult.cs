@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoomService
 {
-    public struct RSResult
+    public class RoomServiceResult
     {
         public ulong SteamID;
         public string UID;
