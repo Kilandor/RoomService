@@ -2,6 +2,9 @@
 using UnityEngine;
 using HarmonyLib;
 using BepInEx.Configuration;
+using System;
+using ZeepSDK;
+using ZeepSDK.Scripting.ZUA;
 
 namespace RoomService
 {
@@ -12,80 +15,90 @@ namespace RoomService
         public const string pluginName = "RoomService";
         public const string pluginVersion = "1.0";
         public static Plugin Instance;
+        public Zua script; 
 
-        public ConfigEntry<string> configPath;
+        public Action<int> LobbyTimerAction;
 
         private void Awake()
         {
             Harmony harmony = new Harmony(pluginGUID);
             harmony.PatchAll();
 
-            RoomService.Initialize();
+            Instance = this;           
 
-            configPath = Config.Bind("Settings", "Config Path", "", "The full path to the configuration file.");
-
-            Instance = this;
-
-            // Plugin startup logic
-            Logger.LogInfo($"At your service!");
-
-            ZeepSDK.ChatCommands.ChatCommandApi.RegisterLocalChatCommand(
-                "/",
-                "roomservice load",
-                "Loads the configuration from the path given in the settings.",
-                arguments => {
-                    LoadConfigurationFromPath();
-                }
-            );
-
-            ZeepSDK.ChatCommands.ChatCommandApi.RegisterLocalChatCommand(
-                "/",
-                "roomservice unload",
-                "Unloads the current configuration if there is any, and unsubscribes from any events.",
-                arguments => {
-                    UnloadConfiguration();
-                }
-            );
+            Logger.LogInfo($"At your service!");           
         }
 
-        public void LoadConfigurationFromPath()
+        public void Update()
         {
-            if (ZeepkistClient.ZeepkistNetwork.IsConnectedToGame)
+            if(Input.GetKeyDown(KeyCode.P))
             {
-                if (ZeepkistClient.ZeepkistNetwork.IsMasterClient)
-                {
-                    RoomServiceConfig config = RoomServiceConfigLoader.LoadConfig(configPath.Value);
-                    if(config != null)
-                    {
-                        RoomService.LoadConfig(config);
-                    }
-                    else
-                    {
-                        PlayerManager.Instance.messenger.Log("An error occured while loading the config!", 3f);
-                    }
-                }
-                else
-                {
-                    PlayerManager.Instance.messenger.Log("You are not host!",2f);
-                }
+                LoadScript("test");
             }
         }
 
-        public void UnloadConfiguration()
+        public void LoadScript(string name)
         {
-            if (ZeepkistClient.ZeepkistNetwork.IsConnectedToGame)
+            if(script != null)
             {
-                if (ZeepkistClient.ZeepkistNetwork.IsMasterClient)
-                {
-                    RoomService.UnloadConfig();
-                }
-                else
-                {
-                    PlayerManager.Instance.messenger.Log("You are not host!", 2f);
-                }
+                script.Unload();
             }
 
-            RoomService.ClearSubscriptions();
+            script = ZeepSDK.Scripting.ScriptingApi.LoadLuaByName(name);
+            if(script == null)
+            {
+                return;
+            }
+
+            /*
+            script.RegisterType<ZeepkistClient.ZeepkistNetworkPlayer>();
+            script.RegisterType<LevelScriptableObject>();
+
+            script.RegisterEvent<OnPlayerJoinedEvent>();
+            script.RegisterEvent<OnPlayerJoinedEvent>();
+            script.RegisterEvent<OnPlayerLeftEvent>();
+            script.RegisterEvent<OnLevelLoadedEvent>();
+            script.RegisterEvent<OnRoundStartedEvent>();
+            script.RegisterEvent<OnRoundEndedEvent>();
+            script.RegisterEvent<OnLobbyTimerEvent>();
+
+            //Com
+            script.RegisterFunction<SendChatMessageFunction>();
+            script.RegisterFunction<SendPrivateChatMessageFunction>();
+            script.RegisterFunction<SendScreenMessageFunction>();
+
+            //Lobby
+            script.RegisterFunction<SetPointsDistributionFunction>();
+            script.RegisterFunction<ResetPointsDistributionFunction>();
+            script.RegisterFunction<ResetChampionshipPointsFunction>();
+            script.RegisterFunction<SetVoteskipFunction>();
+            script.RegisterFunction<SetVoteskipPercentageFunction>();
+            script.RegisterFunction<SetLobbyNameFunction>();
+            script.RegisterFunction<SetServerMessageFunction>();
+            script.RegisterFunction<RemoveServerMessageFunction>();
+            script.RegisterFunction<SetRoundLengthFunction>();
+            script.RegisterFunction<SetSmallLeaderboardSortingMethodFunction>();
+            script.RegisterFunction<BlockEveryoneFromSettingTimeFunction>();
+            script.RegisterFunction<UnblockEveryoneFromSettingTimeFunction>();
+
+            //Player
+            script.RegisterFunction<SetPlayerTimeOnLeaderboardFunction>();
+            script.RegisterFunction<SetPlayerLeaderboardOverridesFunction>();
+            script.RegisterFunction<RemovePlayerFromLeaderboardFunction>();
+            script.RegisterFunction<SetPlayerChampionshipPointsFunction>();
+            script.RegisterFunction<UnblockPlayerFromSettingTimeFunction>();
+            script.RegisterFunction<BlockPlayerFromSettingTimeFunction>();
+
+            //Getters
+            script.RegisterFunction<GetPlayerCountFunction>();
+            script.RegisterFunction<GetPlaylistIndexFunction>();
+            script.RegisterFunction<GetPlaylistLengthFunction>();
+            script.RegisterFunction<GetLevelFunctions>();*/
         }
-    }
+
+        public void Log(object data, bool force = false)
+        {
+            Logger.LogInfo(data);
+        }       
+    }    
 }

@@ -1,0 +1,3103 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ZeepSDK</name>
+    </assembly>
+    <members>
+        <member name="T:ZeepSDK.ChatCommands.ChatCommandApi">
+            <summary>
+            An API that allows you to register chat commands
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.ChatCommands.ChatCommandApi.RegisterLocalChatCommand(System.String,System.String,System.String,ZeepSDK.ChatCommands.LocalChatCommandCallbackDelegate)">
+            <summary>
+            Allows you to register a local chat command
+            </summary>
+            <param name="prefix">The prefix to use for the command</param>
+            <param name="command">The keyword for the command</param>
+            <param name="description">The description for the command</param>
+            <param name="callback">The callback to invoke whenever the command gets used</param>
+        </member>
+        <member name="M:ZeepSDK.ChatCommands.ChatCommandApi.RegisterLocalChatCommand``1">
+            <summary>
+            Allows you to register a local chat command
+            </summary>
+            <typeparam name="TChatCommand">The type of the chat command to create a new instance of</typeparam>
+        </member>
+        <member name="M:ZeepSDK.ChatCommands.ChatCommandApi.RegisterLocalChatCommand``1(``0)">
+            <summary>
+            Allows you to register a local chat command
+            </summary>
+            <param name="command">The command to register</param>
+        </member>
+        <member name="M:ZeepSDK.ChatCommands.ChatCommandApi.RegisterRemoteChatCommand(System.String,System.String,System.String,ZeepSDK.ChatCommands.RemoteChatCommandCallbackDelegate)">
+            <summary>
+            Allows you to register a remote chat command
+            </summary>
+            <param name="prefix">The prefix for the command. Note: this should not start with a / as this does not work</param>
+            <param name="command">The keyword for the command</param>
+            <param name="description">The description for the command</param>
+            <param name="callback">The callback to invoke whenever the command gets used</param>
+        </member>
+        <member name="M:ZeepSDK.ChatCommands.ChatCommandApi.RegisterRemoteChatCommand``1">
+            <summary>
+            Allows you to register a remote chat command
+            </summary>
+            <typeparam name="TChatCommand">The type of the chat command to create a new instance of</typeparam>
+        </member>
+        <member name="M:ZeepSDK.ChatCommands.ChatCommandApi.RegisterRemoteChatCommand``1(``0)">
+            <summary>
+            Allows you to register a remote chat command
+            </summary>
+            <param name="command">The command to register</param>
+        </member>
+        <member name="M:ZeepSDK.ChatCommands.ChatCommandApi.RegisterMixedChatCommand(System.String,System.String,System.String,ZeepSDK.ChatCommands.MixedChatCommandCallbackDelegate)">
+            <summary>
+            Allows you to register a mixed chat command
+            </summary>
+            <param name="prefix">The prefix for the command. Note: this should not start with a / as this does not work</param>
+            <param name="command">The keyword for the command</param>
+            <param name="description">The description for the command</param>
+            <param name="callback">The callback to invoke whenever the command gets used</param>
+        </member>
+        <member name="M:ZeepSDK.ChatCommands.ChatCommandApi.RegisterMixedChatCommand``1">
+            <summary>
+            Allows you to register a mixed chat command
+            </summary>
+            <typeparam name="TChatCommand">The type of the chat command to create a new instance of</typeparam>
+        </member>
+        <member name="M:ZeepSDK.ChatCommands.ChatCommandApi.RegisterMixedChatCommand``1(``0)">
+            <summary>
+            Allows you to register a mixed chat command
+            </summary>
+            <param name="command">The command to register</param>
+        </member>
+        <member name="M:ZeepSDK.ChatCommands.ChatCommandApi.UnregisterLocalChatCommand(ZeepSDK.ChatCommands.ILocalChatCommand)">
+            <summary>
+            Unregisters a local chat command
+            </summary>
+            <param name="command">The command to unregister</param>
+        </member>
+        <member name="M:ZeepSDK.ChatCommands.ChatCommandApi.UnregisterRemoteChatCommand(ZeepSDK.ChatCommands.IRemoteChatCommand)">
+            <summary>
+            Unregisters a remote chat command
+            </summary>
+            <param name="command">The command to unregister</param>
+        </member>
+        <member name="M:ZeepSDK.ChatCommands.ChatCommandApi.UnregisterMixedChatCommand(ZeepSDK.ChatCommands.IMixedChatCommand)">
+            <summary>
+            Unregisters a mixed chat command
+            </summary>
+            <param name="command">The command to unregister</param>
+        </member>
+        <member name="T:ZeepSDK.ChatCommands.IChatCommand">
+            <summary>
+            The base interface for all chat commands
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.ChatCommands.IChatCommand.Prefix">
+            <summary>
+            The prefix of this chat command
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.ChatCommands.IChatCommand.Command">
+            <summary>
+            The keyword of this chat command
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.ChatCommands.IChatCommand.Description">
+            <summary>
+            The description of this chat command
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.ChatCommands.ILocalChatCommand">
+            <summary>
+            The interface to use for local chat commands
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.ChatCommands.ILocalChatCommand.Handle(System.String)">
+            <summary>
+            This method gets called whenever the chat command gets used
+            </summary>
+            <param name="arguments">Any other text the user might have put after the command</param>
+        </member>
+        <member name="T:ZeepSDK.ChatCommands.IMixedChatCommand">
+            <summary>
+            The interface to use for a mixed chat command
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.ChatCommands.IRemoteChatCommand">
+            <summary>
+            The interface to use for remote chat commands
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.ChatCommands.IRemoteChatCommand.Handle(System.UInt64,System.String)">
+            <summary>
+            This method gets called whenever the chat command gets used by another user
+            </summary>
+            <param name="playerId">The steam id of the user</param>
+            <param name="arguments">Any other text the user might have put after the command</param>
+        </member>
+        <member name="T:ZeepSDK.ChatCommands.MixedChatCommandBase">
+            <summary>
+            A base class that can be used for implementing a mixed chat command
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.ChatCommands.MixedChatCommandBase.Prefix">
+            <inheritdoc />
+        </member>
+        <member name="P:ZeepSDK.ChatCommands.MixedChatCommandBase.Command">
+            <inheritdoc />
+        </member>
+        <member name="P:ZeepSDK.ChatCommands.MixedChatCommandBase.Description">
+            <inheritdoc />
+        </member>
+        <member name="M:ZeepSDK.ChatCommands.MixedChatCommandBase.Handle(System.Boolean,System.UInt64,System.String)">
+            <summary>
+            The method that gets called whenever the chat command gets used
+            </summary>
+            <param name="isLocal">Is this command invoked by a local user or not</param>
+            <param name="playerId">0 if was invoked by the local user, otherwise the steam id of the invoking user</param>
+            <param name="arguments">Any other text the user might have put after the command</param>
+        </member>
+        <member name="T:ZeepSDK.Chat.ChatApi">
+            <summary>
+            An API that allows you to send and receive chat messages
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Chat.ChatApi.ChatMessageReceived">
+            <summary>
+            Event that is fired when a chat message is received
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Chat.ChatApi.AddLocalMessage(System.String)">
+            <summary>
+            Adds a message to the local chat UI
+            </summary>
+            <param name="message">The message you want to add</param>
+        </member>
+        <member name="M:ZeepSDK.Chat.ChatApi.SendMessage(System.String)">
+            <summary>
+            Sends a message to the chat
+            </summary>
+            <param name="message">The message you wish to send</param>
+        </member>
+        <member name="M:ZeepSDK.Chat.ChatApi.ClearChat">
+            <summary>
+            Clears the chat window
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Communication.MessageReceivedDelegate">
+            <summary>
+            The delegate for when a message is received
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Communication.CommunicationApi">
+            <summary>
+            An api that enables communication between mods
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Communication.CommunicationApi.CreateSender(BepInEx.BaseUnityPlugin)">
+            <summary>
+            Creates a new communication sender based on the given plugin
+            </summary>
+            <param name="plugin">The plugin that will be sending messages</param>
+            <returns>A <see cref="T:ZeepSDK.Communication.IComSender"/> for the given plugin</returns>
+        </member>
+        <member name="M:ZeepSDK.Communication.CommunicationApi.CreateReceiver(System.String)">
+            <summary>
+            Creates a new communication receiver based on the given mod identifier
+            </summary>
+            <param name="modIdentifier">The <see cref="P:BepInEx.BepInPlugin.GUID">identifier</see> of the mod</param>
+            <returns>A <see cref="T:ZeepSDK.Communication.IComReceiver"/> for the given identifier</returns>
+        </member>
+        <member name="M:ZeepSDK.Communication.CommunicationApi.RemoveReceiver(ZeepSDK.Communication.IComReceiver)">
+            <summary>
+            Removes the given receiver from the available receivers, preventing it from receiving messages
+            </summary>
+            <param name="receiver">The receiver to remove</param>
+        </member>
+        <member name="T:ZeepSDK.Communication.IComReceiver">
+            <summary>
+            A receiver that can listen for messages from senders
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Communication.IComReceiver.Guid">
+            <summary>
+            The identifier of this receiver
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Communication.IComReceiver.ModIdentifier">
+            <summary>
+            The identifier of the mod that is sending the message
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Communication.IComReceiver.MessageReceived">
+            <summary>
+            The event that is triggered when a message is received
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Communication.IComReceiver.ProcessMessage(System.String)">
+            <summary>
+            The method that will be invoked to process, and in turn dispatch, the message
+            </summary>
+            <param name="message">The message to process</param>
+        </member>
+        <member name="T:ZeepSDK.Communication.IComSender">
+            <summary>
+            A sender that can broadcast messages to all listening receivers
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Communication.IComSender.SendMessage(System.String)">
+            <summary>
+            Broadcasts a message to all listening receivers
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Communication.IComSender.SendAsJson(System.Object)">
+            <summary>
+            Converts the given object to a json string and broadcasts it to all listening receivers
+            </summary>
+            <param name="obj">the data to convert to json</param>
+        </member>
+        <member name="T:ZeepSDK.Cosmetics.CosmeticsApi">
+            <summary>
+            An api that allows you to get cosmetics
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Cosmetics.CosmeticsApi.GetSoapbox(System.Int32,System.Boolean)">
+            <summary>
+            Gets the soapbox with the given id
+            </summary>
+            <param name="id">The id of the soapbox</param>
+            <param name="checkForCheat">Should we check if the soapbox is unlocked?</param>
+            <returns>A soapbox</returns>
+        </member>
+        <member name="M:ZeepSDK.Cosmetics.CosmeticsApi.GetHat(System.Int32,System.Boolean)">
+            <summary>
+            Gets the hat with the given id
+            </summary>
+            <param name="id">The id of the hat</param>
+            <param name="checkForCheat">Should we check if the hat is unlocked?</param>
+            <returns>A hat</returns>
+        </member>
+        <member name="M:ZeepSDK.Cosmetics.CosmeticsApi.GetColor(System.Int32,System.Boolean)">
+            <summary>
+            Gets the color with the given id
+            </summary>
+            <param name="id">The id of the color</param>
+            <param name="checkForCheat">Should we check if the color is unlocked?</param>
+            <returns>A color</returns>
+        </member>
+        <member name="M:ZeepSDK.Cosmetics.CosmeticsApi.GetAllZeepkists">
+            <summary>
+            Gets all the soapboxes
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Cosmetics.CosmeticsApi.GetAllHats">
+            <summary>
+            Gets all the hats
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Cosmetics.CosmeticsApi.GetAllColors">
+            <summary>
+            Gets all the colors
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Cosmetics.CosmeticsApi.GetUnlockedZeepkists">
+            <summary>
+            Gets all the unlocked soapboxes
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Cosmetics.CosmeticsApi.GetUnlockedHats">
+            <summary>
+            Gets all unlocked hats
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Cosmetics.CosmeticsApi.GetUnlockedColors">
+            <summary>
+            Gets all unlocked colors
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Extensions.ListExtensions">
+            <summary>
+            Extensions for lists
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Extensions.ListExtensions.Chunk``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            Chunks a list into chunks of the given size
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Extensions.TransformExtensions">
+            <summary>
+            A class containing extensions for <see cref="T:UnityEngine.Transform"/>
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Extensions.TransformExtensions.GetComponentsInDirectDescendants``1(UnityEngine.Transform)">
+            <summary>
+            Gets all components of type <typeparamref name="TComponent"/> in the direct descendants of the transform.
+            </summary>
+            <param name="transform"></param>
+            <typeparam name="TComponent"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.EnumerableExtensions.Merge(System.Collections.Generic.IEnumerable{ZeepSDK.External.FluentResults.Result})">
+            <summary>
+            Merge multiple result objects to one result together
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.EnumerableExtensions.Merge``1(System.Collections.Generic.IEnumerable{ZeepSDK.External.FluentResults.Result{``0}})">
+            <summary>
+            Merge multiple result objects to one result together
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Setup(System.Action{ZeepSDK.External.FluentResults.ResultSettingsBuilder})">
+            <summary>
+            Setup global settings like logging
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Ok">
+            <summary>
+            Creates a success result
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Fail(ZeepSDK.External.FluentResults.IError)">
+            <summary>
+            Creates a failed result with the given error
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Fail(System.String)">
+            <summary>
+            Creates a failed result with the given error message. Internally an error object from the error factory is created. 
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Fail(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a failed result with the given error messages. Internally a list of error objects from the error factory is created
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Fail(System.Collections.Generic.IEnumerable{ZeepSDK.External.FluentResults.IError})">
+            <summary>
+            Creates a failed result with the given errors.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Ok``1(``0)">
+            <summary>
+            Creates a success result with the given value
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Fail``1(ZeepSDK.External.FluentResults.IError)">
+            <summary>
+            Creates a failed result with the given error
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Fail``1(System.String)">
+            <summary>
+            Creates a failed result with the given error message. Internally an error object from the error factory is created. 
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Fail``1(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a failed result with the given error messages. Internally a list of error objects from the error factory is created. 
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Fail``1(System.Collections.Generic.IEnumerable{ZeepSDK.External.FluentResults.IError})">
+            <summary>
+            Creates a failed result with the given errors.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Merge(ZeepSDK.External.FluentResults.ResultBase[])">
+            <summary>
+            Merge multiple result objects to one result object together
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Merge``1(ZeepSDK.External.FluentResults.Result{``0}[])">
+            <summary>
+            Merge multiple result objects to one result object together. Return one result with a list of merged values.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.OkIf(System.Boolean,ZeepSDK.External.FluentResults.IError)">
+            <summary>
+            Create a success/failed result depending on the parameter isSuccess
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.OkIf(System.Boolean,System.String)">
+            <summary>
+            Create a success/failed result depending on the parameter isSuccess
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.OkIf(System.Boolean,System.Func{ZeepSDK.External.FluentResults.IError})">
+            <summary>
+            Create a success/failed result depending on the parameter isSuccess
+            </summary>
+            <remarks>
+            Error is lazily evaluated.
+            </remarks>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.OkIf(System.Boolean,System.Func{System.String})">
+            <summary>
+            Create a success/failed result depending on the parameter isSuccess
+            </summary>
+            <remarks>
+            Error is lazily evaluated.
+            </remarks>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.FailIf(System.Boolean,ZeepSDK.External.FluentResults.IError)">
+            <summary>
+            Create a success/failed result depending on the parameter isFailure
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.FailIf(System.Boolean,System.String)">
+            <summary>
+            Create a success/failed result depending on the parameter isFailure
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.FailIf(System.Boolean,System.Func{ZeepSDK.External.FluentResults.IError})">
+            <summary>
+            Create a success/failed result depending on the parameter isFailure
+            </summary>
+            <remarks>
+            Error is lazily evaluated.
+            </remarks>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.FailIf(System.Boolean,System.Func{System.String})">
+            <summary>
+            Create a success/failed result depending on the parameter isFailure
+            </summary>
+            <remarks>
+            Error is lazily evaluated.
+            </remarks>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Try(System.Action,System.Func{System.Exception,ZeepSDK.External.FluentResults.IError})">
+            <summary>
+            Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Try(System.Func{System.Threading.Tasks.Task},System.Func{System.Exception,ZeepSDK.External.FluentResults.IError})">
+            <summary>
+            Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Try(System.Func{System.Threading.Tasks.ValueTask},System.Func{System.Exception,ZeepSDK.External.FluentResults.IError})">
+            <summary>
+            Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Try``1(System.Func{``0},System.Func{System.Exception,ZeepSDK.External.FluentResults.IError})">
+            <summary>
+            Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Try``1(System.Func{System.Threading.Tasks.Task{``0}},System.Func{System.Exception,ZeepSDK.External.FluentResults.IError})">
+            <summary>
+            Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Try``1(System.Func{System.Threading.Tasks.ValueTask{``0}},System.Func{System.Exception,ZeepSDK.External.FluentResults.IError})">
+            <summary>
+            Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.MapErrors(System.Func{ZeepSDK.External.FluentResults.IError,ZeepSDK.External.FluentResults.IError})">
+            <summary>
+            Map all errors of the result via errorMapper
+            </summary>
+            <param name="errorMapper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.MapSuccesses(System.Func{ZeepSDK.External.FluentResults.ISuccess,ZeepSDK.External.FluentResults.ISuccess})">
+            <summary>
+            Map all successes of the result via successMapper
+            </summary>
+            <param name="successMapper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Bind``1(System.Func{ZeepSDK.External.FluentResults.Result{``0}})">
+            <summary>
+            Convert result to result with value that may fail.
+            </summary>
+            <example>
+            <code>
+             var bakeryDtoResult = result.Bind(GetWhichMayFail);
+            </code>
+            </example>
+            <param name="bind">Transformation that may fail.</param>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Bind``1(System.Func{System.Threading.Tasks.Task{ZeepSDK.External.FluentResults.Result{``0}}})">
+            <summary>
+            Convert result to result with value that may fail asynchronously.
+            </summary>
+            <example>
+            <code>
+             var bakeryDtoResult = result.Bind(GetWhichMayFail);
+            </code>
+            </example>
+            <param name="bind">Transformation that may fail.</param>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Bind``1(System.Func{System.Threading.Tasks.ValueTask{ZeepSDK.External.FluentResults.Result{``0}}})">
+            <summary>
+            Convert result to result with value that may fail asynchronously.
+            </summary>
+            <example>
+            <code>
+             var bakeryDtoResult = result.Bind(GetWhichMayFail);
+            </code>
+            </example>
+            <param name="bind">Transformation that may fail.</param>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Bind(System.Func{ZeepSDK.External.FluentResults.Result})">
+            <summary>
+            Execute an action which returns a <see cref="T:ZeepSDK.External.FluentResults.Result"/>.
+            </summary>
+            <example>
+            <code>
+             var done = result.Bind(ActionWhichMayFail);
+            </code>
+            </example>
+            <param name="action">Action that may fail.</param>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Bind(System.Func{System.Threading.Tasks.Task{ZeepSDK.External.FluentResults.Result}})">
+            <summary>
+            Execute an action which returns a <see cref="T:ZeepSDK.External.FluentResults.Result"/> asynchronously.
+            </summary>
+            <example>
+            <code>
+             var done = result.Bind(ActionWhichMayFail);
+            </code>
+            </example>
+            <param name="action">Action that may fail.</param>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result.Bind(System.Func{System.Threading.Tasks.ValueTask{ZeepSDK.External.FluentResults.Result}})">
+            <summary>
+            Execute an action which returns a <see cref="T:ZeepSDK.External.FluentResults.Result"/> asynchronously.
+            </summary>
+            <example>
+            <code>
+             var done = result.Bind(ActionWhichMayFail);
+            </code>
+            </example>
+            <param name="action">Action that may fail.</param>
+        </member>
+        <member name="T:ZeepSDK.External.FluentResults.Error">
+            <summary>
+            Objects from Error class cause a failed result
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.Error.Message">
+            <summary>
+            Message of the error
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.Error.Metadata">
+            <summary>
+            Metadata of the error
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.Error.Reasons">
+            <summary>
+            Get the reasons of an error
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Error.#ctor(System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:ZeepSDK.External.FluentResults.Error"/>
+            </summary>
+            <param name="message">Discription of the error</param>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Error.#ctor(System.String,ZeepSDK.External.FluentResults.IError)">
+            <summary>
+            Creates a new instance of <see cref="T:ZeepSDK.External.FluentResults.Error"/>
+            </summary>
+            <param name="message">Discription of the error</param>
+            <param name="causedBy">The root cause of the <see cref="T:ZeepSDK.External.FluentResults.Error"/></param>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Error.CausedBy(ZeepSDK.External.FluentResults.IError)">
+            <summary>
+            Set the root cause of the error
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Error.CausedBy(System.Exception)">
+            <summary>
+            Set the root cause of the error
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Error.CausedBy(System.String,System.Exception)">
+            <summary>
+            Set the root cause of the error
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Error.CausedBy(System.String)">
+            <summary>
+            Set the root cause of the error
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Error.CausedBy(System.Collections.Generic.IEnumerable{ZeepSDK.External.FluentResults.IError})">
+            <summary>
+            Set the root cause of the error
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Error.CausedBy(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Set the root cause of the error
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Error.WithMetadata(System.String,System.Object)">
+            <summary>
+            Set the metadata
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Error.WithMetadata(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Set the metadata
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.External.FluentResults.ExceptionalError">
+            <summary>
+            Error class which stores additionally the exception
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.ExceptionalError.Exception">
+            <summary>
+            Exception of the error
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.IError.Reasons">
+            <summary>
+            Reasons of the error
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.External.FluentResults.Success">
+            <summary>
+            Objects from Success class cause no failed result
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.Success.Message">
+            <summary>
+            Message of the success
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.Success.Metadata">
+            <summary>
+            Metadata of the success
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Success.WithMetadata(System.String,System.Object)">
+            <summary>
+            Set the metadata
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Success.WithMetadata(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Set the metadata
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.IResult`1.Value">
+            <summary>
+            Get the Value. If result is failed then an Exception is thrown because a failed result has no value. Opposite see property ValueOrDefault.
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.IResult`1.ValueOrDefault">
+            <summary>
+            Get the Value. If result is failed then a default value is returned. Opposite see property Value.
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.Result`1.ValueOrDefault">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.Result`1.Value">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result`1.WithValue(`0)">
+            <summary>
+            Set value
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result`1.MapErrors(System.Func{ZeepSDK.External.FluentResults.IError,ZeepSDK.External.FluentResults.IError})">
+            <summary>
+            Map all errors of the result via errorMapper
+            </summary>
+            <param name="errorMapper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result`1.MapSuccesses(System.Func{ZeepSDK.External.FluentResults.ISuccess,ZeepSDK.External.FluentResults.ISuccess})">
+            <summary>
+            Map all successes of the result via successMapper
+            </summary>
+            <param name="successMapper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result`1.ToResult">
+            <summary>
+            Convert result with value to result without value
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result`1.ToResult``1(System.Func{`0,``0})">
+            <summary>
+            Convert result with value to result with another value. Use valueConverter parameter to specify the value transformation logic.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result`1.Map``1(System.Func{`0,``0})">
+            <summary>
+            Convert result with value to result with another value. Use valueConverter parameter to specify the value transformation logic.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result`1.Bind``1(System.Func{`0,ZeepSDK.External.FluentResults.Result{``0}})">
+            <summary>
+            Convert result with value to result with another value that may fail.
+            </summary>
+            <example>
+            <code>
+             var bakeryDtoResult = result
+                .Bind(GetWhichMayFail)
+                .Bind(ProcessWhichMayFail)
+                .Bind(FormattingWhichMayFail);
+            </code>
+            </example>
+            <param name="bind">Transformation that may fail.</param>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result`1.Bind``1(System.Func{`0,System.Threading.Tasks.Task{ZeepSDK.External.FluentResults.Result{``0}}})">
+            <summary>
+            Convert result with value to result with another value that may fail asynchronously.
+            </summary>
+            <example>
+            <code>
+             var bakeryDtoResult = await result.Bind(GetWhichMayFail);
+            </code>
+            </example>
+            <param name="bind">Transformation that may fail.</param>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result`1.Bind``1(System.Func{`0,System.Threading.Tasks.ValueTask{ZeepSDK.External.FluentResults.Result{``0}}})">
+            <summary>
+            Convert result with value to result with another value that may fail asynchronously.
+            </summary>
+            <example>
+            <code>
+             var bakeryDtoResult = await result.Bind(GetWhichMayFail);
+            </code>
+            </example>
+            <param name="bind">Transformation that may fail.</param>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result`1.Bind(System.Func{`0,ZeepSDK.External.FluentResults.Result})">
+            <summary>
+            Execute an action which returns a <see cref="T:ZeepSDK.External.FluentResults.Result"/>.
+            </summary>
+            <example>
+            <code>
+             var done = result.Bind(ActionWhichMayFail);
+            </code>
+            </example>
+            <param name="action">Action that may fail.</param>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result`1.Bind(System.Func{`0,System.Threading.Tasks.Task{ZeepSDK.External.FluentResults.Result}})">
+            <summary>
+            Execute an action which returns a <see cref="T:ZeepSDK.External.FluentResults.Result"/> asynchronously.
+            </summary>
+            <example>
+            <code>
+             var done = await result.Bind(ActionWhichMayFail);
+            </code>
+            </example>
+            <param name="action">Action that may fail.</param>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result`1.Bind(System.Func{`0,System.Threading.Tasks.ValueTask{ZeepSDK.External.FluentResults.Result}})">
+            <summary>
+            Execute an action which returns a <see cref="T:ZeepSDK.External.FluentResults.Result"/> asynchronously.
+            </summary>
+            <example>
+            <code>
+             var done = await result.Bind(ActionWhichMayFail);
+            </code>
+            </example>
+            <param name="action">Action that may fail.</param>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result`1.Deconstruct(System.Boolean@,System.Boolean@,`0@)">
+            <summary>
+            Deconstruct Result
+            </summary>
+            <param name="isSuccess"></param>
+            <param name="isFailed"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.Result`1.Deconstruct(System.Boolean@,System.Boolean@,`0@,System.Collections.Generic.List{ZeepSDK.External.FluentResults.IError}@)">
+            <summary>
+            Deconstruct Result
+            </summary>
+            <param name="isSuccess"></param>
+            <param name="isFailed"></param>
+            <param name="value"></param>
+            <param name="errors"></param>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.IResultBase.IsFailed">
+            <summary>
+            Is true if Reasons contains at least one error
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.IResultBase.IsSuccess">
+            <summary>
+            Is true if Reasons contains no errors
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.IResultBase.Reasons">
+            <summary>
+            Get all reasons (errors and successes)
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.IResultBase.Errors">
+            <summary>
+            Get all errors
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.IResultBase.Successes">
+            <summary>
+            Get all successes
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.ResultBase.IsFailed">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.ResultBase.IsSuccess">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.ResultBase.Reasons">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.ResultBase.Errors">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.ResultBase.Successes">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.HasError``1">
+            <summary>
+            Check if the result object contains an error from a specific type
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.HasError``1(System.Collections.Generic.IEnumerable{``0}@)">
+            <summary>
+            Check if the result object contains an error from a specific type
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.HasError``1(System.Func{``0,System.Boolean})">
+            <summary>
+            Check if the result object contains an error from a specific type and with a specific condition
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.HasError``1(System.Func{``0,System.Boolean},System.Collections.Generic.IEnumerable{``0}@)">
+            <summary>
+            Check if the result object contains an error from a specific type and with a specific condition
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.HasError(System.Func{ZeepSDK.External.FluentResults.IError,System.Boolean})">
+            <summary>
+            Check if the result object contains an error with a specific condition
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.HasError(System.Func{ZeepSDK.External.FluentResults.IError,System.Boolean},System.Collections.Generic.IEnumerable{ZeepSDK.External.FluentResults.IError}@)">
+            <summary>
+            Check if the result object contains an error with a specific condition
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.HasException``1">
+            <summary>
+            Check if the result object contains an exception from a specific type
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.HasException``1(System.Collections.Generic.IEnumerable{ZeepSDK.External.FluentResults.IError}@)">
+            <summary>
+            Check if the result object contains an exception from a specific type
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.HasException``1(System.Func{``0,System.Boolean})">
+            <summary>
+            Check if the result object contains an exception from a specific type and with a specific condition
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.HasException``1(System.Func{``0,System.Boolean},System.Collections.Generic.IEnumerable{ZeepSDK.External.FluentResults.IError}@)">
+            <summary>
+            Check if the result object contains an exception from a specific type and with a specific condition
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.HasSuccess``1">
+            <summary>
+            Check if the result object contains a success from a specific type
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.HasSuccess``1(System.Collections.Generic.IEnumerable{``0}@)">
+            <summary>
+            Check if the result object contains a success from a specific type
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.HasSuccess``1(System.Func{``0,System.Boolean})">
+            <summary>
+            Check if the result object contains a success from a specific type and with a specific condition
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.HasSuccess``1(System.Func{``0,System.Boolean},System.Collections.Generic.IEnumerable{``0}@)">
+            <summary>
+            Check if the result object contains a success from a specific type and with a specific condition
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.HasSuccess(System.Func{ZeepSDK.External.FluentResults.ISuccess,System.Boolean},System.Collections.Generic.IEnumerable{ZeepSDK.External.FluentResults.ISuccess}@)">
+            <summary>
+            Check if the result object contains a success with a specific condition
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.HasSuccess(System.Func{ZeepSDK.External.FluentResults.ISuccess,System.Boolean})">
+            <summary>
+            Check if the result object contains a success with a specific condition
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.Deconstruct(System.Boolean@,System.Boolean@)">
+            <summary>
+            Deconstruct Result 
+            </summary>
+            <param name="isSuccess"></param>
+            <param name="isFailed"></param>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase.Deconstruct(System.Boolean@,System.Boolean@,System.Collections.Generic.List{ZeepSDK.External.FluentResults.IError}@)">
+            <summary>
+            Deconstruct Result
+            </summary>
+            <param name="isSuccess"></param>
+            <param name="isFailed"></param>
+            <param name="errors"></param>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase`1.WithReason(ZeepSDK.External.FluentResults.IReason)">
+            <summary>
+            Add a reason (success or error)
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase`1.WithReasons(System.Collections.Generic.IEnumerable{ZeepSDK.External.FluentResults.IReason})">
+            <summary>
+            Add multiple reasons (success or error)
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase`1.WithError(System.String)">
+            <summary>
+            Add an error
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase`1.WithError(ZeepSDK.External.FluentResults.IError)">
+            <summary>
+            Add an error
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase`1.WithErrors(System.Collections.Generic.IEnumerable{ZeepSDK.External.FluentResults.IError})">
+            <summary>
+            Add multiple errors
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase`1.WithErrors(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Add multiple errors
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase`1.WithError``1">
+            <summary>
+            Add an error
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase`1.WithSuccess(System.String)">
+            <summary>
+            Add a success
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase`1.WithSuccess(ZeepSDK.External.FluentResults.ISuccess)">
+            <summary>
+            Add a success
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.FluentResults.ResultBase`1.WithSuccess``1">
+            <summary>
+            Add a success
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.ResultSettingsBuilder.SuccessFactory">
+            <summary>
+            Factory to create an ISuccess object. Used in all scenarios where a success is created within FluentResults. 
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.ResultSettingsBuilder.ErrorFactory">
+            <summary>
+            Factory to create an IError object. Used in all scenarios where an error is created within FluentResults. 
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.External.FluentResults.ResultSettingsBuilder.ExceptionalErrorFactory">
+            <summary>
+            Factory to create an IExceptionalError object. Used in all scenarios where an exceptional error is created within FluentResults. 
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.Internal.ArrayUtil.Materialize``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Optimizing utility to avoid .ToArray() that creates buffer copy(cut to just size).
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.TaskTracker.ForEachActiveTask(System.Action{System.Int32,System.String,ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskStatus,System.DateTime,System.String})">
+            <summary>(trackingId, awaiterType, awaiterStatus, createdTime, stackTrace)</summary>
+        </member>
+        <member name="F:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskStatus.Pending">
+            <summary>The operation has not yet completed.</summary>
+        </member>
+        <member name="F:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskStatus.Succeeded">
+            <summary>The operation completed successfully.</summary>
+        </member>
+        <member name="F:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskStatus.Faulted">
+            <summary>The operation completed with an error.</summary>
+        </member>
+        <member name="F:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskStatus.Canceled">
+            <summary>The operation completed due to cancellation.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskStatusExtensions.IsCompleted(ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskStatus)">
+            <summary>status != Pending.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskStatusExtensions.IsCompletedSuccessfully(ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskStatus)">
+            <summary>status == Succeeded.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskStatusExtensions.IsCanceled(ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskStatus)">
+            <summary>status == Canceled.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskStatusExtensions.IsFaulted(ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskStatus)">
+            <summary>status == Faulted.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.Linq.UniTaskAsyncEnumerable.ForEachAsync``1(ZeepSDK.External.Cysharp.Threading.Tasks.IUniTaskAsyncEnumerable{``0},System.Func{``0,ZeepSDK.External.Cysharp.Threading.Tasks.UniTask},System.Threading.CancellationToken)">
+            <summary>Obsolete(Error), Use Use ForEachAwaitAsync instead.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.Linq.UniTaskAsyncEnumerable.ForEachAsync``1(ZeepSDK.External.Cysharp.Threading.Tasks.IUniTaskAsyncEnumerable{``0},System.Func{``0,System.Int32,ZeepSDK.External.Cysharp.Threading.Tasks.UniTask},System.Threading.CancellationToken)">
+            <summary>Obsolete(Error), Use Use ForEachAwaitAsync instead.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.Linq.AsyncEnumeratorBase`2.TryMoveNextCore(System.Boolean,System.Boolean@)">
+            <summary>
+            If return value is false, continue source.MoveNext.
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.External.Cysharp.Threading.Tasks.InjectPlayerLoopTimings.All">
+            <summary>
+            Preset: All loops(default).
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.External.Cysharp.Threading.Tasks.InjectPlayerLoopTimings.Standard">
+            <summary>
+            Preset: All without last except LastPostLateUpdate.
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.External.Cysharp.Threading.Tasks.InjectPlayerLoopTimings.Minimum">
+            <summary>
+            Preset: Minimum pattern, Update | FixedUpdate | LastPostLateUpdate
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.PlayerLoopTimer.Restart">
+            <summary>
+            Restart(Reset and Start) timer.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.PlayerLoopTimer.Restart(System.TimeSpan)">
+            <summary>
+            Restart(Reset and Start) and change interval.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.PlayerLoopTimer.Stop">
+            <summary>
+            Stop timer.
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.External.Cysharp.Threading.Tasks.Progress">
+            <summary>
+            Lightweight IProgress[T] factory.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.Triggers.AsyncTriggerExtensions.OnDestroyAsync(UnityEngine.GameObject)">
+            <summary>This function is called when the MonoBehaviour will be destroyed.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.Triggers.AsyncTriggerExtensions.OnDestroyAsync(UnityEngine.Component)">
+            <summary>This function is called when the MonoBehaviour will be destroyed.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskCancellationExtensions.GetCancellationTokenOnDestroy(UnityEngine.GameObject)">
+            <summary>This CancellationToken is canceled when the MonoBehaviour will be destroyed.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskCancellationExtensions.GetCancellationTokenOnDestroy(UnityEngine.Component)">
+            <summary>This CancellationToken is canceled when the MonoBehaviour will be destroyed.</summary>
+        </member>
+        <member name="T:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask">
+            <summary>
+            Lightweight unity specified task-like object.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.SuppressCancellationThrow">
+            <summary>
+            returns (bool IsCanceled) instead of throws OperationCanceledException.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.Preserve">
+            <summary>
+            Memoizing inner IValueTaskSource. The result UniTask can await multiple.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.Awaiter.SourceOnCompleted(System.Action{System.Object},System.Object)">
+            <summary>
+            If register manually continuation, you can use it instead of for compiler OnCompleted methods.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.NextFrame">
+            <summary>
+            Similar as UniTask.Yield but guaranteed run on next frame.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.NextFrame(ZeepSDK.External.Cysharp.Threading.Tasks.PlayerLoopTiming)">
+            <summary>
+            Similar as UniTask.Yield but guaranteed run on next frame.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.NextFrame(System.Threading.CancellationToken)">
+            <summary>
+            Similar as UniTask.Yield but guaranteed run on next frame.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.NextFrame(ZeepSDK.External.Cysharp.Threading.Tasks.PlayerLoopTiming,System.Threading.CancellationToken)">
+            <summary>
+            Similar as UniTask.Yield but guaranteed run on next frame.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.WaitForFixedUpdate">
+            <summary>
+            Same as UniTask.Yield(PlayerLoopTiming.LastFixedUpdate).
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.WaitForFixedUpdate(System.Threading.CancellationToken)">
+            <summary>
+            Same as UniTask.Yield(PlayerLoopTiming.LastFixedUpdate, cancellationToken).
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.Void(System.Func{ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskVoid})">
+            <summary>
+            helper of fire and forget void action.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.Void(System.Func{System.Threading.CancellationToken,ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskVoid},System.Threading.CancellationToken)">
+            <summary>
+            helper of fire and forget void action.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.Void``1(System.Func{``0,ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskVoid},``0)">
+            <summary>
+            helper of fire and forget void action.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.Action(System.Func{ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskVoid})">
+            <summary>
+            helper of create add UniTaskVoid to delegate.
+            For example: FooAction = UniTask.Action(async () => { /* */ })
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.Action(System.Func{System.Threading.CancellationToken,ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskVoid},System.Threading.CancellationToken)">
+            <summary>
+            helper of create add UniTaskVoid to delegate.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.UnityAction(System.Func{ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskVoid})">
+            <summary>
+            Create async void(UniTaskVoid) UnityAction.
+            For exampe: onClick.AddListener(UniTask.UnityAction(async () => { /* */ } ))
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.UnityAction(System.Func{System.Threading.CancellationToken,ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskVoid},System.Threading.CancellationToken)">
+            <summary>
+            Create async void(UniTaskVoid) UnityAction.
+            For exampe: onClick.AddListener(UniTask.UnityAction(FooAsync, this.GetCancellationTokenOnDestroy()))
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.Defer(System.Func{ZeepSDK.External.Cysharp.Threading.Tasks.UniTask})">
+            <summary>
+            Defer the task creation just before call await.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.Defer``1(System.Func{ZeepSDK.External.Cysharp.Threading.Tasks.UniTask{``0}})">
+            <summary>
+            Defer the task creation just before call await.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.Never(System.Threading.CancellationToken)">
+            <summary>
+            Never complete.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.Never``1(System.Threading.CancellationToken)">
+            <summary>
+            Never complete.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.RunOnThreadPool(System.Action,System.Boolean,System.Threading.CancellationToken)">
+            <summary>Run action on the threadPool and return to main thread if configureAwait = true.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.RunOnThreadPool(System.Action{System.Object},System.Object,System.Boolean,System.Threading.CancellationToken)">
+            <summary>Run action on the threadPool and return to main thread if configureAwait = true.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.RunOnThreadPool(System.Func{ZeepSDK.External.Cysharp.Threading.Tasks.UniTask},System.Boolean,System.Threading.CancellationToken)">
+            <summary>Run action on the threadPool and return to main thread if configureAwait = true.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.RunOnThreadPool(System.Func{System.Object,ZeepSDK.External.Cysharp.Threading.Tasks.UniTask},System.Object,System.Boolean,System.Threading.CancellationToken)">
+            <summary>Run action on the threadPool and return to main thread if configureAwait = true.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.RunOnThreadPool``1(System.Func{``0},System.Boolean,System.Threading.CancellationToken)">
+            <summary>Run action on the threadPool and return to main thread if configureAwait = true.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.RunOnThreadPool``1(System.Func{ZeepSDK.External.Cysharp.Threading.Tasks.UniTask{``0}},System.Boolean,System.Threading.CancellationToken)">
+            <summary>Run action on the threadPool and return to main thread if configureAwait = true.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.RunOnThreadPool``1(System.Func{System.Object,``0},System.Object,System.Boolean,System.Threading.CancellationToken)">
+            <summary>Run action on the threadPool and return to main thread if configureAwait = true.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.RunOnThreadPool``1(System.Func{System.Object,ZeepSDK.External.Cysharp.Threading.Tasks.UniTask{``0}},System.Object,System.Boolean,System.Threading.CancellationToken)">
+            <summary>Run action on the threadPool and return to main thread if configureAwait = true.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.SwitchToMainThread(System.Threading.CancellationToken)">
+            <summary>
+            If running on mainthread, do nothing. Otherwise, same as UniTask.Yield(PlayerLoopTiming.Update).
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.SwitchToMainThread(ZeepSDK.External.Cysharp.Threading.Tasks.PlayerLoopTiming,System.Threading.CancellationToken)">
+            <summary>
+            If running on mainthread, do nothing. Otherwise, same as UniTask.Yield(timing).
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.ReturnToMainThread(System.Threading.CancellationToken)">
+            <summary>
+            Return to mainthread(same as await SwitchToMainThread) after using scope is closed.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.ReturnToMainThread(ZeepSDK.External.Cysharp.Threading.Tasks.PlayerLoopTiming,System.Threading.CancellationToken)">
+            <summary>
+            Return to mainthread(same as await SwitchToMainThread) after using scope is closed.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.Post(System.Action,ZeepSDK.External.Cysharp.Threading.Tasks.PlayerLoopTiming)">
+            <summary>
+            Queue the action to PlayerLoop.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.SwitchToTaskPool">
+            <summary>
+            Note: use SwitchToThreadPool is recommended.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.WhenAny(ZeepSDK.External.Cysharp.Threading.Tasks.UniTask[])">
+            <summary>Return value is winArgumentIndex</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask.WhenAny(System.Collections.Generic.IEnumerable{ZeepSDK.External.Cysharp.Threading.Tasks.UniTask})">
+            <summary>Return value is winArgumentIndex</summary>
+        </member>
+        <member name="T:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask`1">
+            <summary>
+            Lightweight unity specified task-like object.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask`1.Preserve">
+            <summary>
+            Memoizing inner IValueTaskSource. The result UniTask can await multiple.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask`1.SuppressCancellationThrow">
+            <summary>
+            returns (bool IsCanceled, T Result) instead of throws OperationCanceledException.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask`1.Awaiter.SourceOnCompleted(System.Action{System.Object},System.Object)">
+            <summary>
+            If register manually continuation, you can use it instead of for compiler OnCompleted methods.
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.External.Cysharp.Threading.Tasks.DelayType.DeltaTime">
+            <summary>use Time.deltaTime.</summary>
+        </member>
+        <member name="F:ZeepSDK.External.Cysharp.Threading.Tasks.DelayType.UnscaledDeltaTime">
+            <summary>Ignore timescale, use Time.unscaledDeltaTime.</summary>
+        </member>
+        <member name="F:ZeepSDK.External.Cysharp.Threading.Tasks.DelayType.Realtime">
+            <summary>use Stopwatch.GetTimestamp().</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskCompletionSourceCore`1.TrySetResult(`0)">
+            <summary>Completes with a successful result.</summary>
+            <param name="result">The result.</param>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskCompletionSourceCore`1.TrySetException(System.Exception)">
+            <summary>Completes with an error.</summary>
+            <param name="error">The exception.</param>
+        </member>
+        <member name="P:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskCompletionSourceCore`1.Version">
+            <summary>Gets the operation version.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskCompletionSourceCore`1.GetStatus(System.Int16)">
+            <summary>Gets the status of the operation.</summary>
+            <param name="token">Opaque value that was provided to the <see cref="T:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask"/>'s constructor.</param>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskCompletionSourceCore`1.UnsafeGetStatus">
+            <summary>Gets the status of the operation without token validation.</summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskCompletionSourceCore`1.GetResult(System.Int16)">
+            <summary>Gets the result of the operation.</summary>
+            <param name="token">Opaque value that was provided to the <see cref="T:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask"/>'s constructor.</param>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskCompletionSourceCore`1.OnCompleted(System.Action{System.Object},System.Object,System.Int16)">
+            <summary>Schedules the continuation action for this operation.</summary>
+            <param name="continuation">The continuation to invoke when the operation has completed.</param>
+            <param name="state">The state object to pass to <paramref name="continuation"/> when it's invoked.</param>
+            <param name="token">Opaque value that was provided to the <see cref="T:ZeepSDK.External.Cysharp.Threading.Tasks.UniTask"/>'s constructor.</param>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskExtensions.AsUniTask``1(System.Threading.Tasks.Task{``0},System.Boolean)">
+            <summary>
+            Convert Task[T] -> UniTask[T].
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskExtensions.AsUniTask(System.Threading.Tasks.Task,System.Boolean)">
+            <summary>
+            Convert Task -> UniTask.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskExtensions.AttachExternalCancellation(ZeepSDK.External.Cysharp.Threading.Tasks.UniTask,System.Threading.CancellationToken)">
+            <summary>
+            Ignore task result when cancel raised first.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskExtensions.AttachExternalCancellation``1(ZeepSDK.External.Cysharp.Threading.Tasks.UniTask{``0},System.Threading.CancellationToken)">
+            <summary>
+            Ignore task result when cancel raised first.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskExtensions.TimeoutWithoutException(ZeepSDK.External.Cysharp.Threading.Tasks.UniTask,System.TimeSpan,ZeepSDK.External.Cysharp.Threading.Tasks.DelayType,ZeepSDK.External.Cysharp.Threading.Tasks.PlayerLoopTiming,System.Threading.CancellationTokenSource)">
+            <summary>
+            Timeout with suppress OperationCanceledException. Returns (bool, IsCacneled).
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskExtensions.TimeoutWithoutException``1(ZeepSDK.External.Cysharp.Threading.Tasks.UniTask{``0},System.TimeSpan,ZeepSDK.External.Cysharp.Threading.Tasks.DelayType,ZeepSDK.External.Cysharp.Threading.Tasks.PlayerLoopTiming,System.Threading.CancellationTokenSource)">
+            <summary>
+            Timeout with suppress OperationCanceledException. Returns (bool IsTimeout, T Result).
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskObservableExtensions.ToObservable(ZeepSDK.External.Cysharp.Threading.Tasks.UniTask)">
+            <summary>
+            Ideally returns IObservabl[Unit] is best but Cysharp.Threading.Tasks does not have Unit so return AsyncUnit instead.
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskScheduler.PropagateOperationCanceledException">
+            <summary>
+            Propagate OperationCanceledException to UnobservedTaskException when true. Default is false.
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskScheduler.UnobservedExceptionWriteLogType">
+            <summary>
+            Write log type when catch unobserved exception and not registered UnobservedTaskException. Default is Exception.
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.External.Cysharp.Threading.Tasks.UniTaskScheduler.DispatchUnityMainThread">
+            <summary>
+            Dispatch exception event to Unity MainThread. Default is true.
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Geometry.BoundsConverter">
+            <summary>
+            Custom Newtonsoft.Json converter <see cref="T:Newtonsoft.Json.JsonConverter"/> for the Unity Bounds type <see cref="T:UnityEngine.Bounds"/>.
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Geometry.BoundsIntConverter">
+            <summary>
+            Custom Newtonsoft.Json converter <see cref="T:Newtonsoft.Json.JsonConverter"/> for the Unity integer Bounds type <see cref="T:UnityEngine.BoundsInt"/>.
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Geometry.RectConverter">
+            <summary>
+            Custom Newtonsoft.Json converter <see cref="T:Newtonsoft.Json.JsonConverter"/> for the Unity Rect type <see cref="T:UnityEngine.Rect"/>.
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Geometry.RectIntConverter">
+            <summary>
+            Custom Newtonsoft.Json converter <see cref="T:Newtonsoft.Json.JsonConverter"/> for the Unity RectInt type <see cref="T:UnityEngine.RectInt"/>.
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Geometry.RectOffsetConverter">
+            <summary>
+            Custom Newtonsoft.Json converter <see cref="T:Newtonsoft.Json.JsonConverter"/> for the Unity RectOffset type <see cref="T:UnityEngine.RectOffset"/>.
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Helpers.JsonHelperExtensions._JsonSerializationExceptionPositionalCtor">
+            <summary>
+            This refers to the ctor that lets you specify the line number and
+            position that was introduced in Json.NET v12.0.1.
+            <see cref="M:Newtonsoft.Json.JsonSerializationException.#ctor(System.String,System.String,System.Int32,System.Int32,System.Exception)"/>
+            <see href="https://github.com/JamesNK/Newtonsoft.Json/blob/12.0.1/Src/Newtonsoft.Json/JsonSerializationException.cs#L110"/>
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Helpers.TypeExtensions.GetFieldInfoOrThrow(System.Type,System.String)">
+            <summary>
+            Gets the non-public instance field info <see cref="T:System.Reflection.FieldInfo"/> for the converted type
+            <typeparamref name="T"/>.
+            If not found then will throw a missing member exception <see cref="T:System.MissingMemberException"/>.
+            </summary>
+            <remarks>
+            If used in static initialization (ex: inside static constructor,
+            static field, or static property backing field initialization)
+            and the field does not exist it would invalidate the type for
+            the entirety of the programs lifetime.
+            </remarks>
+            <param name="name">Name of the non-public instance field.</param>
+        </member>
+        <member name="T:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Math.Color32Converter">
+            <summary>
+            Custom Newtonsoft.Json converter <see cref="T:Newtonsoft.Json.JsonConverter"/> for the Unity byte based Color type <see cref="T:UnityEngine.Color32"/>.
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Math.ColorConverter">
+            <summary>
+            Custom Newtonsoft.Json converter <see cref="T:Newtonsoft.Json.JsonConverter"/> for the Unity Color type <see cref="T:UnityEngine.Color"/>.
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Math.Matrix4x4Converter">
+            <summary>
+            Custom Newtonsoft.Json converter <see cref="T:Newtonsoft.Json.JsonConverter"/> for the Unity Matrix4x4 type <see cref="T:UnityEngine.Matrix4x4"/>.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Math.Matrix4x4Converter.GetMemberNames">
+            <summary>
+            Get the property names include from <c>m00</c> to <c>m33</c>.
+            </summary>
+            <returns>The property names.</returns>
+        </member>
+        <member name="T:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Math.QuaternionConverter">
+            <summary>
+            Custom Newtonsoft.Json converter <see cref="T:Newtonsoft.Json.JsonConverter"/> for the Unity Quaternion type <see cref="T:UnityEngine.Quaternion"/>.
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Math.Vector2Converter">
+            <summary>
+            Custom Newtonsoft.Json converter <see cref="T:Newtonsoft.Json.JsonConverter"/> for the Unity Vector2 type <see cref="T:UnityEngine.Vector2"/>.
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Math.Vector2IntConverter">
+            <summary>
+            Custom Newtonsoft.Json converter <see cref="T:Newtonsoft.Json.JsonConverter"/> for the Unity integer Vector2 type <see cref="T:UnityEngine.Vector2Int"/>.
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Math.Vector3Converter">
+            <summary>
+            Custom Newtonsoft.Json converter <see cref="T:Newtonsoft.Json.JsonConverter"/> for the Unity Vector3 type <see cref="T:UnityEngine.Vector3"/>.
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Math.Vector3IntConverter">
+            <summary>
+            Custom Newtonsoft.Json converter <see cref="T:Newtonsoft.Json.JsonConverter"/> for the Unity integer Vector3 type <see cref="T:UnityEngine.Vector3Int"/>.
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.External.Newtonsoft.Json.UnityConverters.Math.Vector4Converter">
+            <summary>
+            Custom Newtonsoft.Json converter <see cref="T:Newtonsoft.Json.JsonConverter"/> for the Unity Vector4 type <see cref="T:UnityEngine.Vector4"/>.
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.External.Newtonsoft.Json.UnityConverters.PartialConverter`1">
+            <summary>
+            Custom base <c>Newtonsoft.Json.JsonConverter</c> to filter serialized properties.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.External.Newtonsoft.Json.UnityConverters.PartialConverter`1.CanConvert(System.Type)">
+            <summary>
+            Determine if the object type is <typeparamref name="T"/>
+            </summary>
+            <param name="objectType">Type of the object.</param>
+            <returns><c>true</c> if this can convert the specified type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:ZeepSDK.External.Newtonsoft.Json.UnityConverters.PartialConverter`1.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Read the specified properties to the object.
+            </summary>
+            <returns>The object value.</returns>
+            <param name="reader">The <c>Newtonsoft.Json.JsonReader</c> to read from.</param>
+            <param name="objectType">Type of the object.</param>
+            <param name="existingValue">The existing value of object being read.</param>
+            <param name="serializer">The calling serializer.</param>
+        </member>
+        <member name="M:ZeepSDK.External.Newtonsoft.Json.UnityConverters.PartialConverter`1.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Write the specified properties of the object.
+            </summary>
+            <param name="writer">The <c>Newtonsoft.Json.JsonWriter</c> to write to.</param>
+            <param name="value">The value.</param>
+            <param name="serializer">The calling serializer.</param>
+        </member>
+        <member name="T:ZeepSDK.External.Newtonsoft.Json.UnityConverters.ValuesArray`1">
+            <summary>
+            Array of values used to pass around through the converters via the
+            PartialConverter type <see cref="!:PartialConverter&lt;T, TInner&gt;"/>.
+            </summary>
+            <typeparam name="TInner">Type of the values in this array.</typeparam>
+        </member>
+        <member name="P:ZeepSDK.External.Newtonsoft.Json.UnityConverters.ValuesArray`1.Item(System.Int32)">
+            <summary>
+            Gets or sets the value at a given index. If array contains a nullable
+            type, this indexer may return <c>null</c>.
+            </summary>
+            <param name="index">The index of which value get or set.</param>
+            <returns>Value in the given index.</returns>
+        </member>
+        <member name="M:ZeepSDK.External.Newtonsoft.Json.UnityConverters.ValuesArray`1.#ctor(`0[],Unity.Collections.Allocator)">
+            <summary>
+            Creates a new array as a shallow copy from an existing array.
+            </summary>
+            <param name="array">Array to copy values from.</param>
+        </member>
+        <member name="M:ZeepSDK.External.Newtonsoft.Json.UnityConverters.ValuesArray`1.#ctor(System.Int32,Unity.Collections.Allocator,Unity.Collections.NativeArrayOptions)">
+            <summary>
+            Creates a new blank array with all values set to <c>default(<typeparamref name="TInner"/>)</c>
+            </summary>
+            <param name="capacity">Size of the array.</param>
+        </member>
+        <member name="M:ZeepSDK.External.Newtonsoft.Json.UnityConverters.ValuesArray`1.GetAsTypeOrDefault``1(System.Int32)">
+            <summary>
+            Useful for nullable value types (T?). Will try to return the value
+            at specified index casted to the generic type <typeparamref name="T"/>.
+            If it's an invalid cast, or the value is null, then will instead
+            return the default value for the type <c>default(<typeparamref name="T"/>)</c>.
+            </summary>
+            <typeparam name="T">Wanted return type. If value at index cannot be casted to this type then method will return <c>default(<typeparamref name="T"/>)</c></typeparam>
+            <param name="index">Index of where to look in the array.</param>
+            <returns>The value at specified index, or default value for type given by generic type paramter <typeparamref name="T"/>.</returns>
+            <exception cref="T:System.IndexOutOfRangeException">Index is outside the bounds of the inner array.</exception>
+        </member>
+        <member name="M:ZeepSDK.External.Newtonsoft.Json.UnityConverters.ValuesArray`1.GetAsTypeOrDefault``1(System.Int32,``0)">
+            <summary>
+            Useful for nullable value types (T?). Will try to return the value
+            at specified index casted to the generic type <typeparamref name="T"/>.
+            If it's an invalid cast, or the value is null, then will instead
+            return the value given by the fallback parameter <paramref name="fallback"/>.
+            </summary>
+            <typeparam name="T">Wanted return type. If value at index cannot be casted to this type then method will return value of fallback parameter <paramref name="fallback"/>.</typeparam>
+            <param name="index">Index of where to look in the array.</param>
+            <param name="fallback">Fallback value that will be returned if value cannot be casted or is null.</param>
+            <returns>The value at specified index, or value of fallback parameter <paramref name="fallback"/>.</returns>
+            <exception cref="T:System.IndexOutOfRangeException">Index is outside the bounds of the inner array.</exception>
+        </member>
+        <member name="T:ZeepSDK.Leaderboard.ILeaderboardTab">
+            <summary>
+            Either <see cref="T:ZeepSDK.Leaderboard.IMultiplayerLeaderboardTab"/> or <see cref="T:ZeepSDK.Leaderboard.ISingleplayerLeaderboardTab"/> should be implemented
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.ILeaderboardTab.Enable(OnlineTabLeaderboardUI)">
+            <summary>
+            Called when the tab is enabled
+            </summary>
+            <param name="sender"></param>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.ILeaderboardTab.Disable">
+            <summary>
+            Called when the tab is disabled
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.ILeaderboardTab.GoToPreviousPage">
+            <summary>
+            Called when the user wants to go to the previous page
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.ILeaderboardTab.GoToNextPage">
+            <summary>
+            Called when the user wants to go to the next page
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.ILeaderboardTab.Draw">
+            <summary>
+            Called whenever the tab needs to (re)draw
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Leaderboard.IMultiplayerLeaderboardTab">
+            <summary>
+            The interface to implement if you want to create a custom tab for the multiplayer leaderboard
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Leaderboard.ISingleplayerLeaderboardTab">
+            <summary>
+            The interface to implement if you want to create a custom tab for the singleplayer leaderboard
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Leaderboard.LeaderboardApi">
+            <summary>
+            An API that allows you to add custom tabs to the leaderboard
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.LeaderboardApi.AddTab``1">
+            <summary>
+            Allows you to add a tab to the leaderboard
+            </summary>
+            <typeparam name="TTab">The type of the tab to create an instance of and add to the leaderboard</typeparam>
+            <returns>The tab that was added to the leaderboard</returns>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.LeaderboardApi.AddTab(ZeepSDK.Leaderboard.ILeaderboardTab)">
+            <summary>
+            Allows you to add the given tab to the leaderboard
+            </summary>
+            <param name="tab">The tab to add</param>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.LeaderboardApi.InsertTab``1(System.Int32)">
+            <summary>
+            Allows you to insert a tab into the leaderboard at the given index
+            </summary>
+            <param name="index">The position where the tab should be inserted</param>
+            <typeparam name="TTab">The type of the tab to create an instance of and insert to the leaderboard</typeparam>
+            <returns>The tab that was inserted in to the leaderboard</returns>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.LeaderboardApi.InsertTab(System.Int32,ZeepSDK.Leaderboard.ILeaderboardTab)">
+            <summary>
+            Allows you to insert the given tab into the leaderboard at the given index
+            </summary>
+            <param name="index">The position where the tab should be inserted</param>
+            <param name="tab">The tab to insert</param>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.LeaderboardApi.RemoveTab(ZeepSDK.Leaderboard.ILeaderboardTab)">
+            <summary>
+            Allows you to remove a tab from the leaderboard
+            </summary>
+            <param name="tab">The tab to remove</param>
+        </member>
+        <member name="T:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab">
+            <summary>
+            A base implementation that can be used for creating a custom tab for the leaderboard
+            <remarks>This is a replacement for <see cref="T:ZeepSDK.Leaderboard.Pages.BaseLeaderboardTab"/> to keep backward compatibility</remarks>
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab.Logger">
+            <summary>
+            A logger that can be used to log messages
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab.Instance">
+            <summary>
+            The instance of the leaderboard UI
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab.CurrentPage">
+            <summary>
+            The index of the current page
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab.MaxPages">
+            <summary>
+            The maximum amount of pages
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab.IsActive">
+            <summary>
+            A boolean representing if the page is currently active
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab.Enable(OnlineTabLeaderboardUI)">
+            <inheritdoc />
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab.Disable">
+            <inheritdoc />
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab.GoToPreviousPage">
+            <inheritdoc />
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab.GoToNextPage">
+            <inheritdoc />
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab.Draw">
+            <inheritdoc />
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab.UpdatePageNumber">
+            <summary>
+            This can be called to update the page number that is visible in the UI
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab.GetLeaderboardTitle">
+            <summary>
+            This should return the title of the leaderboard that gets displayed in the UI
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab.OnEnable">
+            <summary>
+            Called when the tab gets enabled
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab.OnDisable">
+            <summary>
+            Called when te tab gets disabled
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.Pages.BaseCoreLeaderboardTab.OnDraw">
+            <summary>
+            Called when the tab needs to (re)draw
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Leaderboard.Pages.BaseLeaderboardTab">
+            <summary>
+            [Obsolete] A base implementation that can be used for creating a custom tab for the leaderboard
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Leaderboard.Pages.BaseMultiplayerLeaderboardTab">
+            <summary>
+            A base implementation that can be used for creating a custom multiplayer tab for the leaderboard
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Leaderboard.Pages.BaseSingleplayerLeaderboardTab">
+            <summary>
+            A base implementation that can be used for creating a custom singleplayer tab for the leaderboard 
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.Pages.ChampionshipLeaderboardTab.GetLeaderboardTitle">
+            <inheritdoc />
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.Pages.OfficialGameLeaderboardTab.OnEnable">
+            <inheritdoc />
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.Pages.OfficialGameLeaderboardTab.OnDisable">
+            <inheritdoc />
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.Pages.OfficialGameLeaderboardTab.OnDraw">
+            <inheritdoc />
+        </member>
+        <member name="M:ZeepSDK.Leaderboard.Pages.RoundLeaderboardTab.GetLeaderboardTitle">
+            <inheritdoc />
+        </member>
+        <member name="T:ZeepSDK.LevelEditor.ICustomBlockBuilder">
+            <summary>
+            A builder that is used to define a custom block
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.ICustomBlockBuilder.WithName(System.String)">
+            <summary>
+            Sets the name of the block
+            </summary>
+            <param name="name">The name you wish to use</param>
+            <returns>The builder</returns>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.ICustomBlockBuilder.WithThumbnail(UnityEngine.Sprite)">
+            <summary>
+            Sets the thumbnail of the block
+            </summary>
+            <param name="thumbnail">The thumbnail you wish to use</param>
+            <returns>The builder</returns>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.ICustomBlockBuilder.WithCallback(System.Action)">
+            <summary>
+            Sets the callback that gets invoked whenever the user presses on the block
+            </summary>
+            <param name="callback">The callback you wish to use</param>
+            <returns>The builder</returns>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.ICustomBlockBuilder.WithCallback(System.Action{System.Object},System.Object)">
+            <summary>
+            Sets the callback that gets invoked whenever the user presses on the block, with the ability to pass in user data
+            </summary>
+            <param name="callback">The callback you wish to use</param>
+            <param name="userData">The data you wish to pass along</param>
+            <returns>The builder</returns>
+        </member>
+        <member name="T:ZeepSDK.LevelEditor.ICustomFolderBuilder">
+            <summary>
+            A builder that is used to define a custom folder
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.ICustomFolderBuilder.AddFolder(System.Action{ZeepSDK.LevelEditor.ICustomFolderBuilder})">
+            <summary>
+            Allows you to add a folder to the current folder
+            </summary>
+            <param name="builder"><see cref="T:ZeepSDK.LevelEditor.ICustomFolderBuilder"/></param>
+            <returns>The builder</returns>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.ICustomFolderBuilder.WithThumbnail(UnityEngine.Sprite)">
+            <summary>
+            Sets the thumbnail of the folder
+            </summary>
+            <param name="thumbnail">The thumbnail you wish to use</param>
+            <returns>The builder</returns>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.ICustomFolderBuilder.WithName(System.String)">
+            <summary>
+            Sets the name of the builder
+            </summary>
+            <param name="name">The name you wish to use</param>
+            <returns>The builder</returns>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.ICustomFolderBuilder.AddBlock(System.Action{ZeepSDK.LevelEditor.ICustomBlockBuilder})">
+            <summary>
+            Allows you to add a block to the current folder
+            </summary>
+            <param name="builder"><see cref="T:ZeepSDK.LevelEditor.ICustomBlockBuilder"/></param>
+            <returns>The builder</returns>
+        </member>
+        <member name="T:ZeepSDK.LevelEditor.LevelEditorApi">
+            <summary>
+            An API for interacting with the level editor
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.LevelEditor.LevelEditorApi.EnteredTestMode">
+            <summary>
+            An event that is fired when the user enters test mode
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.LevelEditor.LevelEditorApi.EnteredLevelEditor">
+            <summary>
+            An event that is fired when the user enters the level editor
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.LevelEditor.LevelEditorApi.ExitedLevelEditor">
+            <summary>
+            An event that is fired when the user leaves the level editor
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.LevelEditor.LevelEditorApi.LevelLoaded">
+            <summary>
+            An event that is fired when the user loads an existing level from a file in the level editor 
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.LevelEditor.LevelEditorApi.LevelSaved">
+            <summary>
+            An event that is fired whenever the user saves a level in the level editor
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.LevelEditor.LevelEditorApi.SelectionChanged">
+            <summary>
+            An event that is fired whenever the block selection changes
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.LevelEditor.LevelEditorApi.IsMouseInputBlocked">
+            <summary>
+            Boolean indicating whether the mouse input is currently being blocked
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.LevelEditor.LevelEditorApi.IsKeyboardInputBlocked">
+            <summary>
+            Boolean indicating whether the keyboard input is currently being blocked
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.LevelEditorApi.BlockMouseInput(System.Object)">
+            <summary>
+            Method that can be used to block mouse input. The blocker object that is passed along is used for identification and ensuring that the caller only can hold one block at a time
+            </summary>
+            <param name="blocker">The blocker to use for identification</param>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.LevelEditorApi.UnblockMouseInput(System.Object)">
+            <summary>
+            Method that can be used to unblock mouse input that has been blocked with <see cref="M:ZeepSDK.LevelEditor.LevelEditorApi.BlockMouseInput(System.Object)"/>
+            </summary>
+            <param name="blocker">The blocker to use for identification</param>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.LevelEditorApi.BlockKeyboardInput(System.Object)">
+            <summary>
+            Method that can be used to block keyboard input. The blocker object that is passed along is used for identification and ensuring that the caller only can hold one block at a time
+            </summary>
+            <param name="blocker">The blocker to use for identification</param>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.LevelEditorApi.UnblockKeyboardInput(System.Object)">
+            <summary>
+            Method that can be used to unblock keyboard input that has been blocked with <see cref="M:ZeepSDK.LevelEditor.LevelEditorApi.BlockKeyboardInput(System.Object)"/>
+            </summary>
+            <param name="blocker">The blocker to use for identification</param>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.LevelEditorApi.CreateNewBlock(BlockProperties,System.Nullable{UnityEngine.Vector3},System.Nullable{UnityEngine.Quaternion},System.Nullable{UnityEngine.Vector3})">
+            <summary>
+            Creates a new block in the level editor with the specified properties
+            </summary>
+            <param name="blockProperties">The block to create</param>
+            <param name="position">The position to apply to the newly created block</param>
+            <param name="rotation">The rotation to apply to the newly created block</param>
+            <param name="scale">The scale to apply to the newly created block</param>
+            <returns>The newly created block</returns>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.LevelEditorApi.CreateNewBlock(BlockProperties,System.Nullable{UnityEngine.Vector3},System.Nullable{UnityEngine.Quaternion},System.Nullable{UnityEngine.Vector3},System.Boolean)">
+            <summary>
+            Creates a new block in the level editor with the specified properties
+            </summary>
+            <param name="blockProperties">The block to create</param>
+            <param name="position">The position to apply to the newly created block</param>
+            <param name="rotation">The rotation to apply to the newly created block</param>
+            <param name="scale">The scale to apply to the newly created block</param>
+            <param name="removeFromSelection">Should the block be removed from selection</param>
+            <returns>The newly created block</returns>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.LevelEditorApi.CreateNewBlock(System.Int32,System.Nullable{UnityEngine.Vector3},System.Nullable{UnityEngine.Quaternion},System.Nullable{UnityEngine.Vector3})">
+            <summary>
+            Creates a new block in the level editor with the specified properties
+            </summary>
+            <param name="blockId">The internal block id for the block you want to create</param>
+            <param name="position">The position to apply to the newly created block</param>
+            <param name="rotation">The rotation to apply to the newly created block</param>
+            <param name="scale">The scale to apply to the newly created block</param>
+            <returns>The newly created block</returns>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.LevelEditorApi.CreateNewBlock(System.Int32,System.Nullable{UnityEngine.Vector3},System.Nullable{UnityEngine.Quaternion},System.Nullable{UnityEngine.Vector3},System.Boolean)">
+            <summary>
+            Creates a new block in the level editor with the specified properties
+            </summary>
+            <param name="blockId">The internal block id for the block you want to create</param>
+            <param name="position">The position to apply to the newly created block</param>
+            <param name="rotation">The rotation to apply to the newly created block</param>
+            <param name="scale">The scale to apply to the newly created block</param>
+            <param name="removeFromSelection">Should the block be removed from selection</param>
+            <returns>The newly created block</returns>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.LevelEditorApi.AddToSelection(BlockProperties)">
+            <summary>
+            Adds the specified block to the selection in the level editor
+            </summary>
+            <param name="blockProperties"></param>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.LevelEditorApi.RemoveFromSelection(BlockProperties)">
+            <summary>
+            Removes the specified block from the selection in the level editor
+            </summary>
+            <param name="blockProperties"></param>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.LevelEditorApi.ClearSelection">
+            <summary>
+            Clears the selection in the level editor
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.LevelEditor.LevelEditorApi.AddCustomFolder(System.Action{ZeepSDK.LevelEditor.ICustomFolderBuilder})">
+            <summary>
+            Adds a custom folder to the block gui
+            </summary>
+            <param name="builder">A callback that is used to create/customize the folder</param>
+        </member>
+        <member name="T:ZeepSDK.Level.LevelApi">
+            <summary>
+            An API for interacting with levels
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.LevelApi.CurrentZeepLevel">
+            <summary>
+            The parsed version of the current level
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.LevelApi.CurrentHash">
+            <summary>
+            The hash of the current level
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.LevelApi.CurrentLevel">
+            <summary>
+            Gets the current level that is being played
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Level.LevelApi.GetCurrentLevelHash">
+            <summary>
+            Gets the hash of the current level
+            <remarks>This is a shorthand for <see cref="M:ZeepSDK.Level.LevelApi.GetLevelHash(LevelScriptableObject)"/> combined with <see cref="P:ZeepSDK.Level.LevelApi.CurrentLevel"/></remarks>
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Level.LevelApi.GetLevelHash(LevelScriptableObject)">
+            <summary>
+            Creates a hash that is unique to this level
+            </summary>
+            <param name="levelScriptableObject">The level to hash</param>
+        </member>
+        <member name="M:ZeepSDK.Level.LevelApi.GetLevelHash(LevelScriptableObject,ZeepSDK.Level.ZeepLevel@)">
+            <summary>
+            Creates a hash that is unique to this level
+            </summary>
+            <param name="levelScriptableObject">The level to hash</param>
+            <param name="zeepLevel">Will contain the parsed level</param>
+            <returns>The hash</returns>
+        </member>
+        <member name="T:ZeepSDK.Level.ZeepBlock">
+            <summary>
+            A block in a Zeeplevel
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepBlock.Id">
+            <summary>
+            THe block ID
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepBlock.Position">
+            <summary>
+            The position of the block
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepBlock.Euler">
+            <summary>
+            The rotation of the block in euler angles
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepBlock.Scale">
+            <summary>
+            The scale of the block
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepBlock.Paints">
+            <summary>
+            The paints of the block
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepBlock.Options">
+            <summary>
+            The options of the block
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Level.ZeepLevel">
+            <summary>
+            A representation of a Zeeplevel
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepLevel.SceneName">
+            <summary>
+            The scene name this level was made in
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepLevel.PlayerName">
+            <summary>
+            The player name
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepLevel.UniqueId">
+            <summary>
+            The unique ID of the level
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepLevel.CameraPosition">
+            <summary>
+            The position of the camera
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepLevel.CameraEuler">
+            <summary>
+            The euler angles of the camera
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepLevel.CameraRotation">
+            <summary>
+            The rotation of the camera
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepLevel.IsValidated">
+            <summary>
+            Is the level validated
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepLevel.ValidationTime">
+            <summary>
+            The validation time of the level
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepLevel.GoldTime">
+            <summary>
+            The gold time of the level
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepLevel.SilverTime">
+            <summary>
+            The silver time of the level
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepLevel.BronzeTime">
+            <summary>
+            The bronze time of the level
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepLevel.Skybox">
+            <summary>
+            The skybox ID
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepLevel.Ground">
+            <summary>
+            The ground ID
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Level.ZeepLevel.Blocks">
+            <summary>
+            The blocks in the level
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Messaging.ITaggedMessenger">
+            <summary>
+            A messenger that shows a tag when logging a message
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Messaging.ITaggedMessenger.Tag">
+            <summary>
+            The tag that is shown
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Messaging.ITaggedMessenger.Log(System.String,System.Single)">
+            <summary>
+            <see cref="M:ZeepSDK.Messaging.MessengerApi.Log(System.String,System.Single)"/>
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Messaging.ITaggedMessenger.LogSuccess(System.String,System.Single)">
+            <summary>
+            <see cref="M:ZeepSDK.Messaging.MessengerApi.LogSuccess(System.String,System.Single)"/>
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Messaging.ITaggedMessenger.LogWarning(System.String,System.Single)">
+            <summary>
+            <see cref="M:ZeepSDK.Messaging.MessengerApi.LogWarning(System.String,System.Single)"/>
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Messaging.ITaggedMessenger.LogError(System.String,System.Single)">
+            <summary>
+            <see cref="M:ZeepSDK.Messaging.MessengerApi.LogError(System.String,System.Single)"/>
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Messaging.ITaggedMessenger.LogCustomColors(System.String,UnityEngine.Color,UnityEngine.Color,System.Single)">
+            <summary>
+            <see cref="M:ZeepSDK.Messaging.MessengerApi.LogCustomColors(System.String,UnityEngine.Color,UnityEngine.Color,System.Single)"/>
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Messaging.MessengerApi">
+            <summary>
+            Show the user a message using the game's messenger
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.Messaging.MessengerApi.DEFAULT_DURATION">
+            <summary>
+            The default duration for a log message
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Messaging.MessengerApi.CreateTaggedMessenger(System.String)">
+            <summary>
+            Creates a new tagged messenger
+            </summary>
+            <param name="tag">The tag to use for the messenger</param>
+        </member>
+        <member name="M:ZeepSDK.Messaging.MessengerApi.Log(System.String,System.Single)">
+            <summary>
+            Log an information level message to the user
+            </summary>
+            <param name="message">The message to display</param>
+            <param name="duration">The duration to display the message</param>
+        </member>
+        <member name="M:ZeepSDK.Messaging.MessengerApi.LogSuccess(System.String,System.Single)">
+            <summary>
+            Log a success level message to the user
+            </summary>
+            <param name="message">The message to display</param>
+            <param name="duration">The duration to display the message</param>
+        </member>
+        <member name="M:ZeepSDK.Messaging.MessengerApi.LogWarning(System.String,System.Single)">
+            <summary>
+            Log a warning level message to the user
+            </summary>
+            <param name="message">The message to display</param>
+            <param name="duration">The duration to display the message</param>
+        </member>
+        <member name="M:ZeepSDK.Messaging.MessengerApi.LogError(System.String,System.Single)">
+            <summary>
+            Log an error level message to the user
+            </summary>
+            <param name="message">The message to display</param>
+            <param name="duration">The duration to display the message</param>
+        </member>
+        <member name="M:ZeepSDK.Messaging.MessengerApi.LogCustomColors(System.String,UnityEngine.Color,UnityEngine.Color,System.Single)">
+            <summary>
+            Log a custom colored message to the user
+            </summary>
+            <param name="message">The message to display</param>
+            <param name="textColor">The color to use for the text</param>
+            <param name="backgroundColor">The color to use for the background</param>
+            <param name="duration">The duration to display the message</param>
+        </member>
+        <member name="T:ZeepSDK.Multiplayer.MultiplayerApi">
+            <summary>
+            An API for interacting with the multiplayer side of Zeepkist
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Multiplayer.MultiplayerApi.ConnectedToGame">
+            <summary>
+            An event that gets fired whenever you connect to a game
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Multiplayer.MultiplayerApi.DisconnectedFromGame">
+            <summary>
+            An event that gets fired whenever you disconnect from a game
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Multiplayer.MultiplayerApi.CreatedRoom">
+            <summary>
+            An event that gets fired whenever you have created a room/game
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Multiplayer.MultiplayerApi.JoinedRoom">
+            <summary>
+            An even that gets fired whenever you have joined a room/game
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Multiplayer.MultiplayerApi.PlayerJoined">
+            <summary>
+            An even that gets fired whenever a player joins the room/game
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Multiplayer.MultiplayerApi.PlayerLeft">
+            <summary>
+            An even that gets fired whenever a player leaves the room/game
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Multiplayer.MultiplayerApi.IsPlayingOnline">
+            <summary>
+            Is the player currently in an online game or not
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Multiplayer.MultiplayerApi.AddLevelToPlaylist(ZeepSDK.Multiplayer.PlaylistItem,System.Boolean)">
+            <summary>
+            Adds a level to the playlist. Once you're done adding levels, call <see cref="M:ZeepSDK.Multiplayer.MultiplayerApi.UpdateServerPlaylist"/> to update the server
+            </summary>
+            <param name="playlistItem">The item to add</param>
+            <param name="setAsPlayNext">Should this item be the next one that will be played?</param>
+        </member>
+        <member name="M:ZeepSDK.Multiplayer.MultiplayerApi.UpdateServerPlaylist">
+            <summary>
+            Updates the playlist on the server
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Multiplayer.MultiplayerApi.SetNextLevelIndex(System.Int32)">
+            <summary>
+            Sets the level that should be played next
+            </summary>
+            <param name="index">The (zero-based) index of the level</param>
+        </member>
+        <member name="M:ZeepSDK.Multiplayer.MultiplayerApi.GetCurrentLevel">
+            <summary>
+            Gets the level that is currently being played
+            </summary>
+            <returns>
+            The level or null if the level cannot be found
+            <br/><br/>
+            The level can be null due to not being connected, not playing an online match, or issues with downloading the level from the workshop
+            </returns>
+        </member>
+        <member name="T:ZeepSDK.Multiplayer.PlaylistItem">
+            <summary>
+            An item describing a level in a playlist
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Multiplayer.PlaylistItem.Uid">
+            <summary>
+            The UID of the track
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Multiplayer.PlaylistItem.WorkshopId">
+            <summary>
+            The workshop ID of the track
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Multiplayer.PlaylistItem.Name">
+            <summary>
+            The name of the track
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Multiplayer.PlaylistItem.Author">
+            <summary>
+            The author of the track
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Multiplayer.PlaylistItem.#ctor(System.String,System.UInt64,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ZeepSDK.Multiplayer.PlaylistItem"/> class
+            </summary>
+            <param name="uid">The UID of the track</param>
+            <param name="workshopId">The workshop ID of the track</param>
+            <param name="name">The name of the track</param>
+            <param name="author">The author of the track</param>
+        </member>
+        <member name="T:ZeepSDK.Numerics.Vector2">
+            <summary>
+            A decimal backed vector2
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.Numerics.Vector2.X">
+            <summary>
+            The x component of the vector
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.Numerics.Vector2.Y">
+            <summary>
+            The y component of the vector
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Numerics.Vector2.#ctor(System.Decimal,System.Decimal)">
+            <summary>
+            Creates a new vector2
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Numerics.Vector2.ToString(System.String,System.IFormatProvider)">
+            <summary>
+            Returns a string representation of the vector
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Numerics.Vector2.Equals(ZeepSDK.Numerics.Vector2)">
+            <inheritdoc />
+        </member>
+        <member name="M:ZeepSDK.Numerics.Vector2.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:ZeepSDK.Numerics.Vector2.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="T:ZeepSDK.Numerics.Vector3">
+            <summary>
+            A decimal backed vector3
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.Numerics.Vector3.X">
+            <summary>
+            The x component of the vector
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.Numerics.Vector3.Y">
+            <summary>
+            The y component of the vector
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.Numerics.Vector3.Z">
+            <summary>
+            The z component of the vector
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Numerics.Vector3.#ctor(System.Decimal,System.Decimal,System.Decimal)">
+            <summary>
+            Creates a new vector3
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Numerics.Vector3.ToString(System.String,System.IFormatProvider)">
+            <summary>
+            Returns a string representation of the vector
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Numerics.Vector3.Equals(ZeepSDK.Numerics.Vector3)">
+            <inheritdoc />
+        </member>
+        <member name="M:ZeepSDK.Numerics.Vector3.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:ZeepSDK.Numerics.Vector3.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="T:ZeepSDK.PhotoMode.PhotoModeApi">
+            <summary>
+            An API for interacting with Photo Mode
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.PhotoMode.PhotoModeApi.PhotoModeEntered">
+            <summary>
+            An event that fires whenever you enter Photo Mode
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.PhotoMode.PhotoModeApi.PhotoModeExited">
+            <summary>
+            An event that fires whenever you exit Photo Mode
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Playlist.IPlaylistEditor">
+            <summary>
+            An editor for a playlist
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Playlist.IPlaylistEditor.Name">
+            <summary>
+            The name of the playlist
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Playlist.IPlaylistEditor.Levels">
+            <summary>
+            The levels in the playlist
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Playlist.IPlaylistEditor.Shuffle">
+            <summary>
+            Should the playlist be shuffled?
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Playlist.IPlaylistEditor.RoundLength">
+            <summary>
+            The length of each round
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Playlist.IPlaylistEditor.AddLevel(System.String,System.String,System.String,System.UInt64,System.Boolean)">
+            <summary>
+            Adds a level to the playlist
+            </summary>
+            <param name="uid">The UID of the level</param>
+            <param name="author">The author of the level</param>
+            <param name="name">The name of the level</param>
+            <param name="workshopId">The workshop id of the level</param>
+            <param name="allowDuplicate">Can the level be added as a duplicate</param>
+        </member>
+        <member name="M:ZeepSDK.Playlist.IPlaylistEditor.AddLevel(LevelScriptableObject,System.Boolean)">
+            <summary>
+            Adds a level to the playlist
+            </summary>
+            <param name="level">A LevelScriptableObject that represents a level</param>
+            <param name="allowDuplicate">Can the level be added as a duplicate</param>
+        </member>
+        <member name="M:ZeepSDK.Playlist.IPlaylistEditor.AddLevel(ZeepkistNetworking.OnlineZeeplevel,System.Boolean)">
+            <summary>
+            Adds a level to the playlist
+            </summary>
+            <param name="level">An OnlineZeepLevel instance</param>
+            <param name="allowDuplicate">Can the level be added as a duplicate</param>
+        </member>
+        <member name="M:ZeepSDK.Playlist.IPlaylistEditor.Save">
+            <summary>
+            Saves the playlist to disk
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Playlist.PlaylistApi">
+            <summary>
+            An API for interacting with playlists
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Playlist.PlaylistApi.GetPlaylists">
+            <summary>
+            Gets a list of all playlists that have been saved to disk
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Playlist.PlaylistApi.Exists(System.String)">
+            <summary>
+            Does a playlist exist or not
+            </summary>
+            <param name="name">The name of the playlist</param>
+        </member>
+        <member name="M:ZeepSDK.Playlist.PlaylistApi.GetPlaylist(System.String)">
+            <summary>
+            Tries to get a playlist by name
+            </summary>
+            <param name="name">The name of the playlist</param>
+            <returns>A PlaylistSaveJSON or null if the playlist does not exist</returns>
+        </member>
+        <member name="M:ZeepSDK.Playlist.PlaylistApi.CreatePlaylist(System.String)">
+            <summary>
+            Creates a new playlist and saves it to disk immediately
+            </summary>
+            <param name="name">The name of the playlist</param>
+            <returns>A new playlist or an existing playlist if one is found on disk</returns>
+        </member>
+        <member name="M:ZeepSDK.Playlist.PlaylistApi.CreateEditor(PlaylistSaveJSON)">
+            <summary>
+            Returns a new editor for a playlist
+            </summary>
+            <param name="playlist">An existing playlist</param>
+            <returns><see cref="T:ZeepSDK.Playlist.IPlaylistEditor"/></returns>
+        </member>
+        <member name="T:ZeepSDK.Racing.CrashReason">
+            <summary>
+            The reason why a player crashed
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.Racing.CrashReason.Unknown">
+            <summary>
+            This is used when the reason cannot be mapped to the in-game reason
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.Racing.CrashReason.Crashed">
+            <summary>
+            A generic crash
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.Racing.CrashReason.Eye">
+            <summary>
+            When you drive into an eye
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.Racing.CrashReason.Ghost">
+            <summary>
+            When you get hit by a ghost
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.Racing.CrashReason.Sticky">
+            <summary>
+            When you get stuck in a spider web
+            </summary>
+        </member>
+        <member name="F:ZeepSDK.Racing.CrashReason.FoundFootage">
+            <summary>
+            ???
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Racing.RacingApi">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Racing.RacingApi.CrossedFinishLine">
+            <summary>
+            An event that is fired when the player crosses the finish line. The parameter is the time the player crossed the finish line
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Racing.RacingApi.PassedCheckpoint">
+            <summary>
+            An event that is fired whenever the player passes any checkpoint. The parameter is the time the player passed the checkpoint
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Racing.RacingApi.Crashed">
+            <summary>
+            An event that is fired whenever the player crashes. The parameter is the reason that the player crashed
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Racing.RacingApi.EnteredFirstPerson">
+            <summary>
+            An event that is fired whenever the player enters first person mode
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Racing.RacingApi.EnteredThirdPerson">
+            <summary>
+            An event that is fired whenever the player enters third person mode
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Racing.RacingApi.PlayerSpawned">
+            <summary>
+            An event that is fired whenever the player spawns
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Racing.RacingApi.RoundStarted">
+            <summary>
+            An event that is fired whenever the round starts
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Racing.RacingApi.RoundEnded">
+            <summary>
+            An event that is fired whenever the round ends
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Racing.RacingApi.WheelBroken">
+            <summary>
+            An even that is fired whenever a wheel breaks
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Racing.RacingApi.LevelLoaded">
+            <summary>
+            An event that is fired when the level you are about to play has been loaded
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Racing.RacingApi.QuickReset">
+            <summary>
+            An event that is fired when the player presses the quick reset button
+            </summary>
+        </member>
+        <member name="E:ZeepSDK.Racing.RacingApi.Quit">
+            <summary>
+            An event that is fired when the player quits the game through the pause menu
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Racing.RacingApi.LoadTrackInFreePlayAsync(System.String)">
+            <summary>
+            Attempts to load a track in free play mode
+            </summary>
+            <param name="uid">The UID of the track</param>
+            <returns>Ok if all went well, Fail if level was not found</returns>
+        </member>
+        <member name="T:ZeepSDK.Scripting.ScriptingApi">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Scripting.ScriptingApi.CallFunction(System.String,System.Object[])">
+            <summary>
+            Calls a Lua function by name with the specified arguments on all loaded scripts
+            </summary>
+            <param name="name">The name of the function to call</param>
+            <param name="args">The arguments to pass to the lua function</param>
+        </member>
+        <member name="M:ZeepSDK.Scripting.ScriptingApi.LoadLuaByPath(System.String)">
+            <summary>
+            Loads a lua script by absolute path
+            </summary>
+            <param name="filePath">The path to the lua script</param>
+            <returns>Zua instance if successful, null if either already loaded, or an error occured</returns>
+        </member>
+        <member name="M:ZeepSDK.Scripting.ScriptingApi.LoadLuaByName(System.String)">
+            <summary>
+            Loads a lua script by name, searching for a matching file in the plugins folder
+            </summary>
+            <param name="name">The name of the file to search for, excluding the extension</param>
+            <returns>Zua instance if successful, null if either already loaded, or an error occured</returns>
+        </member>
+        <member name="M:ZeepSDK.Scripting.ScriptingApi.UnloadLuaByPath(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZeepSDK.Scripting.ScriptingApi.UnloadLuaByName(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="T:ZeepSDK.Scripting.ZUA.ILuaEvent">
+            <summary>
+            Represents a Lua event that can be subscribed to or unsubscribed from.
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Scripting.ZUA.ILuaEvent.Name">
+            <summary>
+            Gets the name of the Lua event.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Scripting.ZUA.ILuaEvent.Subscribe">
+            <summary>
+            Subscribes to the Lua event.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Scripting.ZUA.ILuaEvent.Unsubscribe">
+            <summary>
+            Unsubscribes from the Lua event.
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Scripting.ZUA.ILuaFunction">
+            <summary>
+            Represents a Lua function definition that includes a namespace, name, and a delegate to invoke the function.
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Scripting.ZUA.ILuaFunction.Namespace">
+            <summary>
+            Gets the namespace associated with the Lua function.
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Scripting.ZUA.ILuaFunction.Name">
+            <summary>
+            Gets the name of the Lua function.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Scripting.ZUA.ILuaFunction.CreateFunction">
+            <summary>
+            Creates a delegate representing the Lua function's implementation.
+            </summary>
+            <returns>A delegate to invoke the Lua function.</returns>
+        </member>
+        <member name="T:ZeepSDK.Scripting.ZUA.Zua">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Scripting.ZUA.Zua.Unload">
+            <summary>
+            Unloads the current Lua script, unsubscribes from events, and resets the loaded state.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Scripting.ZUA.Zua.ListenTo(System.String)">
+            <summary>
+            Listens to an event by name, subscribing to it if found.
+            </summary>
+            <param name="eventName">The name of the event to listen to.</param>
+        </member>
+        <member name="M:ZeepSDK.Scripting.ZUA.Zua.CallFunction(System.String,System.Object[])">
+            <summary>
+            Calls a Lua function by name with the specified arguments.
+            </summary>
+            <param name="name">The name of the Lua function to call.</param>
+            <param name="args">The arguments to pass to the Lua function.</param>
+        </member>
+        <member name="M:ZeepSDK.Scripting.ZUA.Zua.RegisterFunction``1">
+            <summary>
+            Registers a Lua function of the specified type.
+            </summary>
+            <typeparam name="TFunction">The type of the Lua function to register.</typeparam>
+        </member>
+        <member name="M:ZeepSDK.Scripting.ZUA.Zua.RegisterType``1">
+            <summary>
+            Registers a C# type for use in Lua scripts.
+            </summary>
+            <typeparam name="T">The type to register.</typeparam>
+        </member>
+        <member name="M:ZeepSDK.Scripting.ZUA.Zua.RegisterEvent``1">
+            <summary>
+            Registers a Lua event of the specified type.
+            </summary>
+            <typeparam name="TEvent">The type of the Lua event to register.</typeparam>
+        </member>
+        <member name="T:ZeepSDK.Storage.IModStorage">
+            <summary>
+            A storage object that allows you to save and load data to a directory for your mod
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Storage.IModStorage.AddConverter(Newtonsoft.Json.JsonConverter)">
+            <summary>
+            Allows you to add a custom json converter
+            </summary>
+            <param name="converter">The converter to add</param>
+        </member>
+        <member name="M:ZeepSDK.Storage.IModStorage.RemoveConverter(Newtonsoft.Json.JsonConverter)">
+            <summary>
+            Allows you to remove a custom json converter
+            </summary>
+            <param name="converter">The converter to remove</param>
+        </member>
+        <member name="M:ZeepSDK.Storage.IModStorage.JsonFileExists(System.String)">
+            <summary>
+            Does a json file exist or not
+            </summary>
+            <param name="name">The name of the file without extension</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZeepSDK.Storage.IModStorage.SaveToJson(System.String,System.Object)">
+            <summary>
+            Saves data to a json file
+            </summary>
+            <param name="name">The name of the file without extension</param>
+            <param name="data">The data to save</param>
+        </member>
+        <member name="M:ZeepSDK.Storage.IModStorage.LoadFromJson(System.String)">
+            <summary>
+            Loads data from a json file
+            </summary>
+            <param name="name">The name of the file without extension</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZeepSDK.Storage.IModStorage.LoadFromJson(System.String,System.Type)">
+            <summary>
+            Loads data from a json file with a specific type
+            </summary>
+            <param name="name">The name of the file without extension</param>
+            <param name="type">The type the data should be</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZeepSDK.Storage.IModStorage.LoadFromJson``1(System.String)">
+            <summary>
+            Loads data from a json file with a specific type
+            </summary>
+            <param name="name">The name of the file without extension</param>
+            <typeparam name="TData">The type the data should be</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:ZeepSDK.Storage.IModStorage.DeleteFile(System.String)">
+            <summary>
+            Deletes a file
+            </summary>
+            <param name="name">The name of the file to delete without extension</param>
+        </member>
+        <member name="M:ZeepSDK.Storage.IModStorage.DeleteJsonFile(System.String)">
+            <summary>
+            Deletes a json file
+            </summary>
+            <param name="name">The name of the file to delete without extension</param>
+        </member>
+        <member name="M:ZeepSDK.Storage.IModStorage.BlobFileExists(System.String)">
+            <summary>
+            Does a binary file exist or not
+            </summary>
+            <param name="name">The name of the file without extension</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZeepSDK.Storage.IModStorage.WriteBlob(System.String,System.Byte[])">
+            <summary>
+            Saves data to a binary file
+            </summary>
+            <param name="name">The name of the file without extension</param>
+            <param name="data">The data to save</param>
+        </member>
+        <member name="M:ZeepSDK.Storage.IModStorage.ReadBlob(System.String)">
+            <summary>
+            Loads data from a binary file
+            </summary>
+            <param name="name">The name of the file without extension</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZeepSDK.Storage.IModStorage.DeleteBlob(System.String)">
+            <summary>
+            Deletes a binary file
+            </summary>
+            <param name="name">The name of the file without extension</param>
+        </member>
+        <member name="T:ZeepSDK.Storage.StorageApi">
+            <summary>
+            An API for creating storage objects for your mod
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Storage.StorageApi.CreateModStorage(BepInEx.BaseUnityPlugin)">
+            <summary>
+            Creates a new instance of <see cref="T:ZeepSDK.Storage.IModStorage"/> for the given plugin
+            </summary>
+            <param name="plugin">The instance to create the storage for</param>
+            <returns>A new instance</returns>
+        </member>
+        <member name="T:ZeepSDK.UI.UIApi">
+            <summary>
+            An API related to the UI of the game
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.UI.UIApi.AddToConfigurator(UnityEngine.RectTransform)">
+            <summary>
+            Allows a rect transform to be configured with the UI Configurator
+            </summary>
+            <param name="rectTransform"></param>
+        </member>
+        <member name="M:ZeepSDK.UI.UIApi.AddToConfigurator(System.Collections.Generic.IEnumerable{UnityEngine.RectTransform})">
+            <summary>
+            Allows a collection of rect transforms to be configured with the UI Configurator
+            </summary>
+            <param name="rectTransforms"></param>
+        </member>
+        <member name="M:ZeepSDK.UI.UIApi.RemoveFromConfigurator(UnityEngine.RectTransform)">
+            <summary>
+            Removes a rect transform from the UI Configurator
+            </summary>
+            <param name="rectTransform"></param>
+        </member>
+        <member name="M:ZeepSDK.UI.UIApi.AddTooltip(UnityEngine.GameObject,System.String)">
+            <summary>
+            Adds a tooltip to the game object with the specified text
+            The tooltip will show up when the mouse is over the game object
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.UI.UIConfigurator.ConvertMousePositionToPanelPosition(UnityEngine.Vector2,UnityEngine.Vector2,UnityEngine.Vector2)">
+            <summary>
+            Converts a mouse position relative to the screen (0,0 to 1,1) to a position relative to a given panel.
+            </summary>
+            <param name="mousePosition">Mouse position in screen coordinates (0,0 to 1,1).</param>
+            <param name="panelStartAnchor">Panel start anchor in screen coordinates (0,0 to 1,1).</param>
+            <param name="panelEndAnchor">Panel end anchor in screen coordinates (0,0 to 1,1).</param>
+            <returns>Position relative to the panel.</returns>
+        </member>
+        <member name="T:ZeepSDK.Utilities.ColorDefinition">
+            <summary>
+            A definition of a color with a name and a value
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Utilities.ColorDefinition.#ctor(System.String,UnityEngine.Color)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <param name="color"></param>
+        </member>
+        <member name="P:ZeepSDK.Utilities.ColorDefinition.Name">
+            <summary>
+            The display name of the color
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Utilities.ColorDefinition.Color">
+            <summary>
+            The value representing the color
+            </summary>
+        </member>
+        <member name="T:ZeepSDK.Utilities.ColorUtility">
+            <summary>
+            A class containing utilities that are related to <see cref="T:UnityEngine.Color"/>
+            </summary>
+        </member>
+        <member name="P:ZeepSDK.Utilities.ColorUtility.ColorDefinitions">
+            <summary>
+            All supported color definitions
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Utilities.ColorUtility.FromName(System.String)">
+            <summary>
+            Tries to get a color from a name
+            </summary>
+            <param name="name">The name of the color</param>
+            <returns>Either the color found by the name, or white</returns>
+        </member>
+        <member name="T:ZeepSDK.Utilities.ComponentCache">
+            <summary>
+            A cache for components that live somewhere in the project.
+            It uses Object.FindObjectOfType to find the component so this is not particularly efficient.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Utilities.ComponentCache.Get``1(System.Boolean)">
+            <summary>
+            Returns the component of type T. If it already exists in the cache and is not null it will return that.
+            If it does not exist it will try to find it using Object.FindObjectOfType.
+            If it finds it, it will cache it and return it.
+            If it does not find it, it will return null.
+            </summary>
+            <param name="includeInactive">Should inactive objects be included</param>
+            <typeparam name="T">The type of the component</typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:ZeepSDK.Utilities.ListUtility">
+            <summary>
+            A class containing utility methods for lists
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Utilities.ListUtility.FindFirst``1(System.Collections.Generic.IList{``0},System.Int32,System.Func{``0,System.Boolean})">
+            <summary>
+            Finds the first item in the list that satisfies the predicate, starting from the specified index
+            </summary>
+            <param name="list">The list to iterate</param>
+            <param name="start">The index to start from</param>
+            <param name="predicate">The predicate to validate the item</param>
+            <typeparam name="T">The type of items that the list contains</typeparam>
+            <returns>Either the first item that satisfies the condition or default</returns>
+        </member>
+        <member name="M:ZeepSDK.Utilities.ListUtility.FindFirstReverse``1(System.Collections.Generic.IList{``0},System.Int32,System.Func{``0,System.Boolean})">
+            <summary>
+            Finds the first item in the list that satisfies the predicate, starting from the specified index in reverse
+            </summary>
+            <param name="list">The list to iterate</param>
+            <param name="start">The index to start from</param>
+            <param name="predicate">The predicate to validate the item</param>
+            <typeparam name="T">The type of items that the list contains</typeparam>
+            <returns>Either the first item that satisfies the condition or default</returns>
+        </member>
+        <member name="T:ZeepSDK.Utilities.LoggerFactory">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Utilities.LoggerFactory.GetLogger``1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:ZeepSDK.Utilities.LoggerFactory.GetLogger(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZeepSDK.Utilities.LoggerFactory.GetLogger(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ZeepSDK.Utilities.SpriteUtility">
+            <summary>
+            A class containing utilities that are related to <see cref="T:UnityEngine.Sprite"/>
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Utilities.SpriteUtility.FromBase64(System.String)">
+            <summary>
+            Creates a <see cref="T:UnityEngine.Sprite"/> from a base64 string
+            </summary>
+            <returns>Either the converted sprite or a red sprite if the conversion failed</returns>
+        </member>
+        <member name="T:ZeepSDK.Utilities.UnityFolders.PluginsFolder">
+            <summary>
+            An interface for accessing the game's Plugins folder (not the BepInEx one).
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Utilities.UnityFolders.PluginsFolder.CreateFile(System.String,System.Byte[])">
+            <summary>
+            Creates a file with the given contents
+            </summary>
+            <param name="filename">The filename including extension</param>
+            <param name="contents">The contents to write</param>
+        </member>
+        <member name="M:ZeepSDK.Utilities.UnityFolders.PluginsFolder.CreateFile(System.String,System.String)">
+            <summary>
+            Creates a file with the given contents
+            </summary>
+            <param name="filename">The filename including extension</param>
+            <param name="contents">The contents to write</param>
+        </member>
+        <member name="M:ZeepSDK.Utilities.UnityFolders.PluginsFolder.DeleteFile(System.String)">
+            <summary>
+            Deletes a file
+            </summary>
+            <param name="filename">The filename, including extension, to delete</param>
+        </member>
+        <member name="M:ZeepSDK.Utilities.UnityFolders.PluginsFolder.CopyFile(System.String,System.String,System.Boolean)">
+            <summary>
+            Copies a file to the destination
+            </summary>
+            <param name="sourcePath">The full path of the source file</param>
+            <param name="destinationFilename">The destination filename including extension</param>
+            <param name="overwrite">If a file with the name already exists, should it be overwritten</param>
+        </member>
+        <member name="M:ZeepSDK.Utilities.UnityFolders.PluginsFolder.MoveFile(System.String,System.String,System.Boolean)">
+            <summary>
+            Moves a file to the destination
+            </summary>
+            <param name="sourcePath">The full path of the source file</param>
+            <param name="destinationFilename">The destination filename including extension</param>
+            <param name="overwrite">If a file with the name already exists, should it be overwritten</param>
+        </member>
+        <member name="M:ZeepSDK.Utilities.UnityFolders.PluginsFolder.Exists(System.String)">
+            <summary>
+            Checks if the given file exists
+            </summary>
+            <param name="filename">The name of the file, including extension</param>
+            <returns>True if it exists, false if it doesn't</returns>
+        </member>
+        <member name="T:ZeepSDK.Utilities.UnityFolders.StreamingAssetsFolder">
+            <summary>
+            An interface for accessing the game's StreamingAssets folder.
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Utilities.UnityFolders.StreamingAssetsFolder.CreateFile(System.String,System.Byte[])">
+            <summary>
+            Creates a file with the given contents
+            </summary>
+            <param name="filename">The filename including extension</param>
+            <param name="contents">The contents to write</param>
+        </member>
+        <member name="M:ZeepSDK.Utilities.UnityFolders.StreamingAssetsFolder.CreateFile(System.String,System.String)">
+            <summary>
+            Creates a file with the given contents
+            </summary>
+            <param name="filename">The filename including extension</param>
+            <param name="contents">The contents to write</param>
+        </member>
+        <member name="M:ZeepSDK.Utilities.UnityFolders.StreamingAssetsFolder.DeleteFile(System.String)">
+            <summary>
+            Deletes a file
+            </summary>
+            <param name="filename">The filename, including extension, to delete</param>
+        </member>
+        <member name="M:ZeepSDK.Utilities.UnityFolders.StreamingAssetsFolder.CopyFile(System.String,System.String,System.Boolean)">
+            <summary>
+            Copies a file to the destination
+            </summary>
+            <param name="sourcePath">The full path of the source file</param>
+            <param name="destinationFilename">The destination filename including extension</param>
+            <param name="overwrite">If a file with the name already exists, should it be overwritten</param>
+        </member>
+        <member name="M:ZeepSDK.Utilities.UnityFolders.StreamingAssetsFolder.MoveFile(System.String,System.String,System.Boolean)">
+            <summary>
+            Moves a file to the destination
+            </summary>
+            <param name="sourcePath">The full path of the source file</param>
+            <param name="destinationFilename">The destination filename including extension</param>
+            <param name="overwrite">If a file with the name already exists, should it be overwritten</param>
+        </member>
+        <member name="M:ZeepSDK.Utilities.UnityFolders.StreamingAssetsFolder.Exists(System.String)">
+            <summary>
+            Checks if the given file exists
+            </summary>
+            <param name="filename">The name of the file, including extension</param>
+            <returns>True if it exists, false if it doesn't</returns>
+        </member>
+        <member name="T:ZeepSDK.Workshop.WorkshopApi">
+            <summary>
+            An API for interacting with the workshop
+            </summary>
+        </member>
+        <member name="M:ZeepSDK.Workshop.WorkshopApi.SubscribeAsync(System.UInt64)">
+            <summary>
+            Attempts to subscribe to a workshop item
+            </summary>
+            <param name="workshopId">The id of the workshop item to subscribe to</param>
+            <returns>Ok if successfully subscribed, Fail for multiple failure reasons</returns>
+        </member>
+        <member name="M:ZeepSDK.Workshop.WorkshopApi.UnsubscribeAsync(System.UInt64)">
+            <summary>
+            Attempts to unsubscribe from a workshop item
+            </summary>
+            <param name="workshopId">The id of the workshop item to unsubscribe from</param>
+            <returns>Ok if successfully unsubscribed, Fail for multiple failure reasons</returns>
+        </member>
+        <member name="M:Extensions.CreateEditor(PlaylistSaveJSON)">
+            <inheritdoc cref="M:ZeepSDK.Playlist.PlaylistApi.CreateEditor(PlaylistSaveJSON)"/>
+        </member>
+    </members>
+</doc>
