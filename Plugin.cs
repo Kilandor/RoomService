@@ -10,6 +10,7 @@ using ZeepSDK.Scripting.ZUA;
 namespace RoomService
 {
     [BepInPlugin(pluginGUID, pluginName, pluginVersion)]
+    [BepInDependency("ZeepSDK", BepInDependency.DependencyFlags.HardDependency)]
     public class Plugin : BaseUnityPlugin
     {
         public const string pluginGUID = "com.metalted.zeepkist.roomservice";
@@ -31,8 +32,6 @@ namespace RoomService
 
             ScriptingApi.RegisterType<ZeepkistClient.ZeepkistNetworkPlayer>();
             ScriptingApi.RegisterType<LevelScriptableObject>();
-
-            ScriptingApi.RegisterEvent<OnPlayerJoinedEvent>();
             ScriptingApi.RegisterEvent<OnPlayerJoinedEvent>();
             ScriptingApi.RegisterEvent<OnPlayerLeftEvent>();
             ScriptingApi.RegisterEvent<OnLevelLoadedEvent>();
@@ -76,10 +75,11 @@ namespace RoomService
 
         public void Update()
         {
+            /*
             if(Input.GetKeyDown(KeyCode.P))
             {
                 LoadScript("test");
-            }
+            }*/
         }
 
         public void LoadScript(string name)

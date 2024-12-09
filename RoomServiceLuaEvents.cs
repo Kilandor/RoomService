@@ -2,6 +2,7 @@
 using ZeepSDK.Scripting.ZUA;
 using ZeepSDK.Multiplayer;
 using ZeepSDK.Racing;
+using ZeepSDK.Scripting;
 
 namespace RoomService
 {
@@ -15,7 +16,7 @@ namespace RoomService
         {
             _lobbyTimerAction = time =>
             {
-                Plugin.Instance.script.CallFunction(Name, time);
+                ScriptingApi.CallFunction(Name, time);
             };
 
             Plugin.Instance.LobbyTimerAction += _lobbyTimerAction;
@@ -41,7 +42,7 @@ namespace RoomService
         {
             _playerJoinedDelegate = player =>
             {
-                Plugin.Instance.script.CallFunction(Name, player);
+                ScriptingApi.CallFunction(Name, player);
             };
 
             MultiplayerApi.PlayerJoined += _playerJoinedDelegate;
@@ -67,7 +68,7 @@ namespace RoomService
         {
             _playerLeftDelegate = player =>
             {
-                Plugin.Instance.script.CallFunction(Name, player);
+                ScriptingApi.CallFunction(Name, player);
             };
 
             MultiplayerApi.PlayerLeft += _playerLeftDelegate;
@@ -93,7 +94,7 @@ namespace RoomService
         {
             _levelLoadedDelegate = () =>
             {
-                Plugin.Instance.script.CallFunction(Name);
+                ScriptingApi.CallFunction(Name);
             };
 
             RacingApi.LevelLoaded += _levelLoadedDelegate;
@@ -119,7 +120,7 @@ namespace RoomService
         {
             _roundStartedDelegate = () =>
             {
-                Plugin.Instance.script.CallFunction(Name);
+                ScriptingApi.CallFunction(Name);
             };
 
             RacingApi.RoundStarted += _roundStartedDelegate;
@@ -145,7 +146,7 @@ namespace RoomService
         {
             _roundEndedDelegate = () =>
             {
-                Plugin.Instance.script.CallFunction(Name);
+                ScriptingApi.CallFunction(Name);
             };
 
             RacingApi.RoundEnded += _roundEndedDelegate;

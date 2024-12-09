@@ -47,14 +47,14 @@ namespace RoomService
 
                         if (TimeSpan.TryParseExact(newTimeString, new[] { @"hh\:mm\:ss", @"mm\:ss" }, null, out timeSpan))
                         {
-                            // Convert the TimeSpan into total seconds
+                            // Convert the TimeSpan into total seconds  
                             time = (int)timeSpan.TotalSeconds;
 
                             // Update the time string
                             timeString = newTimeString;
 
                             // Invoke the event with the new time
-                            Plugin.Instance.LobbyTimerAction?.Invoke(time);
+                            RoomService.Plugin.Instance.LobbyTimerAction?.Invoke(time);
                         }
                         else
                         {
