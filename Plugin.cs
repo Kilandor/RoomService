@@ -4,6 +4,7 @@ using HarmonyLib;
 using BepInEx.Configuration;
 using System;
 using ZeepSDK;
+using ZeepSDK.Scripting;
 using ZeepSDK.Scripting.ZUA;
 
 namespace RoomService
@@ -26,7 +27,51 @@ namespace RoomService
 
             Instance = this;           
 
-            Logger.LogInfo($"At your service!");           
+            Logger.LogInfo($"At your service!");
+
+            ScriptingApi.RegisterType<ZeepkistClient.ZeepkistNetworkPlayer>();
+            ScriptingApi.RegisterType<LevelScriptableObject>();
+
+            ScriptingApi.RegisterEvent<OnPlayerJoinedEvent>();
+            ScriptingApi.RegisterEvent<OnPlayerJoinedEvent>();
+            ScriptingApi.RegisterEvent<OnPlayerLeftEvent>();
+            ScriptingApi.RegisterEvent<OnLevelLoadedEvent>();
+            ScriptingApi.RegisterEvent<OnRoundStartedEvent>();
+            ScriptingApi.RegisterEvent<OnRoundEndedEvent>();
+            ScriptingApi.RegisterEvent<OnLobbyTimerEvent>();
+
+            //Com
+            ScriptingApi.RegisterFunction<SendChatMessageFunction>();
+            ScriptingApi.RegisterFunction<SendPrivateChatMessageFunction>();
+            ScriptingApi.RegisterFunction<SendScreenMessageFunction>();
+
+            //Lobby
+            ScriptingApi.RegisterFunction<SetPointsDistributionFunction>();
+            ScriptingApi.RegisterFunction<ResetPointsDistributionFunction>();
+            ScriptingApi.RegisterFunction<ResetChampionshipPointsFunction>();
+            ScriptingApi.RegisterFunction<SetVoteskipFunction>();
+            ScriptingApi.RegisterFunction<SetVoteskipPercentageFunction>();
+            ScriptingApi.RegisterFunction<SetLobbyNameFunction>();
+            ScriptingApi.RegisterFunction<SetServerMessageFunction>();
+            ScriptingApi.RegisterFunction<RemoveServerMessageFunction>();
+            ScriptingApi.RegisterFunction<SetRoundLengthFunction>();
+            ScriptingApi.RegisterFunction<SetSmallLeaderboardSortingMethodFunction>();
+            ScriptingApi.RegisterFunction<BlockEveryoneFromSettingTimeFunction>();
+            ScriptingApi.RegisterFunction<UnblockEveryoneFromSettingTimeFunction>();
+
+            //Player
+            ScriptingApi.RegisterFunction<SetPlayerTimeOnLeaderboardFunction>();
+            ScriptingApi.RegisterFunction<SetPlayerLeaderboardOverridesFunction>();
+            ScriptingApi.RegisterFunction<RemovePlayerFromLeaderboardFunction>();
+            ScriptingApi.RegisterFunction<SetPlayerChampionshipPointsFunction>();
+            ScriptingApi.RegisterFunction<UnblockPlayerFromSettingTimeFunction>();
+            ScriptingApi.RegisterFunction<BlockPlayerFromSettingTimeFunction>();
+
+            //Getters
+            ScriptingApi.RegisterFunction<GetPlayerCountFunction>();
+            ScriptingApi.RegisterFunction<GetPlaylistIndexFunction>();
+            ScriptingApi.RegisterFunction<GetPlaylistLengthFunction>();
+            ScriptingApi.RegisterFunction<GetLevelFunctions>();
         }
 
         public void Update()
@@ -44,56 +89,11 @@ namespace RoomService
                 script.Unload();
             }
 
-            script = ZeepSDK.Scripting.ScriptingApi.LoadLuaByName(name);
-            if(script == null)
+            script = ScriptingApi.LoadLuaByName(name);
+            if (script == null)
             {
                 return;
-            }
-
-            /*
-            script.RegisterType<ZeepkistClient.ZeepkistNetworkPlayer>();
-            script.RegisterType<LevelScriptableObject>();
-
-            script.RegisterEvent<OnPlayerJoinedEvent>();
-            script.RegisterEvent<OnPlayerJoinedEvent>();
-            script.RegisterEvent<OnPlayerLeftEvent>();
-            script.RegisterEvent<OnLevelLoadedEvent>();
-            script.RegisterEvent<OnRoundStartedEvent>();
-            script.RegisterEvent<OnRoundEndedEvent>();
-            script.RegisterEvent<OnLobbyTimerEvent>();
-
-            //Com
-            script.RegisterFunction<SendChatMessageFunction>();
-            script.RegisterFunction<SendPrivateChatMessageFunction>();
-            script.RegisterFunction<SendScreenMessageFunction>();
-
-            //Lobby
-            script.RegisterFunction<SetPointsDistributionFunction>();
-            script.RegisterFunction<ResetPointsDistributionFunction>();
-            script.RegisterFunction<ResetChampionshipPointsFunction>();
-            script.RegisterFunction<SetVoteskipFunction>();
-            script.RegisterFunction<SetVoteskipPercentageFunction>();
-            script.RegisterFunction<SetLobbyNameFunction>();
-            script.RegisterFunction<SetServerMessageFunction>();
-            script.RegisterFunction<RemoveServerMessageFunction>();
-            script.RegisterFunction<SetRoundLengthFunction>();
-            script.RegisterFunction<SetSmallLeaderboardSortingMethodFunction>();
-            script.RegisterFunction<BlockEveryoneFromSettingTimeFunction>();
-            script.RegisterFunction<UnblockEveryoneFromSettingTimeFunction>();
-
-            //Player
-            script.RegisterFunction<SetPlayerTimeOnLeaderboardFunction>();
-            script.RegisterFunction<SetPlayerLeaderboardOverridesFunction>();
-            script.RegisterFunction<RemovePlayerFromLeaderboardFunction>();
-            script.RegisterFunction<SetPlayerChampionshipPointsFunction>();
-            script.RegisterFunction<UnblockPlayerFromSettingTimeFunction>();
-            script.RegisterFunction<BlockPlayerFromSettingTimeFunction>();
-
-            //Getters
-            script.RegisterFunction<GetPlayerCountFunction>();
-            script.RegisterFunction<GetPlaylistIndexFunction>();
-            script.RegisterFunction<GetPlaylistLengthFunction>();
-            script.RegisterFunction<GetLevelFunctions>();*/
+            }            
         }
 
         public void Log(object data, bool force = false)
