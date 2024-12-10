@@ -26,9 +26,6 @@
     <Reference Include="MoonSharp.Interpreter">
       <HintPath>MoonSharp.Interpreter.dll</HintPath>
     </Reference>
-    <Reference Include="ZeepScript">
-      <HintPath>ZeepScript.dll</HintPath>
-    </Reference>
     <Reference Include="ZeepSDK">
       <HintPath>SDK\ZeepSDK.dll</HintPath>
     </Reference>

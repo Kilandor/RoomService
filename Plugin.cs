@@ -1,11 +1,7 @@
 ﻿using BepInEx;
-using UnityEngine;
 using HarmonyLib;
-using BepInEx.Configuration;
 using System;
-using ZeepSDK;
 using ZeepSDK.Scripting;
-using ZeepSDK.Scripting.ZUA;
 
 namespace RoomService
 {
@@ -17,7 +13,6 @@ namespace RoomService
         public const string pluginName = "RoomService";
         public const string pluginVersion = "1.0";
         public static Plugin Instance;
-        public Zua script; 
 
         public Action<int> LobbyTimerAction;
 
@@ -28,10 +23,11 @@ namespace RoomService
 
             Instance = this;           
 
-            Logger.LogInfo($"At your service!");
-
+            //Register all required types.
             ScriptingApi.RegisterType<ZeepkistClient.ZeepkistNetworkPlayer>();
             ScriptingApi.RegisterType<LevelScriptableObject>();
+
+            //Register all events.
             ScriptingApi.RegisterEvent<OnPlayerJoinedEvent>();
             ScriptingApi.RegisterEvent<OnPlayerLeftEvent>();
             ScriptingApi.RegisterEvent<OnLevelLoadedEvent>();
@@ -39,12 +35,12 @@ namespace RoomService
             ScriptingApi.RegisterEvent<OnRoundEndedEvent>();
             ScriptingApi.RegisterEvent<OnLobbyTimerEvent>();
 
-            //Com
+            //Communication functions
             ScriptingApi.RegisterFunction<SendChatMessageFunction>();
             ScriptingApi.RegisterFunction<SendPrivateChatMessageFunction>();
-            ScriptingApi.RegisterFunction<SendScreenMessageFunction>();
+            ScriptingApi.RegisterFunction<ShowScreenMessageFunction>();
 
-            //Lobby
+            //Lobby functions
             ScriptingApi.RegisterFunction<SetPointsDistributionFunction>();
             ScriptingApi.RegisterFunction<ResetPointsDistributionFunction>();
             ScriptingApi.RegisterFunction<ResetChampionshipPointsFunction>();
@@ -58,7 +54,7 @@ namespace RoomService
             ScriptingApi.RegisterFunction<BlockEveryoneFromSettingTimeFunction>();
             ScriptingApi.RegisterFunction<UnblockEveryoneFromSettingTimeFunction>();
 
-            //Player
+            //Player functions
             ScriptingApi.RegisterFunction<SetPlayerTimeOnLeaderboardFunction>();
             ScriptingApi.RegisterFunction<SetPlayerLeaderboardOverridesFunction>();
             ScriptingApi.RegisterFunction<RemovePlayerFromLeaderboardFunction>();
@@ -66,39 +62,13 @@ namespace RoomService
             ScriptingApi.RegisterFunction<UnblockPlayerFromSettingTimeFunction>();
             ScriptingApi.RegisterFunction<BlockPlayerFromSettingTimeFunction>();
 
-            //Getters
+            //Getter functions
             ScriptingApi.RegisterFunction<GetPlayerCountFunction>();
             ScriptingApi.RegisterFunction<GetPlaylistIndexFunction>();
             ScriptingApi.RegisterFunction<GetPlaylistLengthFunction>();
             ScriptingApi.RegisterFunction<GetLevelFunctions>();
-        }
 
-        public void Update()
-        {
-            /*
-            if(Input.GetKeyDown(KeyCode.P))
-            {
-                LoadScript("test");
-            }*/
-        }
-
-        public void LoadScript(string name)
-        {
-            if(script != null)
-            {
-                script.Unload();
-            }
-
-            script = ScriptingApi.LoadLuaByName(name);
-            if (script == null)
-            {
-                return;
-            }            
-        }
-
-        public void Log(object data, bool force = false)
-        {
-            Logger.LogInfo(data);
-        }       
+            Logger.LogInfo("Roomservice loaded!");
+        }  
     }    
 }

@@ -1,16 +1,20 @@
 ﻿using HarmonyLib;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace RoomService
 {
+    /// <summary>
+    /// A Harmony patch to modify the behavior of the <see cref="OnlineGameplayUI"/> class during its Awake method.
+    /// Adds a <see cref="TickerObserver"/> component to the <see cref="OnlineGameplayUI"/> GameObject if it does not already exist.
+    /// </summary>
     [HarmonyPatch(typeof(OnlineGameplayUI), "Awake")]
     public class OnlineGameplayUIAwakePatch
     {
+        /// <summary>
+        /// Postfix method called after the Awake method of <see cref="OnlineGameplayUI"/>.
+        /// </summary>
+        /// <param name="__instance">The instance of <see cref="OnlineGameplayUI"/> being patched.</param>
         public static void Postfix(OnlineGameplayUI __instance)
         {
             if (__instance.gameObject.GetComponent<TickerObserver>() == null)
@@ -20,17 +24,38 @@ namespace RoomService
         }
     }
 
+    /// <summary>
+    /// Observes the lobby timer displayed in the <see cref="OnlineGameplayUI"/> and triggers actions when the timer updates.
+    /// </summary>
     public class TickerObserver : MonoBehaviour
     {
+        /// <summary>
+        /// Stores the last known time string from the UI.
+        /// </summary>
         private string timeString;
+
+        /// <summary>
+        /// Stores the parsed total time in seconds.
+        /// </summary>
         private int time = 0;
+
+        /// <summary>
+        /// Reference to the <see cref="OnlineGameplayUI"/> component this observer is attached to.
+        /// </summary>
         private OnlineGameplayUI onlineUI;
 
+        /// <summary>
+        /// Called when the component is initialized. Caches a reference to the <see cref="OnlineGameplayUI"/>.
+        /// </summary>
         public void Awake()
         {
             onlineUI = GetComponent<OnlineGameplayUI>();
         }
 
+        /// <summary>
+        /// Called once per frame. Monitors the lobby timer displayed in the <see cref="OnlineGameplayUI"/>.
+        /// If the timer changes, parses the new time and triggers the <see cref="RoomService.Plugin.LobbyTimerAction"/> event.
+        /// </summary>
         public void Update()
         {
             if (onlineUI?.TimeLeftText != null)
