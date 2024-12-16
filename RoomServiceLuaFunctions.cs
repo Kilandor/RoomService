@@ -1,9 +1,12 @@
 ﻿using MoonSharp.Interpreter;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ZeepkistClient;
+using ZeepkistNetworking;
 using ZeepSDK.Chat;
 using ZeepSDK.Scripting.ZUA;
+using System.IO;
 
 namespace RoomService
 {
@@ -986,6 +989,413 @@ namespace RoomService
             }
 
             return ZeepkistNetwork.CurrentLobby?.Playlist.Count ?? -1;
+        }
+    }
+
+    /// <summary>
+    /// Represents a Lua function to get the player at the given position on the leaderboard
+    /// </summary>
+    public class GetPlayerAtPositionFunction : ILuaFunction
+    {
+        /// <summary>
+        /// Gets the namespace of the Lua function.
+        /// </summary>
+        public string Namespace => "RoomService";
+
+        /// <summary>
+        /// Gets the name of the Lua function.
+        /// </summary>
+        public string Name => "GetPlayerAtPosition";
+
+        /// <summary>
+        /// Creates the delegate for the Lua function.
+        /// </summary>
+        /// <returns>A delegate that returns the players steamID at the position or 0 if null.</returns>
+        public Delegate CreateFunction()
+        {
+            return new Func<int, ulong>(Implementation);
+        }
+
+        /// <summary>
+        /// Implementation of the function to get the player at the given position in the leaderboard.
+        /// </summary>
+        /// <returns>The players steamID, or 0 if unavailable.</returns>
+        private ulong Implementation(int position)
+        {
+            if (!RoomServiceUtils.IsOnlineHost())
+            {
+                return 0;
+            }
+
+            ulong steamID = 0;
+
+            try
+            {
+                steamID = ZeepkistNetwork.Leaderboard[position].SteamID;                
+            }
+            catch
+            {
+                steamID = 0;                
+            }
+
+            return steamID;
+        }
+    }
+
+    /// <summary>
+    /// Represents a Lua function to get an entry from the leaderboard.
+    /// </summary>
+    public class GetLeaderboardEntryFunction : ILuaFunction
+    {
+        /// <summary>
+        /// Gets the namespace of the Lua function.
+        /// </summary>
+        public string Namespace => "RoomService";
+
+        /// <summary>
+        /// Gets the name of the Lua function.
+        /// </summary>
+        public string Name => "GetLeaderboardEntry";
+
+        /// <summary>
+        /// Creates the delegate for the Lua function.
+        /// </summary>
+        /// <returns>A delegate that takes a steamID and returns a LeaderboardItem.</returns>
+        public Delegate CreateFunction()
+        {
+            // Adjust the delegate to accept a parameter
+            return new Func<ulong, LeaderboardItem>(Implementation);
+        }
+
+        /// <summary>
+        /// Implementation of the function to get the leaderboard entry.
+        /// </summary>
+        /// <param name="steamID">The Steam ID of the player.</param>
+        /// <returns>The leaderboard entry for the given Steam ID.</returns>
+        private LeaderboardItem Implementation(ulong steamID)
+        {
+            if (!RoomServiceUtils.IsOnlineHost())
+            {
+                return new LeaderboardItem() { SteamID = 0, Time = 0, Username = "" };
+
+            }
+
+            return ZeepkistNetwork.GetLeaderboardEntry(steamID);
+        }
+    }
+
+    /// <summary>
+    /// Represents a Lua function to retrieve a leaderboard override entry for a specific player.
+    /// </summary>
+    public class GetLeaderboardOverrideFunction : ILuaFunction
+    {
+        /// <summary>
+        /// The namespace of the Lua function.
+        /// </summary>
+        public string Namespace => "RoomService";
+
+        /// <summary>
+        /// The name of the Lua function.
+        /// </summary>
+        public string Name => "GetLeaderboardOverride";
+
+        /// <summary>
+        /// Creates a delegate for the Lua function, which takes a Steam ID and returns a leaderboard override entry.
+        /// </summary>
+        /// <returns>A delegate that takes a Steam ID and returns a <see cref="LeaderboardOverrideItem"/>.</returns>
+        public Delegate CreateFunction()
+        {
+            return new Func<ulong, LeaderboardOverrideItem>(Implementation);
+        }
+
+        /// <summary>
+        /// Retrieves a leaderboard override entry for the specified Steam ID.
+        /// </summary>
+        /// <param name="steamID">The Steam ID of the player.</param>
+        /// <returns>The <see cref="LeaderboardOverrideItem"/> for the given Steam ID.</returns>
+        private LeaderboardOverrideItem Implementation(ulong steamID)
+        {
+            if (!RoomServiceUtils.IsOnlineHost())
+            {
+                return new LeaderboardOverrideItem() { SteamID = 0, overrideNameText = "", overridePositionText = "", overrideTimeText = "", overridePointsText = "", overridePointsWonText = "" };
+            }
+
+            return ZeepkistNetwork.GetLeaderboardOverride(steamID);
+        }
+    }
+
+    /// <summary>
+    /// Represents a Lua function to retrieve the entire leaderboard.
+    /// </summary>
+    public class GetLeaderboardFunction : ILuaFunction
+    {
+        /// <summary>
+        /// The namespace of the Lua function.
+        /// </summary>
+        public string Namespace => "RoomService";
+
+        /// <summary>
+        /// The name of the Lua function.
+        /// </summary>
+        public string Name => "GetLeaderboard";
+
+        /// <summary>
+        /// Creates a delegate for the Lua function, which retrieves the full leaderboard as a list of entries.
+        /// </summary>
+        /// <returns>A delegate that returns a list of <see cref="LeaderboardItem"/>.</returns>
+        public Delegate CreateFunction()
+        {
+            return new Func<List<LeaderboardItem>>(Implementation);
+        }
+
+        /// <summary>
+        /// Retrieves the full leaderboard.
+        /// </summary>
+        /// <returns>A list of <see cref="LeaderboardItem"/> representing the leaderboard. If unavailable, returns an empty list.</returns>
+        private List<LeaderboardItem> Implementation()
+        {
+            if (!RoomServiceUtils.IsOnlineHost())
+            {
+                return new List<LeaderboardItem>();
+            }
+
+            return ZeepkistNetwork.GetLeaderboard() ?? new List<LeaderboardItem>();
+        }
+    }
+
+    /// <summary>
+    /// Represents a Lua function to clear the time logger.
+    /// </summary>
+    public class ClearLoggerFunction : ILuaFunction
+    {
+        /// <summary>
+        /// Gets the namespace of the Lua function.
+        /// </summary>
+        public string Namespace => "RoomService";
+
+        /// <summary>
+        /// Gets the name of the Lua function.
+        /// </summary>
+        public string Name => "ClearLogger";
+
+        /// <summary>
+        /// Creates the delegate for the Lua function.
+        /// </summary>
+        public Delegate CreateFunction()
+        {
+            return new Action(Implementation);
+        }
+
+        /// <summary>
+        /// Implementation of the function to clear the logger.
+        /// </summary>
+        private void Implementation()
+        {
+            if (!RoomServiceUtils.IsOnlineHost())
+            {
+                return;
+            }
+
+            Plugin.Instance.levelInfo.Clear();
+            Plugin.Instance.playerTimes.Clear();
+        }
+    }
+
+    /// <summary>
+    /// Represents a Lua function to save the time logger to disk.
+    /// </summary>
+    public class SaveLoggerFunction : ILuaFunction
+    {
+        /// <summary>
+        /// Gets the namespace of the Lua function.
+        /// </summary>
+        public string Namespace => "RoomService";
+
+        /// <summary>
+        /// Gets the name of the Lua function.
+        /// </summary>
+        public string Name => "SaveLogger";
+
+        /// <summary>
+        /// Creates the delegate for the Lua function.
+        /// </summary>
+        public Delegate CreateFunction()
+        {
+            return new Action<string>(Implementation);
+        }
+
+        /// <summary>
+        /// Implementation of the function to save the log.
+        /// </summary>
+        private void Implementation(string fileName)
+        {
+            if (!RoomServiceUtils.IsOnlineHost())
+            {
+                return;
+            }
+
+            // Remove invalid characters from the file name
+            string sanitizedFileName = string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
+
+            // Ensure the file name ends with a .txt extension
+            if (!sanitizedFileName.EndsWith(".txt", StringComparison.OrdinalIgnoreCase))
+            {
+                sanitizedFileName += ".txt";
+            }
+
+            // Get the plugin folder path and combine it with the sanitized file name
+            string pluginFolderPath = BepInEx.Paths.PluginPath;
+            string filePath = Path.Combine(pluginFolderPath, sanitizedFileName);
+
+            // Get the log content and write to the file
+            string[] content = Plugin.Instance.GetLoggerLines();
+            File.WriteAllLines(filePath, content);
+        }
+    }
+
+    /// <summary>
+    /// Represents a Lua function to print the time logger to the console.
+    /// </summary>
+    public class PrintLoggerFunction : ILuaFunction
+    {
+        /// <summary>
+        /// Gets the namespace of the Lua function.
+        /// </summary>
+        public string Namespace => "RoomService";
+
+        /// <summary>
+        /// Gets the name of the Lua function.
+        /// </summary>
+        public string Name => "PrintLogger";
+
+        /// <summary>
+        /// Creates the delegate for the Lua function.
+        /// </summary>
+        public Delegate CreateFunction()
+        {
+            return new Action(Implementation);
+        }
+
+        /// <summary>
+        /// Implementation of the function to save the log.
+        /// </summary>
+        private void Implementation()
+        {
+            if (!RoomServiceUtils.IsOnlineHost())
+            {
+                return;
+            }
+
+            string[] content = Plugin.Instance.GetLoggerLines();
+            string logLine = string.Join('\n', content);
+            Plugin.Instance.Log(logLine);            
+        }
+    }
+
+    /// <summary>
+    /// Represents a Lua function to get the current date.
+    /// </summary>
+    public class GetCurrentDateFunction : ILuaFunction
+    {
+        /// <summary>
+        /// Gets the namespace of the Lua function.
+        /// </summary>
+        public string Namespace => "RoomService";
+
+        /// <summary>
+        /// Gets the name of the Lua function.
+        /// </summary>
+        public string Name => "GetCurrentDate";
+
+        /// <summary>
+        /// Creates the delegate for the Lua function.
+        /// </summary>
+        public Delegate CreateFunction()
+        {
+            return new Func<string>(Implementation);
+        }
+
+        /// <summary>
+        /// Implementation of the function to return the current date.
+        /// </summary>
+        private string Implementation()
+        {
+            return DateTime.Now.ToString("yyyy-MM-dd");
+        }
+    }
+
+    /// <summary>
+    /// Represents a Lua function to get the current time.
+    /// </summary>
+    public class GetCurrentTimeFunction : ILuaFunction
+    {
+        /// <summary>
+        /// Gets the namespace of the Lua function.
+        /// </summary>
+        public string Namespace => "RoomService";
+
+        /// <summary>
+        /// Gets the name of the Lua function.
+        /// </summary>
+        public string Name => "GetCurrentTime";
+
+        /// <summary>
+        /// Creates the delegate for the Lua function.
+        /// </summary>
+        public Delegate CreateFunction()
+        {
+            return new Func<string>(Implementation);
+        }
+
+        /// <summary>
+        /// Implementation of the function to return the current time.
+        /// </summary>
+        private string Implementation()
+        {
+            return DateTime.Now.ToString("HH:mm:ss");
+        }
+    }
+
+    /// <summary>
+    /// Represents a Lua function to generate a random number.
+    /// </summary>
+    public class GenerateRandomNumberFunction : ILuaFunction
+    {
+        /// <summary>
+        /// Gets the namespace of the Lua function.
+        /// </summary>
+        public string Namespace => "RoomService";
+
+        /// <summary>
+        /// Gets the name of the Lua function.
+        /// </summary>
+        public string Name => "GenerateRandomNumber";
+
+        /// <summary>
+        /// Creates the delegate for the Lua function.
+        /// </summary>
+        public Delegate CreateFunction()
+        {
+            // The Lua function takes two parameters (min and max) and returns an integer.
+            return new Func<int, int, int>(Implementation);
+        }
+
+        /// <summary>
+        /// Implementation of the function to generate a random number.
+        /// </summary>
+        /// <param name="min">The minimum value (inclusive).</param>
+        /// <param name="max">The maximum value (inclusive).</param>
+        /// <returns>A random integer between min and max.</returns>
+        private int Implementation(int min, int max)
+        {
+            // Ensure min is less than or equal to max to prevent errors.
+            if (min > max)
+            {
+                return min;
+            }
+
+            Random random = new Random();
+            return random.Next(min, max + 1); // max is inclusive.
         }
     }
 }

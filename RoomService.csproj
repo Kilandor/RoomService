@@ -15,7 +15,7 @@
     <PackageReference Include="MoonSharp" Version="2.0.0" />
     <PackageReference Include="UnityEngine.Modules" Version="5.6.0" IncludeAssets="compile" />
     <PackageReference Include="Zeepkist.GameLibs" Version="16.40.56-beta" />
-    <PackageReference Include="ZeepSDK" Version="1.36.11" />
+    <PackageReference Include="ZeepSDK" Version="1.37.2" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
