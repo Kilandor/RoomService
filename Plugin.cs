@@ -97,16 +97,31 @@ namespace RoomService
                         playerTime = playerTimes[hash][playerIndex];
                     }
 
+                    float settime = -1;
+
+                    if(player.CurrentResult != null)
+                    {
+                        settime = player.CurrentResult.Time;
+                    }
+                    else
+                    {
+                        LeaderboardItem lbItem = ZeepkistNetwork.GetLeaderboardEntry(player.SteamID);
+                        if(lbItem.Username != "")
+                        {
+                            settime = lbItem.Time;   
+                        }
+                    }
+                    
                     //Player has a result
-                    if (player.CurrentResult != null)
+                    if (settime != -1)
                     {
                         //The time is different from the registered time.
-                        if (player.CurrentResult.Time != playerTime.Time)
+                        if (settime != playerTime.Time)
                         {
                             //Player updated their time                            
-                            playerTime.Time = player.CurrentResult.Time;
+                            playerTime.Time = settime;
 
-                            if(playerTime.Time < playerTime.BestTime)
+                            if(playerTime.Time < playerTime.BestTime || playerTime.BestTime == -1)
                             {
                                 playerTime.BestTime = playerTime.Time;
                             }
