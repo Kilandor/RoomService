@@ -7,6 +7,8 @@ using ZeepkistNetworking;
 using ZeepSDK.Chat;
 using ZeepSDK.Scripting.ZUA;
 using System.IO;
+using Newtonsoft.Json;
+using System.Globalization;
 
 namespace RoomService
 {
@@ -1238,18 +1240,39 @@ namespace RoomService
             string sanitizedFileName = string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
 
             // Ensure the file name ends with a .txt extension
-            if (!sanitizedFileName.EndsWith(".txt", StringComparison.OrdinalIgnoreCase))
+            if (!sanitizedFileName.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
             {
-                sanitizedFileName += ".txt";
+                sanitizedFileName += ".json";
             }
 
             // Get the plugin folder path and combine it with the sanitized file name
             string pluginFolderPath = BepInEx.Paths.PluginPath;
             string filePath = Path.Combine(pluginFolderPath, sanitizedFileName);
 
-            // Get the log content and write to the file
-            string[] content = Plugin.Instance.GetLoggerLines();
-            File.WriteAllLines(filePath, content);
+            // Combine the dictionaries into a JSON-serializable structure
+            var combinedData = new List<object>();
+
+            foreach (var level in Plugin.Instance.levelInfo)
+            {
+                var hash = level.Key;
+                var levelData = level.Value;
+                var times = Plugin.Instance.playerTimes.ContainsKey(hash) ? Plugin.Instance.playerTimes[hash] : new List<PlayerTime>();
+
+                // Add the times directly into the level object
+                combinedData.Add(new
+                {
+                    Hash = levelData.Hash,
+                    Author = levelData.Author,
+                    Name = levelData.Name,
+                    Uid = levelData.Uid,
+                    WorkshopId = levelData.WorkshopId,
+                    Times = times
+                });
+            }
+
+            // Serialize to JSON
+            string json = JsonConvert.SerializeObject(combinedData, Formatting.Indented);
+            File.WriteAllText(filePath, json);
         }
     }
 
@@ -1396,6 +1419,71 @@ namespace RoomService
 
             Random random = new Random();
             return random.Next(min, max + 1); // max is inclusive.
+        }
+    }
+
+    /// <summary>
+    /// Represents a Lua function to convert seconds into a time string.
+    /// </summary>
+    public class SecondsToTimeFunction : ILuaFunction
+    {
+        /// <summary>
+        /// Gets the namespace of the Lua function.
+        /// </summary>
+        public string Namespace => "RoomService";
+
+        /// <summary>
+        /// Gets the name of the Lua function.
+        /// </summary>
+        public string Name => "SecondsToTime";
+
+        /// <summary>
+        /// Creates the delegate for the Lua function.
+        /// </summary>
+        /// <returns>A delegate that takes a time and precision value and returns a time string.
+        public Delegate CreateFunction()
+        {
+            // Adjust the delegate to accept a parameter
+            return new Func<float,int,string>(Implementation);
+        }
+
+        /// <summary>
+        /// Implementation of the function to convert the time to string.
+        /// </summary>
+        /// <param name="timeInSeconds">The time in seconds.</param>
+        /// <param name="precision">The amount of decimals.</param>
+        /// <returns>The time in string format</returns>
+        private string Implementation(float time, int precision)
+        {
+            if (!RoomServiceUtils.IsOnlineHost())
+            {
+                return "";
+            }
+
+            // Ensure precision is not negative
+            if (precision < 0)
+            {
+                precision = 0;
+            }
+
+            if (float.IsNegativeInfinity(time) || float.IsPositiveInfinity(time) || float.IsNaN(time))
+                time = 0.0f;
+            if (time < 0.0f)
+                time = 0.0f;
+
+            TimeSpan timeSpan = time != 0.0f ? TimeSpan.FromSeconds(time) : TimeSpan.Zero;
+
+            // Calculate fractional seconds and format milliseconds with precision
+            double fractionalSeconds = time - Math.Floor(time);
+            string milliseconds = Math.Round(fractionalSeconds * Math.Pow(10, precision))
+                .ToString(CultureInfo.InvariantCulture).PadLeft(precision, '0');
+
+            if (time < 3600.0f)
+                return string.Format(CultureInfo.InvariantCulture, "{0:D2}:{1:D2}.{2}",
+                    timeSpan.Minutes, timeSpan.Seconds, milliseconds);
+            else
+                return string.Format(CultureInfo.InvariantCulture, "{0:D2}:{1:D2}:{2:D2}.{3}",
+                    timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds, milliseconds);
         }
     }
 }

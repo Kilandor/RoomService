@@ -16,6 +16,7 @@ namespace RoomService
         public string Author;
         public string Name;
         public string Uid;
+        public string WorkshopId;
     }
 
     public class PlayerTime
@@ -26,6 +27,7 @@ namespace RoomService
         public string FullName;
         public float Time;
         public float BestTime;
+        public string ChatColor;
     }
 
     [BepInPlugin(pluginGUID, pluginName, pluginVersion)]
@@ -87,7 +89,8 @@ namespace RoomService
                             FullName = player.GetTaggedUsername(),
                             SteamID = player.SteamID,
                             Time = -1,
-                            BestTime = -1
+                            BestTime = -1,
+                            ChatColor = RoomServiceUtils.ColorToHex(player.chatColor)                            
                         };
 
                         playerTimes[hash].Add(playerTime);
@@ -216,6 +219,7 @@ namespace RoomService
             ScriptingApi.RegisterFunction<GetCurrentDateFunction>();
             ScriptingApi.RegisterFunction<GetCurrentTimeFunction>();
             ScriptingApi.RegisterFunction<GenerateRandomNumberFunction>();
+            ScriptingApi.RegisterFunction<SecondsToTimeFunction>();
 
             Logger.LogInfo("Roomservice is loaded! At your service!");
         }  
