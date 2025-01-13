@@ -17,9 +17,9 @@ namespace RoomService
         /// <param name="__instance">The instance of <see cref="OnlineGameplayUI"/> being patched.</param>
         public static void Postfix(OnlineGameplayUI __instance)
         {
-            if (__instance.gameObject.GetComponent<TickerObserver>() == null)
+            if (__instance.gameObject.transform.root.gameObject.GetComponent<TickerObserver>() == null)
             {
-                __instance.gameObject.AddComponent<TickerObserver>();
+                __instance.gameObject.transform.root.gameObject.AddComponent<TickerObserver>();
             }
         }
     }
@@ -58,9 +58,9 @@ namespace RoomService
         /// </summary>
         public void Update()
         {
-            if (onlineUI?.TimeLeftText != null)
+            if (ZeepkistClient.ZeepkistNetwork.CurrentLobby != null)
             {
-                string newTimeString = onlineUI.TimeLeftText.text;
+                string newTimeString = ZeepkistClient.ZeepkistNetwork.CurrentLobby.timeLeftString;
 
                 // Check if the time string has changed
                 if (timeString != newTimeString)

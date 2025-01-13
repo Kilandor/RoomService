@@ -36,7 +36,7 @@ namespace RoomService
     {
         public const string pluginGUID = "com.metalted.zeepkist.roomservice";
         public const string pluginName = "RoomService";
-        public const string pluginVersion = "1.0";
+        public const string pluginVersion = "1.2";
         public static Plugin Instance;
 
         public Action<int> LobbyTimerAction;
