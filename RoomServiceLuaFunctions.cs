@@ -1475,6 +1475,9 @@ namespace RoomService
 
             // Calculate fractional seconds and format milliseconds with precision
             double fractionalSeconds = time - Math.Floor(time);
+            // If it rounds to 1000, reset it to 0 to avoid overflow
+            if (Math.Round(fractionalSeconds * Math.Pow(10, precision)) >= Math.Pow(10, precision))
+                fractionalSeconds = 0;
             string milliseconds = Math.Round(fractionalSeconds * Math.Pow(10, precision))
                 .ToString(CultureInfo.InvariantCulture).PadLeft(precision, '0');
 
