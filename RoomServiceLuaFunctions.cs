@@ -1,4 +1,4 @@
-﻿using MoonSharp.Interpreter;
+using MoonSharp.Interpreter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -911,8 +911,8 @@ namespace RoomService
             {
                 return -1;
             }
-
-            return ZeepkistNetwork.CurrentLobby?.PlayerCount ?? -1;
+            
+            return ZeepkistNetwork.Players?.Count ?? -1;
         }
     }
 
