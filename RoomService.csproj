@@ -3,17 +3,31 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <AssemblyName>RoomService</AssemblyName>
-    <Description>RoomService</Description>
-    <Version>1.3.0</Version>
+    <Description>Expands functionality and events to Zua scripting</Description>
+    <Version>2.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
+    <RestoreAdditionalProjectSources>
+        https://nuget.bepinex.dev/v3/index.json
+    </RestoreAdditionalProjectSources>
+    <Authors>Kilandor, Metalted</Authors>
+    <PackageId>RoomService</PackageId>
+    <Title>RoomService</Title>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
     <PackageReference Include="BepInEx.Core" Version="5.*" />
-    <PackageReference Include="MoonSharp" Version="2.0.0" />
-    <PackageReference Include="UnityEngine.Modules" Version="5.6.0" IncludeAssets="compile" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
     <PackageReference Include="Zeepkist.GameLibs" Version="16.40.56-beta" />
     <PackageReference Include="ZeepSDK" Version="1.37.2" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 using HarmonyLib;
 using System;
 using ZeepSDK.Scripting;
@@ -30,13 +30,10 @@ namespace RoomService
         public string ChatColor;
     }
 
-    [BepInPlugin(pluginGUID, pluginName, pluginVersion)]
+    [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
     [BepInDependency("ZeepSDK", BepInDependency.DependencyFlags.HardDependency)]
     public class Plugin : BaseUnityPlugin
     {
-        public const string pluginGUID = "com.metalted.zeepkist.roomservice";
-        public const string pluginName = "RoomService";
-        public const string pluginVersion = "1.3";
         public static Plugin Instance;
 
         public Action<int> LobbyTimerAction;
@@ -158,7 +155,7 @@ namespace RoomService
 
         private void Awake()
         {
-            Harmony harmony = new Harmony(pluginGUID);
+            Harmony harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
             harmony.PatchAll();
 
             Instance = this;   
