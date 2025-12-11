@@ -1489,4 +1489,87 @@ namespace RoomService
                     timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds, milliseconds);
         }
     }
+    
+    /// <summary>
+    /// Represents a Lua function to reset all players
+    /// </summary>
+    public class ResetAllPlayersFunction : ILuaFunction
+    {
+        /// <summary>
+        /// Gets the namespace of the Lua function.
+        /// </summary>
+        public string Namespace => "RoomService";
+
+        /// <summary>
+        /// Gets the name of the Lua function.
+        /// </summary>
+        public string Name => "ResetAllPlayers";
+
+        /// <summary>
+        /// Creates the delegate for the Lua function.
+        /// </summary>
+        /// <returns>A delegate that resets all players
+        public Delegate CreateFunction()
+        {
+            // Adjust the delegate to accept a parameter
+            return new Action(Implementation);
+        }
+
+        /// <summary>
+        /// Implementation of the function to reset all players
+        /// </summary>
+        private void Implementation()
+        {
+            if (!RoomServiceUtils.IsOnlineHost())
+            {
+                return;
+            }
+            List<ulong> listPlayers = new List<ulong>();
+            for (int index = 0; index < ZeepkistNetwork.PlayerList.Count; ++index)
+                listPlayers.Add(ZeepkistNetwork.PlayerList[index].SteamID);
+            ZeepkistNetwork.CustomLeaderBoard_ResetPlayers(listPlayers);
+
+
+        }
+    }
+    
+    /// <summary>
+    /// Represents a Lua function to reset players
+    /// </summary>
+    public class ResetPlayersFunction : ILuaFunction
+    {
+        /// <summary>
+        /// Gets the namespace of the Lua function.
+        /// </summary>
+        public string Namespace => "RoomService";
+
+        /// <summary>
+        /// Gets the name of the Lua function.
+        /// </summary>
+        public string Name => "ResetPlayers";
+
+        /// <summary>
+        /// Creates the delegate for the Lua function.
+        /// </summary>
+        /// <returns>A delegate that resets players
+        public Delegate CreateFunction()
+        {
+            // Adjust the delegate to accept a parameter
+            return new Func<List<ulong>, bool>(Implementation);
+        }
+
+        /// <summary>
+        /// Implementation of the function to reset players
+        /// </summary>
+        private bool Implementation(List<ulong> listPlayers)
+        {
+            if (!RoomServiceUtils.IsOnlineHost() || listPlayers.Count <= 0)
+            {
+                return false;
+            }
+            
+            ZeepkistNetwork.CustomLeaderBoard_ResetPlayers(listPlayers);
+            return true;
+        }
+    }
 }

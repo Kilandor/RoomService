@@ -188,6 +188,8 @@ namespace RoomService
             ScriptingApi.RegisterFunction<SetSmallLeaderboardSortingMethodFunction>();
             ScriptingApi.RegisterFunction<BlockEveryoneFromSettingTimeFunction>();
             ScriptingApi.RegisterFunction<UnblockEveryoneFromSettingTimeFunction>();
+            ScriptingApi.RegisterFunction<ResetAllPlayersFunction>();
+            ScriptingApi.RegisterFunction<ResetPlayersFunction>();
 
             //Player functions
             ScriptingApi.RegisterFunction<SetPlayerTimeOnLeaderboardFunction>();
@@ -245,5 +247,5 @@ namespace RoomService
 
             return lines.ToArray();
         }        
-    }       
+    }
 }
