@@ -1563,7 +1563,7 @@ namespace RoomService
         /// </summary>
         private bool Implementation(List<ulong> listPlayers)
         {
-            if (!RoomServiceUtils.IsOnlineHost() || listPlayers.Count <= 0)
+            if (!RoomServiceUtils.IsOnlineHost() || listPlayers == null || listPlayers.Count <= 0)
             {
                 return false;
             }
