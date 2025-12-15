@@ -12,35 +12,23 @@ using System.Globalization;
 
 namespace RoomService
 {
-    /// <summary>
-    /// Represents a Lua function to send a chat message to all players.
-    /// </summary>
-    public class SendChatMessageFunction : ILuaFunction
+    /// @brief Lua function to send a chat message to all players.
+    public class SendChatMessage : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "SendChatMessage";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a prefix and message.</returns>
         public Delegate CreateFunction()
         {
             return new Action<string, string>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to send a chat message.
-        /// </summary>
-        /// <param name="prefix">The prefix for the message.</param>
-        /// <param name="message">The content of the message.</param>
+        /// Usage: @code RoomService.SendChatMessage("ByteBot", "Hello World"); @endcode
+        /// @param prefix The prefix for the message.
+        /// @param message The content of the message.
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(string prefix, string message)
         {
             if (string.IsNullOrEmpty(prefix) || string.IsNullOrEmpty(message))
@@ -57,36 +45,24 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to send a private chat message to a specific player.
-    /// </summary>
-    public class SendPrivateChatMessageFunction : ILuaFunction
+    /// @brief Lua function to send a private chat message to a specific player.
+    public class SendPrivateChatMessage : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "SendPrivateChatMessage";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a Steam ID, prefix, and message.</returns>
         public Delegate CreateFunction()
         {
             return new Action<ulong, string, string>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to send a private chat message.
-        /// </summary>
-        /// <param name="steamID">The Steam ID of the recipient.</param>
-        /// <param name="prefix">The prefix for the message.</param>
-        /// <param name="message">The content of the message.</param>
+        /// Usage: @code RoomService.SendPrivateChatMessage("76561197993793009", "ByteBot", "Hello Kilandor"); @endcode
+        /// @param steamID The Steam ID of the recipient.
+        /// @param prefix The prefix for the message.
+        /// @param message The content of the message.
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(ulong steamID, string prefix, string message)
         {
             if (string.IsNullOrEmpty(prefix) || string.IsNullOrEmpty(message))
@@ -103,35 +79,23 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to display a screen message to the player.
-    /// </summary>
-    public class ShowScreenMessageFunction : ILuaFunction
+    /// @brief Lua function to display a screen message to the player.
+    public class ShowScreenMessage : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "ShowScreenMessage";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a message and a duration.</returns>
         public Delegate CreateFunction()
         {
             return new Action<string, float>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to send a screen message.
-        /// </summary>
-        /// <param name="message">The content of the message.</param>
-        /// <param name="time">The duration to display the message.</param>
+        /// Usage: @code RoomService.ShowScreenMessage("Hello World", 5); @endcode
+        /// @param message The content of the message.
+        /// @param time The duration to display the message.
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(string message, float time)
         {
             if (string.IsNullOrEmpty(message))
@@ -143,34 +107,22 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to block all players from setting a leaderboard time.
-    /// </summary>
-    public class BlockEveryoneFromSettingTimeFunction : ILuaFunction
+    /// @brief Lua function to block all players from setting a leaderboard time.
+    public class BlockEveryoneFromSettingTime : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "BlockEveryoneFromSettingTime";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a boolean parameter to notify players.</returns>
         public Delegate CreateFunction()
         {
             return new Action<bool>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to block all players from setting a leaderboard time.
-        /// </summary>
-        /// <param name="notify">Indicates whether to notify players.</param>
+        /// Usage: @code RoomService.BlockEveryoneFromSettingTime(true); @endcode
+        /// @param notify Indicates whether to notify players.
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(bool notify)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -182,34 +134,22 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to unblock all players from setting a leaderboard time.
-    /// </summary>
-    public class UnblockEveryoneFromSettingTimeFunction : ILuaFunction
+    /// @brief Lua function to unblock all players from setting a leaderboard time.
+    public class UnblockEveryoneFromSettingTime : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "UnblockEveryoneFromSettingTime";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a boolean parameter to notify players.</returns>
         public Delegate CreateFunction()
         {
             return new Action<bool>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to unblock all players from setting a leaderboard time.
-        /// </summary>
-        /// <param name="notify">Indicates whether to notify players.</param>
+        /// Usage: @code RoomService.UnblockEveryoneFromSettingTime(true); @endcode
+        /// @param notify Indicates whether to notify players.
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(bool notify)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -221,35 +161,23 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to unblock a specific player from setting a leaderboard time.
-    /// </summary>
-    public class UnblockPlayerFromSettingTimeFunction : ILuaFunction
+    /// @brief Lua function to unblock a specific player from setting a leaderboard time.
+    public class UnblockPlayerFromSettingTime : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "UnblockPlayerFromSettingTime";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a Steam ID and a notify parameter.</returns>
         public Delegate CreateFunction()
         {
             return new Action<ulong, bool>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to unblock a specific player.
-        /// </summary>
-        /// <param name="steamID">The Steam ID of the player.</param>
-        /// <param name="notify">Indicates whether to notify the player.</param>
+        /// Usage: @code RoomService.UnblockPlayerFromSettingTime("76561197993793009", true); @endcode
+        /// @param steamID The Steam ID of the player.
+        /// @param notify Indicates whether to notify the player.
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(ulong steamID, bool notify)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -261,35 +189,23 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to block a specific player from setting a leaderboard time.
-    /// </summary>
-    public class BlockPlayerFromSettingTimeFunction : ILuaFunction
+    /// @brief Lua function to block a specific player from setting a leaderboard time.
+    public class BlockPlayerFromSettingTime : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "BlockPlayerFromSettingTime";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a Steam ID and a notify parameter.</returns>
         public Delegate CreateFunction()
         {
             return new Action<ulong, bool>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to block a specific player.
-        /// </summary>
-        /// <param name="steamID">The Steam ID of the player.</param>
-        /// <param name="notify">Indicates whether to notify the player.</param>
+        /// Usage: @code RoomService.BlockPlayerFromSettingTime("76561197993793009", true); @endcode
+        /// @param steamID The Steam ID of the player.
+        /// @param notify Indicates whether to notify the player.
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(ulong steamID, bool notify)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -301,34 +217,22 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to set the sorting method for a small leaderboard.
-    /// </summary>
-    public class SetSmallLeaderboardSortingMethodFunction : ILuaFunction
+    /// @brief Lua function to set the sorting method for a small leaderboard.
+    public class SetSmallLeaderboardSortingMethod : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "SetSmallLeaderboardSortingMethod";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a boolean indicating whether to use championship sorting.</returns>
         public Delegate CreateFunction()
         {
             return new Action<bool>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to set the sorting method for the leaderboard.
-        /// </summary>
-        /// <param name="useChampionshipSorting">True to use championship sorting; false for default sorting.</param>
+        /// Usage: @code RoomService.SetSmallLeaderboardSortingMethod(true); @endcode
+        /// @param useChampionshipSorting True to use championship sorting; false for default sorting.
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(bool useChampionshipSorting)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -340,36 +244,24 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to set a player's time on the leaderboard.
-    /// </summary>
-    public class SetPlayerTimeOnLeaderboardFunction : ILuaFunction
+    /// @brief Lua function to set a player's time on the leaderboard.
+    public class SetPlayerTimeOnLeaderboard : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "SetPlayerTimeOnLeaderboard";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a Steam ID, time, and a notify flag.</returns>
         public Delegate CreateFunction()
         {
             return new Action<ulong, float, bool>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to set a player's time on the leaderboard.
-        /// </summary>
-        /// <param name="steamID">The Steam ID of the player.</param>
-        /// <param name="time">The time to set on the leaderboard.</param>
-        /// <param name="notify">True to notify the player; false otherwise.</param>
+        /// Usage: @code RoomService.SetPLayerTimeOnLeaderboard("76561197993793009", 42.1337, true); @endcode
+        /// @param steamID The Steam ID of the player.
+        /// @param time The time to set on the leaderboard.
+        /// @param notify True to notify the player; false otherwise.
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(ulong steamID, float time, bool notify)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -381,39 +273,29 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to set leaderboard overrides for a specific player.
-    /// </summary>
-    public class SetPlayerLeaderboardOverridesFunction : ILuaFunction
+    /// @brief Lua function to set leaderboard overrides for a specific player.
+    public class SetPlayerLeaderboardOverrides : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "SetPlayerLeaderboardOverrides";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a Steam ID and override parameters.</returns>
         public Delegate CreateFunction()
         {
             return new Action<ulong, string, string, string, string, string>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to set leaderboard overrides for a specific player.
-        /// </summary>
-        /// <param name="steamID">The Steam ID of the player.</param>
-        /// <param name="time">The override time to display.</param>
-        /// <param name="name">The override name to display.</param>
-        /// <param name="position">The override position to display.</param>
-        /// <param name="points">The override points to display.</param>
-        /// <param name="pointsWon">The override points won to display.</param>
+        /// Usage: @code RoomService.SetPlayerLeaderboardOverrides("76561197993793009", "<color=yellow>42.1337</color>", "<color=blue>Kilandor</color>", "First", "1337", "1337"); @endcode
+        /// Strings can be replaced with anything, as this is just a visual override\n
+        /// Supports <a href="https://docs.unity3d.com/Packages/com.unity.textmeshpro@4.0/manual/RichText.html" target="_blank">Rich Text</a>
+        /// @param steamID The Steam ID of the player.
+        /// @param time The override time to display.
+        /// @param name The override name to display.
+        /// @param position The override position to display.
+        /// @param points The override points to display.
+        /// @param pointsWon The override points won to display.
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(ulong steamID, string time, string name, string position, string points, string pointsWon)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -425,35 +307,23 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to remove a player from the leaderboard.
-    /// </summary>
-    public class RemovePlayerFromLeaderboardFunction : ILuaFunction
+    /// @brief Lua function to remove a player from the leaderboard.
+    public class RemovePlayerFromLeaderboard : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "RemovePlayerFromLeaderboard";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a Steam ID and a notify flag.</returns>
         public Delegate CreateFunction()
         {
             return new Action<ulong, bool>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to remove a player from the leaderboard.
-        /// </summary>
-        /// <param name="steamID">The Steam ID of the player to remove.</param>
-        /// <param name="notify">True to notify the player; false otherwise.</param>
+        /// Usage: @code RoomService.RemovePlayerFromLeaderboard("76561197993793009", true); @endcode
+        /// @param steamID The Steam ID of the player to remove.
+        /// @param notify True to notify the player; false otherwise.
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(ulong steamID, bool notify)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -465,36 +335,24 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to set the points distribution in the lobby.
-    /// </summary>
-    public class SetPointsDistributionFunction : ILuaFunction
+    /// @brief Lua function to set the points distribution in the lobby.
+    public class SetPointsDistribution : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "SetPointsDistribution";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes points values, a baseline, and a DNF value.</returns>
         public Delegate CreateFunction()
         {
             return new Action<int[], int, int>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to set points distribution.
-        /// </summary>
-        /// <param name="values">The points distribution values.</param>
-        /// <param name="baseline">The baseline points value.</param>
-        /// <param name="dnf">The points value for "Did Not Finish" players.</param>
+        /// Usage: @code RoomService.SetPointsDistribution({32,28,24,20,16,12,8,4}, 2, -1); @endcode
+        /// @param values The points distribution values.
+        /// @param baseline The baseline points value.
+        /// @param dnf The points value for "Did Not Finish" players.
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(int[] values, int baseline, int dnf)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -506,33 +364,21 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to reset the points distribution to default values.
-    /// </summary>
-    public class ResetPointsDistributionFunction : ILuaFunction
+    /// @brief Lua function to reset the points distribution to default values.
+    public class ResetPointsDistribution : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "ResetPointsDistribution";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that performs the reset operation.</returns>
         public Delegate CreateFunction()
         {
             return new Action(Implementation);
         }
-
-        /// <summary>
-        /// Implementation of the function to reset points distribution.
-        /// </summary>
+        /// @details
+        /// Usage: @code RoomService.ResetPointsDistribution(); @endcode
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation()
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -544,37 +390,25 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to set championship points for a specific player.
-    /// </summary>
-    public class SetPlayerChampionshipPointsFunction : ILuaFunction
+    /// @brief Lua function to set championship points for a specific player.
+    public class SetPlayerChampionshipPoints : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "SetPlayerChampionshipPoints";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a Steam ID, points, points won, and a notify flag.</returns>
         public Delegate CreateFunction()
         {
             return new Action<ulong, int, int, bool>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to set championship points for a player.
-        /// </summary>
-        /// <param name="steamID">The Steam ID of the player.</param>
-        /// <param name="points">The total points to assign to the player.</param>
-        /// <param name="pointsWon">The points won in the current round.</param>
-        /// <param name="notify">True to notify the player; false otherwise.</param>
+        /// Usage: @code RoomService.SetPlayerChampionshipPoints("76561197993793009", 1337, 42, true); @endcode
+        /// @param steamID The Steam ID of the player.
+        /// @param points The total points to assign to the player.
+        /// @param pointsWon The points won in the current round.
+        /// @param notify True to notify the player; false otherwise.
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(ulong steamID, int points, int pointsWon, bool notify)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -586,34 +420,22 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to reset championship points for all players.
-    /// </summary>
-    public class ResetChampionshipPointsFunction : ILuaFunction
+    /// @brief Lua function to reset championship points for all players.
+    public class ResetChampionshipPoints : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "ResetChampionshipPoints";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a notify flag.</returns>
         public Delegate CreateFunction()
         {
             return new Action<bool>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to reset championship points.
-        /// </summary>
-        /// <param name="notify">True to notify all players; false otherwise.</param>
+        /// Usage: @code RoomService.ResetChampionshipPoints(); @endcode
+        /// @param notify True to notify all players; false otherwise.
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(bool notify)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -625,34 +447,22 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to set the round length for the lobby.
-    /// </summary>
-    public class SetRoundLengthFunction : ILuaFunction
+    /// @brief Lua function to set the round length for the lobby.
+    public class SetRoundLength : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "SetRoundLength";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes the round length in seconds.</returns>
         public Delegate CreateFunction()
         {
             return new Action<int>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to set the round length.
-        /// </summary>
-        /// <param name="time">The round length in seconds (minimum 30).</param>
+        /// Usage: @code RoomService.SetRoundLength(300); @endcode
+        /// @param time The round length in seconds (minimum 30).
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(int time)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -666,34 +476,22 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to enable or disable voteskip in the lobby.
-    /// </summary>
-    public class SetVoteskipFunction : ILuaFunction
+    /// @brief Lua function to enable or disable voteskip in the lobby.
+    public class SetVoteskip : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "SetVoteskip";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a boolean to enable or disable voteskip.</returns>
         public Delegate CreateFunction()
         {
             return new Action<bool>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to enable or disable voteskip.
-        /// </summary>
-        /// <param name="enabled">True to enable voteskip; false to disable it.</param>
+        /// Usage: @code RoomService.SetVoteskip(true); @endcode
+        /// @param enabled True to enable voteskip; false to disable it.
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(bool enabled)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -705,34 +503,22 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to set the percentage required for voteskip.
-    /// </summary>
-    public class SetVoteskipPercentageFunction : ILuaFunction
+    /// @brief Lua function to set the percentage required for voteskip.
+    public class SetVoteskipPercentage : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "SetVoteskipPercentage";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes the voteskip percentage.</returns>
         public Delegate CreateFunction()
         {
             return new Action<int>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to set the voteskip percentage.
-        /// </summary>
-        /// <param name="percentage">The percentage required for voteskip (1 to 100).</param>
+        /// Usage: @code RoomService.SetVoteSkipPercentage(60); @endcode
+        /// @param percentage The percentage required for voteskip (1 to 100).
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(int percentage)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -746,34 +532,22 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to set the lobby name.
-    /// </summary>
-    public class SetLobbyNameFunction : ILuaFunction
+    /// @brief Lua function to set the lobby name.
+    public class SetLobbyName : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "SetLobbyName";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes the new lobby name.</returns>
         public Delegate CreateFunction()
         {
             return new Action<string>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to set the lobby name.
-        /// </summary>
-        /// <param name="name">The new name for the lobby.</param>
+        /// Usage: @code RoomService.SetLobbyName("Cozy Cart Racing"); @endcode
+        /// @param name The new name for the lobby.
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(string name)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -794,35 +568,24 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to set a server message on screen.
-    /// </summary>
-    public class SetServerMessageFunction : ILuaFunction
+    /// @brief Lua function to set a server message on screen.
+    public class SetServerMessage : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "SetServerMessage";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a message and display duration.</returns>
         public Delegate CreateFunction()
         {
             return new Action<string, float>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to set a server-wide message.
-        /// </summary>
-        /// <param name="message">The message to display on the server.</param>
-        /// <param name="time">The duration in seconds to display the message.</param>
+        /// Usage: @code RoomService.SetServerMessage("<size=200%><color=green>Welcome to the Lobby</color></size>", 0); @endcode
+        /// Supports <a href="https://docs.unity3d.com/Packages/com.unity.textmeshpro@4.0/manual/RichText.html" target="_blank">Rich Text</a>
+        /// @param message The message to display on the server.
+        /// @param time The duration in seconds to display the message. 0 is a persistant display
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(string message, float time)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -839,33 +602,21 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to remove the current server message.
-    /// </summary>
-    public class RemoveServerMessageFunction : ILuaFunction
+    /// @brief Lua function to remove the current server message.
+    public class RemoveServerMessage : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "RemoveServerMessage";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that performs the operation.</returns>
         public Delegate CreateFunction()
         {
             return new Action(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to remove the current server-wide message.
-        /// </summary>
+        /// Usage: @code RoomService.RemoveServerMessage(); @endcode
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation()
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -877,34 +628,24 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to get the number of players in the current lobby.
-    /// </summary>
-    public class GetPlayerCountFunction : ILuaFunction
+    /// @brief Lua function to get the number of players in the current lobby.
+    public class GetPlayerCount : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "GetPlayerCount";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that returns the number of players.</returns>
         public Delegate CreateFunction()
         {
             return new Func<int>(Implementation);
         }
-
-        /// <summary>
-        /// Implementation of the function to get the player count.
-        /// </summary>
-        /// <returns>The number of players in the current lobby, or -1 if unavailable.</returns>
+        
+        /// @details
+        /// Usage: @code RoomService.GetPlayerCount(); @endcode
+        /// @return The number of players in the current lobby, or -1 if unavailable.
+        /// @retval int
+        /// 
+        /// <h3>Source Code</h3>
         private int Implementation()
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -916,34 +657,24 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to get the current playlist index.
-    /// </summary>
-    public class GetPlaylistIndexFunction : ILuaFunction
+    /// @brief Lua function to get the current playlist index.
+    public class GetPlaylistIndex : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "GetPlaylistIndex";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that returns the current playlist index.</returns>
         public Delegate CreateFunction()
         {
             return new Func<int>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to get the playlist index.
-        /// </summary>
-        /// <returns>The current playlist index, or -1 if unavailable.</returns>
+        /// @details
+        /// Usage: @code RoomService.GetPlaylistIndex(); @endcode
+        /// @return The current playlist index, or -1 if unavailable.
+        /// @retval int
+        /// 
+        /// <h3>Source Code</h3>
         private int Implementation()
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -955,34 +686,24 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to get the length of the current playlist.
-    /// </summary>
-    public class GetPlaylistLengthFunction : ILuaFunction
+    /// @brief Lua function to get the length of the current playlist.
+    public class GetPlaylistLength : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "GetPlaylistLength";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that returns the length of the playlist.</returns>
         public Delegate CreateFunction()
         {
             return new Func<int>(Implementation);
         }
-
-        /// <summary>
-        /// Implementation of the function to get the playlist length.
-        /// </summary>
-        /// <returns>The length of the playlist, or -1 if unavailable.</returns>
+        
+        /// @details
+        /// Usage: @code RoomService.GetPlaylistLength(); @endcode
+        /// @return The length of the playlist, or -1 if unavailable.
+        /// @retval int
+        /// 
+        /// <h3>Source Code</h3>
         private int Implementation()
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -994,34 +715,24 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to get the player at the given position on the leaderboard
-    /// </summary>
-    public class GetPlayerAtPositionFunction : ILuaFunction
+    /// @brief Lua function to get the player at the given position on the leaderboard
+    public class GetPlayerAtPosition : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "GetPlayerAtPosition";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that returns the players steamID at the position or 0 if null.</returns>
         public Delegate CreateFunction()
         {
             return new Func<int, ulong>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to get the player at the given position in the leaderboard.
-        /// </summary>
-        /// <returns>The players steamID, or 0 if unavailable.</returns>
+        /// Usage: @code RoomService.GetPlayerAtPosition(0); @endcode
+        /// @param position  The leaderboard position to get. Index starts at 0 (first place)
+        /// @return The players steamID, or 0 if unavailable.
+        /// @retval ulong
+        /// 
+        /// <h3>Source Code</h3>
         private ulong Implementation(int position)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -1044,36 +755,27 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to get an entry from the leaderboard.
-    /// </summary>
-    public class GetLeaderboardEntryFunction : ILuaFunction
+    /// @brief Lua function to get an entry from the leaderboard.
+    public class GetLeaderboardEntry : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "GetLeaderboardEntry";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a steamID and returns a LeaderboardItem.</returns>
         public Delegate CreateFunction()
         {
             // Adjust the delegate to accept a parameter
             return new Func<ulong, LeaderboardItem>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to get the leaderboard entry.
-        /// </summary>
-        /// <param name="steamID">The Steam ID of the player.</param>
-        /// <returns>The leaderboard entry for the given Steam ID.</returns>
+        /// Usage: @code RoomService.GetLeaderboardEntry("76561197993793009"); @endcode
+        /// @returns LeaderboardItem Array with the following structure.
+        /// <br>Example array = { SteamID = "76561197993793009", Time = 1337, Username = "Kilandor" }
+        /// @retval SteamID  The SteamID of the player.
+        /// @retval Time  Time on Leaderboard
+        /// @retval Username Username on Leaderboard
+        /// 
+        /// <h3>Source Code</h3>
         private LeaderboardItem Implementation(ulong steamID)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -1086,35 +788,29 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to retrieve a leaderboard override entry for a specific player.
-    /// </summary>
-    public class GetLeaderboardOverrideFunction : ILuaFunction
+    /// @brief Lua function to retrieve a leaderboard override entry for a specific player.
+    public class GetLeaderboardOverride : ILuaFunction
     {
-        /// <summary>
-        /// The namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// The name of the Lua function.
-        /// </summary>
         public string Name => "GetLeaderboardOverride";
 
-        /// <summary>
-        /// Creates a delegate for the Lua function, which takes a Steam ID and returns a leaderboard override entry.
-        /// </summary>
-        /// <returns>A delegate that takes a Steam ID and returns a <see cref="LeaderboardOverrideItem"/>.</returns>
         public Delegate CreateFunction()
         {
             return new Func<ulong, LeaderboardOverrideItem>(Implementation);
         }
 
-        /// <summary>
-        /// Retrieves a leaderboard override entry for the specified Steam ID.
-        /// </summary>
-        /// <param name="steamID">The Steam ID of the player.</param>
-        /// <returns>The <see cref="LeaderboardOverrideItem"/> for the given Steam ID.</returns>
+        /// Usage: @code RoomService.GetLeaderboardOverride("76561197993793009"); @endcode
+        /// @returns LeaderboardOverrideItem Array with the following structure.
+        /// <br>Example array = { SteamID = "76561197993793009", overrideNameText = "Kilandor", overridePositionText = "1st", overrideTimeText = "12:34", overridePointsText = "1234", overridePointsWonText = "123" }
+        /// @retval SteamID  The SteamID of the player.
+        /// @retval overrideNameText Current Override Name.
+        /// @retval overridePositionText Current Override Position.
+        /// @retval overrideTimeText Current Override Time.
+        /// @retval overridePointsText Current Override Points. 
+        /// @retval overridePointsWonText Current Override Points Won.
+        ///
+        /// <h3>Source Code</h3>
         private LeaderboardOverrideItem Implementation(ulong steamID)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -1126,34 +822,27 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to retrieve the entire leaderboard.
-    /// </summary>
-    public class GetLeaderboardFunction : ILuaFunction
+    /// @brief Lua function to retrieve the entire leaderboard.
+    public class GetLeaderboard : ILuaFunction
     {
-        /// <summary>
-        /// The namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// The name of the Lua function.
-        /// </summary>
         public string Name => "GetLeaderboard";
 
-        /// <summary>
-        /// Creates a delegate for the Lua function, which retrieves the full leaderboard as a list of entries.
-        /// </summary>
-        /// <returns>A delegate that returns a list of <see cref="LeaderboardItem"/>.</returns>
         public Delegate CreateFunction()
         {
             return new Func<List<LeaderboardItem>>(Implementation);
         }
 
-        /// <summary>
-        /// Retrieves the full leaderboard.
-        /// </summary>
-        /// <returns>A list of <see cref="LeaderboardItem"/> representing the leaderboard. If unavailable, returns an empty list.</returns>
+        /// Usage: @code RoomService.GetLeaderboard(); @endcode
+        /// @return A list of <see cref="LeaderboardItem"/> representing the leaderboard. If unavailable, returns an empty list.
+        /// @retval Leaderboard This is an array with the follow structure:
+        /// <br>Example array[0] = { SteamID = "76561197993793009", Time = 1337, Username = "Kilandor" } 
+        /// <br><span class="paramname">SteamID</span> The SteamID of the player.
+        /// <br><span class="paramname">Time</span> Time on Leaderboard
+        /// <br><span class="paramname">Username</span> Username on Leaderboard
+        /// 
+        /// <h3>Source Code</h3>
         private List<LeaderboardItem> Implementation()
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -1165,32 +854,22 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to clear the time logger.
-    /// </summary>
-    public class ClearLoggerFunction : ILuaFunction
+    /// @brief Lua function to clear the time logger.
+    public class ClearLogger : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "ClearLogger";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
         public Delegate CreateFunction()
         {
             return new Action(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to clear the logger.
-        /// </summary>
+        /// @details
+        /// Usage: @code RoomService.ClearLogger(); @endcode
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation()
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -1203,32 +882,22 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to save the time logger to disk.
-    /// </summary>
-    public class SaveLoggerFunction : ILuaFunction
+    /// @brief Lua function to save the time logger to disk.
+    public class SaveLogger : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "SaveLogger";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
         public Delegate CreateFunction()
         {
             return new Action<string>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to save the log.
-        /// </summary>
+        /// @details
+        /// Usage: @code RoomService.SaveLogger(); @endcode
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation(string fileName)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -1276,32 +945,22 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to print the time logger to the console.
-    /// </summary>
-    public class PrintLoggerFunction : ILuaFunction
+    /// @brief Lua function to print the time logger to the console.
+    public class PrintLogger : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "PrintLogger";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
         public Delegate CreateFunction()
         {
             return new Action(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to save the log.
-        /// </summary>
+        /// @details
+        /// Usage: @code RoomService.PrintLogger(); @endcode
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation()
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -1315,100 +974,74 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to get the current date.
-    /// </summary>
-    public class GetCurrentDateFunction : ILuaFunction
+    /// @brief Lua function to get the current date.
+    public class GetCurrentDate : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "GetCurrentDate";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
         public Delegate CreateFunction()
         {
             return new Func<string>(Implementation);
         }
-
-        /// <summary>
-        /// Implementation of the function to return the current date.
-        /// </summary>
+        
+        /// @details
+        /// Usage: @code RoomService.GetCurrentDate; @endcode
+        /// @return The current date in the format YYYY-MM-DD.
+        /// @retval string
+        ///
+        /// <h3>Source Code</h3>
         private string Implementation()
         {
             return DateTime.Now.ToString("yyyy-MM-dd");
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to get the current time.
-    /// </summary>
-    public class GetCurrentTimeFunction : ILuaFunction
+    /// @brief Lua function to get the current time.
+    public class GetCurrentTime : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "GetCurrentTime";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
         public Delegate CreateFunction()
         {
             return new Func<string>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to return the current time.
-        /// </summary>
+        /// @details
+        /// Usage: @code RoomService.GetCurrentTime; @endcode
+        /// @return The current time in the format HH:mm:ss.
+        /// @retval string
+        ///
+        /// <h3>Source Code</h3>
         private string Implementation()
         {
             return DateTime.Now.ToString("HH:mm:ss");
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to generate a random number.
-    /// </summary>
-    public class GenerateRandomNumberFunction : ILuaFunction
+    /// @brief Lua function to generate a random number.
+    public class GenerateRandomNumber : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "GenerateRandomNumber";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
         public Delegate CreateFunction()
         {
             // The Lua function takes two parameters (min and max) and returns an integer.
             return new Func<int, int, int>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to generate a random number.
-        /// </summary>
-        /// <param name="min">The minimum value (inclusive).</param>
-        /// <param name="max">The maximum value (inclusive).</param>
-        /// <returns>A random integer between min and max.</returns>
+        /// Usage: @code RoomService.GenerateRandomNumber(1, 10); @endcode
+        /// @param min The minimum value (inclusive).
+        /// @param max The maximum value (inclusive).
+        /// @return A random integer between min and max.
+        /// @retval int
+        ///
+        /// <h3>Source Code</h3>
         private int Implementation(int min, int max)
         {
             // Ensure min is less than or equal to max to prevent errors.
@@ -1422,37 +1055,28 @@ namespace RoomService
         }
     }
 
-    /// <summary>
-    /// Represents a Lua function to convert seconds into a time string.
-    /// </summary>
-    public class SecondsToTimeFunction : ILuaFunction
+    /// @brief Lua function to convert seconds into a time string.
+    public class SecondsToTime : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "SecondsToTime";
-
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that takes a time and precision value and returns a time string.
+        
         public Delegate CreateFunction()
         {
             // Adjust the delegate to accept a parameter
             return new Func<float,int,string>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to convert the time to string.
-        /// </summary>
-        /// <param name="timeInSeconds">The time in seconds.</param>
-        /// <param name="precision">The amount of decimals.</param>
-        /// <returns>The time in string format</returns>
+        /// Usage: @code RoomService.SecondsToTime; @endcode
+        /// @param time The time in seconds.
+        /// @param precision The amount of decimals.
+        /// @return A time string in the format hour:minutes:seconds.milliseconds
+        /// Example 00:42.133
+        /// <br>Only returns hour if the time is more than 59 minutes.
+        /// @retval string
+        ///
+        /// <h3>Source Code</h3>
         private string Implementation(float time, int precision)
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -1490,34 +1114,22 @@ namespace RoomService
         }
     }
     
-    /// <summary>
-    /// Represents a Lua function to reset all players
-    /// </summary>
-    public class ResetAllPlayersFunction : ILuaFunction
+    /// @brief Lua function to reset all players
+    public class ResetAllPlayers : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "ResetAllPlayers";
 
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that resets all players
         public Delegate CreateFunction()
         {
-            // Adjust the delegate to accept a parameter
             return new Action(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to reset all players
-        /// </summary>
+        /// @details
+        /// Usage: @code RoomService.ResetAllPlayers(); @endcode
+        /// 
+        /// <h3>Source Code</h3>
         private void Implementation()
         {
             if (!RoomServiceUtils.IsOnlineHost())
@@ -1533,43 +1145,31 @@ namespace RoomService
         }
     }
     
-    /// <summary>
-    /// Represents a Lua function to reset players
-    /// </summary>
-    public class ResetPlayersFunction : ILuaFunction
+    /// @brief Lua function to reset players
+    public class ResetPlayers : ILuaFunction
     {
-        /// <summary>
-        /// Gets the namespace of the Lua function.
-        /// </summary>
         public string Namespace => "RoomService";
 
-        /// <summary>
-        /// Gets the name of the Lua function.
-        /// </summary>
         public string Name => "ResetPlayers";
-
-        /// <summary>
-        /// Creates the delegate for the Lua function.
-        /// </summary>
-        /// <returns>A delegate that resets players
+        
         public Delegate CreateFunction()
         {
             // Adjust the delegate to accept a parameter
-            return new Func<List<ulong>, bool>(Implementation);
+            return new Action<List<ulong>>(Implementation);
         }
 
-        /// <summary>
-        /// Implementation of the function to reset players
-        /// </summary>
-        private bool Implementation(List<ulong> listPlayers)
+        /// @details
+        /// Usage: @code RoomService.ResetPlayers({"76561197993793009", "76561197993793009"}); @endcode
+        /// 
+        /// <h3>Source Code</h3>
+        private void Implementation(List<ulong> listPlayers)
         {
             if (!RoomServiceUtils.IsOnlineHost() || listPlayers == null || listPlayers.Count <= 0)
             {
-                return false;
+                return;
             }
             
             ZeepkistNetwork.CustomLeaderBoard_ResetPlayers(listPlayers);
-            return true;
         }
     }
 }

@@ -170,54 +170,54 @@ namespace RoomService
             ScriptingApi.RegisterEvent<OnLeaderboardChangeEvent>();
 
             //Communication functions
-            ScriptingApi.RegisterFunction<SendChatMessageFunction>();
-            ScriptingApi.RegisterFunction<SendPrivateChatMessageFunction>();
-            ScriptingApi.RegisterFunction<ShowScreenMessageFunction>();
+            ScriptingApi.RegisterFunction<SendChatMessage>();
+            ScriptingApi.RegisterFunction<SendPrivateChatMessage>();
+            ScriptingApi.RegisterFunction<ShowScreenMessage>();
 
             //Lobby functions
-            ScriptingApi.RegisterFunction<SetPointsDistributionFunction>();
-            ScriptingApi.RegisterFunction<ResetPointsDistributionFunction>();
-            ScriptingApi.RegisterFunction<ResetChampionshipPointsFunction>();
-            ScriptingApi.RegisterFunction<SetVoteskipFunction>();
-            ScriptingApi.RegisterFunction<SetVoteskipPercentageFunction>();
-            ScriptingApi.RegisterFunction<SetLobbyNameFunction>();
-            ScriptingApi.RegisterFunction<SetServerMessageFunction>();
-            ScriptingApi.RegisterFunction<RemoveServerMessageFunction>();
-            ScriptingApi.RegisterFunction<SetRoundLengthFunction>();
-            ScriptingApi.RegisterFunction<SetSmallLeaderboardSortingMethodFunction>();
-            ScriptingApi.RegisterFunction<BlockEveryoneFromSettingTimeFunction>();
-            ScriptingApi.RegisterFunction<UnblockEveryoneFromSettingTimeFunction>();
-            ScriptingApi.RegisterFunction<ResetAllPlayersFunction>();
-            ScriptingApi.RegisterFunction<ResetPlayersFunction>();
+            ScriptingApi.RegisterFunction<SetPointsDistribution>();
+            ScriptingApi.RegisterFunction<ResetPointsDistribution>();
+            ScriptingApi.RegisterFunction<ResetChampionshipPoints>();
+            ScriptingApi.RegisterFunction<SetVoteskip>();
+            ScriptingApi.RegisterFunction<SetVoteskipPercentage>();
+            ScriptingApi.RegisterFunction<SetLobbyName>();
+            ScriptingApi.RegisterFunction<SetServerMessage>();
+            ScriptingApi.RegisterFunction<RemoveServerMessage>();
+            ScriptingApi.RegisterFunction<SetRoundLength>();
+            ScriptingApi.RegisterFunction<SetSmallLeaderboardSortingMethod>();
+            ScriptingApi.RegisterFunction<BlockEveryoneFromSettingTime>();
+            ScriptingApi.RegisterFunction<UnblockEveryoneFromSettingTime>();
+            ScriptingApi.RegisterFunction<ResetAllPlayers>();
+            ScriptingApi.RegisterFunction<ResetPlayers>();
 
             //Player functions
-            ScriptingApi.RegisterFunction<SetPlayerTimeOnLeaderboardFunction>();
-            ScriptingApi.RegisterFunction<SetPlayerLeaderboardOverridesFunction>();
-            ScriptingApi.RegisterFunction<RemovePlayerFromLeaderboardFunction>();
-            ScriptingApi.RegisterFunction<SetPlayerChampionshipPointsFunction>();
-            ScriptingApi.RegisterFunction<UnblockPlayerFromSettingTimeFunction>();
-            ScriptingApi.RegisterFunction<BlockPlayerFromSettingTimeFunction>();
+            ScriptingApi.RegisterFunction<SetPlayerTimeOnLeaderboard>();
+            ScriptingApi.RegisterFunction<SetPlayerLeaderboardOverrides>();
+            ScriptingApi.RegisterFunction<RemovePlayerFromLeaderboard>();
+            ScriptingApi.RegisterFunction<SetPlayerChampionshipPoints>();
+            ScriptingApi.RegisterFunction<UnblockPlayerFromSettingTime>();
+            ScriptingApi.RegisterFunction<BlockPlayerFromSettingTime>();
 
             //Getter functions
-            ScriptingApi.RegisterFunction<GetPlayerCountFunction>();
-            ScriptingApi.RegisterFunction<GetPlaylistIndexFunction>();
-            ScriptingApi.RegisterFunction<GetPlaylistLengthFunction>();
+            ScriptingApi.RegisterFunction<GetPlayerCount>();
+            ScriptingApi.RegisterFunction<GetPlaylistIndex>();
+            ScriptingApi.RegisterFunction<GetPlaylistLength>();
 
             //Leaderboard
-            ScriptingApi.RegisterFunction<GetLeaderboardEntryFunction>();
-            ScriptingApi.RegisterFunction<GetLeaderboardOverrideFunction>();
-            ScriptingApi.RegisterFunction<GetLeaderboardFunction>();
+            ScriptingApi.RegisterFunction<GetLeaderboardEntry>();
+            ScriptingApi.RegisterFunction<GetLeaderboardOverride>();
+            ScriptingApi.RegisterFunction<GetLeaderboard>();
 
             //Logger
-            ScriptingApi.RegisterFunction<ClearLoggerFunction>();
-            ScriptingApi.RegisterFunction<SaveLoggerFunction>();
-            ScriptingApi.RegisterFunction<PrintLoggerFunction>();
+            ScriptingApi.RegisterFunction<ClearLogger>();
+            ScriptingApi.RegisterFunction<SaveLogger>();
+            ScriptingApi.RegisterFunction<PrintLogger>();
 
             //Helper functions
-            ScriptingApi.RegisterFunction<GetCurrentDateFunction>();
-            ScriptingApi.RegisterFunction<GetCurrentTimeFunction>();
-            ScriptingApi.RegisterFunction<GenerateRandomNumberFunction>();
-            ScriptingApi.RegisterFunction<SecondsToTimeFunction>();
+            ScriptingApi.RegisterFunction<GetCurrentDate>();
+            ScriptingApi.RegisterFunction<GetCurrentTime>();
+            ScriptingApi.RegisterFunction<GenerateRandomNumber>();
+            ScriptingApi.RegisterFunction<SecondsToTime>();
 
             Logger.LogInfo("Roomservice is loaded! At your service!");
         }  

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using ZeepkistClient;
 
 namespace RoomService
@@ -23,7 +23,7 @@ namespace RoomService
         /// Converts a Unity Color object into a hexadecimal string.
         /// </summary>
         /// <param name="color">The Unity Color to convert.</param>
-        /// <returns>A string representing the color in hexadecimal format (e.g., #RRGGBB).</returns>
+        /// <returns>A string representing the color in hexadecimal format (e.g., \#RRGGBB).</returns>
         public static string ColorToHex(Color color)
         {
             // Clamp the color components to ensure valid byte values (0-255).

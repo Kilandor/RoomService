@@ -362,3 +362,9 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 .idea/.idea.RoomService/.idea/
+
+Doxygen/
+
+logo-small.png
+
+logo.png
