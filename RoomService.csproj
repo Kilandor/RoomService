@@ -27,21 +27,12 @@
   <ItemGroup>
     <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
     <PackageReference Include="BepInEx.Core" Version="5.*" />
-    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" />
     <PackageReference Include="Zeepkist.GameLibs" Version="17.31.1911" />
     <PackageReference Include="ZeepSDK" Version="1.45.11" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Include="MoonSharp.Interpreter">
-      <HintPath>MoonSharp.Interpreter.dll</HintPath>
-    </Reference>
-    <Reference Include="ZeepSDK">
-      <HintPath>SDK\ZeepSDK.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>
