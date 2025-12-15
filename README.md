@@ -5,9 +5,9 @@ On its own it does nothing, and will require a Zua script to use it.
 ## Dependencies
 ZeepSDK [Mod.io](https://mod.io/g/zeepkist/m/zeepsdk) - [Github](https://github.com/donderjoekel/ZeepSDK/)<br>
 
-## References
-Currently the Code references can be found in the modding discord on the following channel<br>
-[Modding Discord](https://discord.com/channels/972933002516647986/1316388984145842236)
+## Documentation
+All the current coding references, with some basic examples may be found below.<br>
+[Documentation](https://zeepkist.kilandor.com/mods/roomservice/docs/)
 
 ## Special Credit
 - [Metalted](https://github.com/metalted) - Created the original plugin.
