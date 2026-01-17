@@ -48,7 +48,7 @@ namespace RoomService
         public Dictionary<string, LevelInfo> levelInfo = new Dictionary<string, LevelInfo>();
         public Dictionary<string, List<PlayerTime>> playerTimes = new Dictionary<string, List<PlayerTime>>();
 
-        public void ProcessLeaderboardUpdate()
+        public void ProcessLeaderboardUpdate(ZeepkistNetworkPlayer updatedPlayer)
         {            
             try
             {
@@ -60,16 +60,20 @@ namespace RoomService
                 }
 
                 string hash = ZeepSDK.Level.LevelApi.CurrentHash;
+                bool firstRun = false;
 
                 //Check if the level exists in the dictionary
                 if (!levelInfo.ContainsKey(hash))
                 {
                     levelInfo.Add(hash, new LevelInfo() { Hash = hash, Author = level.Author, Name = level.Name, Uid = level.UID });
                     playerTimes.Add(hash, new List<PlayerTime>());
+                    firstRun = true; //Used incase this was loaded mid track, to build the full initial data
+                    Utilities.Log("[Leaderboard] New level hash", Utilities.LogLevel.Debug);
                 }
 
                 if (ZeepkistNetwork.PlayerList == null)
                 {
+                    Utilities.Log("[Leaderboard] Playerlist is null?", Utilities.LogLevel.Debug);
                     return;
                 }
 
@@ -94,6 +98,7 @@ namespace RoomService
                             BestTime = -1,
                             ChatColor = RoomServiceUtils.ColorToHex(player.chatColor)                            
                         };
+                        Utilities.Log($"[Leaderboard] Player {playerTime.Name} added", Utilities.LogLevel.Debug);
 
                         playerTimes[hash].Add(playerTime);
                     }
@@ -104,18 +109,53 @@ namespace RoomService
 
                     float settime = -1;
 
-                    if(player.CurrentResult != null)
-                    {
-                        settime = player.CurrentResult.Time;
-                    }
-                    else
+                    if(player.SteamID == updatedPlayer.SteamID && updatedPlayer.CurrentResult != null)
+                        settime =  updatedPlayer.CurrentResult.Time;
+                    else if(firstRun)
                     {
                         LeaderboardItem lbItem = ZeepkistNetwork.GetLeaderboardEntry(player.SteamID);
                         if(lbItem.Username != "")
                         {
+                            Utilities.Log($"[Leaderboard] {playerTime.Name} - Time got from leaderboard ", Utilities.LogLevel.Debug);
                             settime = lbItem.Time;   
                         }
                     }
+                    else
+                        continue;
+                    
+
+                    if (Plugin.Instance.debugEnabled.Value)
+                    {
+                        if (player.SteamID != updatedPlayer.SteamID)
+                            updatedPlayer = player;
+                        if (updatedPlayer.CurrentResult == null)
+                        {
+                            Utilities.Log(
+                                $"[Leaderboard] {playerTime.Name} - Current Result null",
+                                Utilities.LogLevel.Debug);
+                        }
+                        else
+                        {
+                            LeaderboardItem lbItem = ZeepkistNetwork.GetLeaderboardEntry(player.SteamID);
+                            if (lbItem.Username != "")
+                            {
+                                if (updatedPlayer.CurrentResult.Time != lbItem.Time)
+                                {
+                                    Utilities.Log(
+                                        $"[Leaderboard] {playerTime.Name} - ZN {updatedPlayer.CurrentResult.Time} | Leaderboard  {lbItem.Time}",
+                                        Utilities.LogLevel.Error);
+                                }
+                                else
+                                {
+                                    Utilities.Log(
+                                        $"[Leaderboard] {playerTime.Name} - ZN/Leaderboard times match",
+                                        Utilities.LogLevel.Debug);
+                                }
+                            }   
+                        }
+                    }
+                    
+                    Utilities.Log($"[Leaderboard] {playerTime.Name} - Current Time {settime} ", Utilities.LogLevel.Debug);
                     
                     //Player has a result
                     if (settime != -1)
@@ -144,6 +184,7 @@ namespace RoomService
                         {
                             playerTime.Time = -1;
                         }
+                        Utilities.Log($"[Leaderboard] {playerTime.Name} - No result -1", Utilities.LogLevel.Debug);
                     }
                 }
 

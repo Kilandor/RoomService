@@ -102,12 +102,12 @@ namespace RoomService
         
         public void Subscribe()
         {
-            ZeepkistNetwork.LeaderboardUpdated += Plugin.Instance.ProcessLeaderboardUpdate;
+            ZeepkistNetwork.PlayerResultsChanged += Plugin.Instance.ProcessLeaderboardUpdate;
         }
         
         public void Unsubscribe()
         {
-            ZeepkistNetwork.LeaderboardUpdated -= Plugin.Instance.ProcessLeaderboardUpdate;
+            ZeepkistNetwork.PlayerResultsChanged -= Plugin.Instance.ProcessLeaderboardUpdate;
         }
     }
 }
