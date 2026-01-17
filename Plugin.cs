@@ -6,6 +6,8 @@ using ZeepkistClient;
 using ZeepkistNetworking;
 using System.Collections.Generic;
 using System.Linq;
+using BepInEx.Configuration;
+using BepInEx.Logging;
 
 namespace RoomService
 {
@@ -34,6 +36,10 @@ namespace RoomService
     public class Plugin : BaseUnityPlugin
     {
         public static Plugin Instance;
+        
+        public static ManualLogSource baseLogger;
+        
+        public ConfigEntry<bool> debugEnabled;
 
         public Action<int> LobbyTimerAction;
         public Action LeaderBoardUpdated;
@@ -119,10 +125,12 @@ namespace RoomService
                         {
                             //Player updated their time                            
                             playerTime.Time = settime;
+                            Utilities.Log($"[Leaderboard] {playerTime.Name} - Set {settime} | Previous {playerTime.Time} | Best {playerTime.BestTime}", Utilities.LogLevel.Debug);
 
                             if(playerTime.Time < playerTime.BestTime || playerTime.BestTime == -1)
                             {
                                 playerTime.BestTime = playerTime.Time;
+                                Utilities.Log($"[Leaderboard] {playerTime.Name} - New Best time {playerTime.BestTime}", Utilities.LogLevel.Debug);
                             }
 
                             PlayerSetTime?.Invoke(playerTime);
@@ -148,7 +156,7 @@ namespace RoomService
             }
             catch (Exception ex)
             {
-                Logger.LogWarning(ex.Message);
+                Utilities.Log(ex.Message, Utilities.LogLevel.Error);
             }
         }
 
@@ -157,7 +165,8 @@ namespace RoomService
             Harmony harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
             harmony.PatchAll();
 
-            Instance = this;   
+            Instance = this;
+            baseLogger = Logger;
 
             //Register all required types.
             ScriptingApi.RegisterType<ZeepkistNetworking.LeaderboardItem>();
@@ -221,14 +230,11 @@ namespace RoomService
             ScriptingApi.RegisterFunction<GetCurrentTime>();
             ScriptingApi.RegisterFunction<GenerateRandomNumber>();
             ScriptingApi.RegisterFunction<SecondsToTime>();
+            
+            debugEnabled = Config.Bind("9. Dev / Debug", "Debug Logs", false, "Provides extra output in logs for troubleshooting.");
 
             Logger.LogInfo("Roomservice is loaded! At your service!");
         }  
-
-        public void Log(string msg)
-        {
-            Logger.LogInfo(msg);
-        }
 
         public string[] GetLoggerLines()
         {
