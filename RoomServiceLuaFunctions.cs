@@ -970,7 +970,7 @@ namespace RoomService
 
             string[] content = Plugin.Instance.GetLoggerLines();
             string logLine = string.Join('\n', content);
-            Plugin.Instance.Log(logLine);            
+            Utilities.Log(logLine);            
         }
     }
 
@@ -1172,4 +1172,203 @@ namespace RoomService
             ZeepkistNetwork.CustomLeaderBoard_ResetPlayers(listPlayers);
         }
     }
+    
+    /// @brief Lua function to get all players
+    public class GetAllPlayers : ILuaFunction
+    {
+        public string Namespace => "RoomService";
+
+        public string Name => "GetAllPlayers";
+        
+        public Delegate CreateFunction()
+        {
+            // Adjust the delegate to accept a parameter
+            return new Func<List<PlayerTime>>(Implementation);
+        }
+
+        /// @details
+        /// Usage: @code RoomService.GetAllPlayers(); @endcode
+        ///
+        /// @return A list of <see cref="PlayerTime"/> representing the leaderboard. If unavailable, returns an empty list.
+        /// @retval Name Username
+        /// @retval Tag User Tag
+        /// @retval FullName Username including tag
+        /// @retval SteamID
+        /// @retval Time The last time set by player -1 if unavailable.
+        /// @retval BestTime The best time set by player -1 if unavailable.
+        /// @retval ChatColor Hex color code of the player's chat color.'
+        /// 
+        /// Example array[0] = { Name = "Kilandor", Tag = "NOOB", FullName = "[NOOB]Kilandor", SteamID = "76561197993793009", Time = 1337, BestTime = 42, ChatColor = "#87CEEB" }
+        ///  
+        /// <h3>Source Code</h3>
+        private List<PlayerTime> Implementation()
+        {
+            if (!RoomServiceUtils.IsOnlineHost())
+            {
+                return new List<PlayerTime>();
+            }
+            
+            string hash = ZeepSDK.Level.LevelApi.CurrentHash;
+
+            List<PlayerTime> luaPlayers = new List<PlayerTime>();
+            
+            List<ZeepkistNetworkPlayer> players = new List<ZeepkistNetworkPlayer>(ZeepkistNetwork.Players.Values);
+            foreach(ZeepkistNetworkPlayer player in players)
+            {
+                // Use existing player data first
+                PlayerTime playerTime = null;
+                if(Plugin.Instance.playerTimes.ContainsKey(hash))
+                    playerTime = Plugin.Instance.playerTimes[hash].Find(p => p.SteamID == player.SteamID);
+
+                if (playerTime == null)
+                    playerTime = new PlayerTime()
+                    {
+                        Name = player.GetUserNameNoTag(),
+                        Tag = player.GetUserTag(),
+                        FullName = player.GetTaggedUsername(),
+                        SteamID = player.SteamID,
+                        Time = -1,
+                        BestTime = -1,
+                        ChatColor = RoomServiceUtils.ColorToHex(player.chatColor)
+                    };
+                    
+                luaPlayers.Add(playerTime);
+            }
+            return luaPlayers;
+        }
+    }
+    
+    /// @brief Lua function to get all players
+    public class GetPlayer : ILuaFunction
+    {
+        public string Namespace => "RoomService";
+
+        public string Name => "GetPlayer";
+        
+        public Delegate CreateFunction()
+        {
+            // Adjust the delegate to accept a parameter
+            return new Func<string, PlayerTime>(Implementation);
+        }
+
+        /// @details
+        /// Usage: @code RoomService.GetPlayer("Kilandor"); @endcode
+        ///
+        /// @return A list of <see cref="PlayerTime"/> representing the leaderboard. If unavailable, returns an empty list.
+        /// @retval Name Username
+        /// @retval Tag User Tag
+        /// @retval FullName Username including tag
+        /// @retval SteamID
+        /// @retval Time The last time set by player -1 if unavailable.
+        /// @retval BestTime The best time set by player -1 if unavailable.
+        /// @retval ChatColor Hex color code of the player's chat color.'
+        /// 
+        /// Example { Name = "Kilandor", Tag = "NOOB", FullName = "[NOOB]Kilandor", SteamID = "76561197993793009", Time = 1337, BestTime = 42, ChatColor = "#87CEEB" }
+        /// 
+        /// <h3>Source Code</h3>
+        private PlayerTime Implementation(string playerName)
+        {
+            if (!RoomServiceUtils.IsOnlineHost() || playerName == "")
+            {
+                return new PlayerTime();
+            }
+            
+            // uses existing playertime from OnLeaderboardUpdate
+            string hash = ZeepSDK.Level.LevelApi.CurrentHash;
+            
+            PlayerTime playerTime = null;
+            if(Plugin.Instance.playerTimes.ContainsKey(hash))
+                playerTime = Plugin.Instance.playerTimes[hash].Find(p => p.Name == playerName);
+            
+            if(playerTime != null)
+            {
+                return playerTime;
+            }
+            
+            // if not found, create new playertime from game if player exists
+            List<ZeepkistNetworkPlayer> players = new List<ZeepkistNetworkPlayer>(ZeepkistNetwork.Players.Values);
+            ZeepkistNetworkPlayer p = players.Find(p => p.Username == playerName);
+            if (p == null)
+                return new PlayerTime();
+            
+            return new PlayerTime()
+            {
+                Name = p.GetUserNameNoTag(),
+                Tag = p.GetUserTag(),
+                FullName = p.GetTaggedUsername(),
+                SteamID = p.SteamID,
+                Time = -1,
+                BestTime = -1,
+                ChatColor = RoomServiceUtils.ColorToHex(p.chatColor)
+            };
+        }
+    }
+    
+    /// @brief Lua function to get all players
+    public class GetPlayerBySteamID : ILuaFunction
+    {
+        public string Namespace => "RoomService";
+
+        public string Name => "GetPlayerBySteamID";
+        
+        public Delegate CreateFunction()
+        {
+            // Adjust the delegate to accept a parameter
+            return new Func<ulong, PlayerTime>(Implementation);
+        }
+
+        /// @details
+        /// Usage: @code RoomService.GetPlayer("76561197993793009"); @endcode
+        /// @param steamID The SteamID of the player to return
+        ///
+        /// @return A list of <see cref="PlayerTime"/> representing the leaderboard. If unavailable, returns an empty list.
+        /// @retval Name Username
+        /// @retval Tag User Tag
+        /// @retval FullName Username including tag
+        /// @retval SteamID
+        /// @retval Time The last time set by player -1 if unavailable.
+        /// @retval BestTime The best time set by player -1 if unavailable.
+        /// @retval ChatColor Hex color code of the player's chat color.'
+        /// 
+        /// Example { Name = "Kilandor", Tag = "NOOB", FullName = "[NOOB]Kilandor", SteamID = "76561197993793009", Time = 1337, BestTime = 42, ChatColor = "#87CEEB" }
+        ///
+        /// <h3>Source Code</h3>
+        private PlayerTime Implementation(ulong steamID)
+        {
+            if (!RoomServiceUtils.IsOnlineHost() || steamID <= 0)
+            {
+                return new PlayerTime();
+            }
+            
+            // uses existing playertime from OnLeaderboardUpdate
+            string hash = ZeepSDK.Level.LevelApi.CurrentHash;
+            
+            PlayerTime playerTime = null;
+            if(Plugin.Instance.playerTimes.ContainsKey(hash))
+                playerTime = Plugin.Instance.playerTimes[hash].Find(p => p.SteamID == steamID);
+            
+            if(playerTime != null)
+            {
+                return playerTime;
+            }
+            
+            // if not found, create new playertime from game if player exists
+            List<ZeepkistNetworkPlayer> players = new List<ZeepkistNetworkPlayer>(ZeepkistNetwork.Players.Values);
+            ZeepkistNetworkPlayer p = players.Find(p => p.SteamID == steamID);
+            if (p == null)
+                return new PlayerTime();
+            
+            return new PlayerTime()
+            {
+                Name = p.GetUserNameNoTag(),
+                Tag = p.GetUserTag(),
+                FullName = p.GetTaggedUsername(),
+                SteamID = p.SteamID,
+                Time = -1,
+                BestTime = -1,
+                ChatColor = RoomServiceUtils.ColorToHex(p.chatColor)
+            };
+        }
+    }
+    
 }

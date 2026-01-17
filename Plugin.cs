@@ -202,6 +202,9 @@ namespace RoomService
             ScriptingApi.RegisterFunction<GetPlayerCount>();
             ScriptingApi.RegisterFunction<GetPlaylistIndex>();
             ScriptingApi.RegisterFunction<GetPlaylistLength>();
+            ScriptingApi.RegisterFunction<GetPlayer>();
+            ScriptingApi.RegisterFunction<GetPlayerBySteamID>();
+            ScriptingApi.RegisterFunction<GetAllPlayers>();
 
             //Leaderboard
             ScriptingApi.RegisterFunction<GetLeaderboardEntry>();
